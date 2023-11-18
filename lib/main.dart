@@ -14,7 +14,6 @@ Future<void> main() async {
   );
 
 
-  // runApp(const MainApp());
   runApp(
     ChangeNotifierProvider(
       create: (context) => ThemeProvider(),

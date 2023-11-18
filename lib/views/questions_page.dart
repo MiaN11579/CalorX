@@ -107,6 +107,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
                 ),
                 ElevatedButton(
                   onPressed: () {
+                    FocusScope.of(context).unfocus(); // Dismiss the keyboard
                     if (answers[currentQuestionIndex].isNotEmpty) {
                       // controllers[currentQuestionIndex].clear();
 
@@ -118,6 +119,18 @@ class _QuestionsPageState extends State<QuestionsPage> {
                         // If it's the last question, change the button text to "Submit"
                         // and navigate to the success screen
                         setState(() {
+                          ProfileInfo profileInfo = ProfileInfo(
+                            name: answers[0],
+                            dob: answers[1],
+                            weight: int.tryParse(answers[2]) ?? 0,
+                            height: int.tryParse(answers[3]) ?? 0,
+                            gender: answers[4],
+                            activityLevel: answers[5],
+                            goal: answers[6],
+                            duration: answers[7],
+                          );
+
+                          print(_service.calculateDailyCalorieIntake(profileInfo));
                           _submitAnswers();
                         });
                       }
@@ -327,14 +340,62 @@ class _QuestionsPageState extends State<QuestionsPage> {
           ),
         ],
       );
-    } else {
+    }
+    else if (currentQuestionIndex == 7) {
+      // Show radio buttons for goal deadline
+      return Column(
+        children: [
+          RadioListTile(
+            title: Text('Within 6 months'),
+            value: 'Within 6 months',
+            groupValue: answers[currentQuestionIndex],
+            onChanged: (value) {
+              setState(() {
+                answers[currentQuestionIndex] = value.toString();
+              });
+            },
+          ),
+          RadioListTile(
+            title: Text('Within 1 year'),
+            value: 'Within 1 year',
+            groupValue: answers[currentQuestionIndex],
+            onChanged: (value) {
+              setState(() {
+                answers[currentQuestionIndex] = value.toString();
+              });
+            },
+          ),
+          RadioListTile(
+            title: Text('Within 2 years'),
+            value: 'Within 2 years',
+            groupValue: answers[currentQuestionIndex],
+            onChanged: (value) {
+              setState(() {
+                answers[currentQuestionIndex] = value.toString();
+              });
+            },
+          ),
+          RadioListTile(
+            title: Text('2 years or more'),
+            value: '2 years or more',
+            groupValue: answers[currentQuestionIndex],
+            onChanged: (value) {
+              setState(() {
+                answers[currentQuestionIndex] = value.toString();
+              });
+            },
+          ),
+        ],
+      );
+    }
+    else {
       // Show text field for other questions
       return TextField(
         controller: controllers[currentQuestionIndex],
         onChanged: (value) {
           if (currentQuestionIndex == 2 || currentQuestionIndex == 3) {
             // Validate input as double for weight and height
-            if (double.tryParse(value) != null) {
+            if (value.isNotEmpty && double.tryParse(value) != null) {
               answers[currentQuestionIndex] = value;
             } else {
               print('Please enter a valid number for weight and height');
@@ -351,6 +412,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
           border: OutlineInputBorder(),
         ),
       );
+
     }
   }
 
@@ -396,12 +458,12 @@ class _QuestionsPageState extends State<QuestionsPage> {
       _service.saveUserProfile(userAccount);
 
       // Navigate to the success screen
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) => DashboardPage(),
-      //   ),
-      // );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DashboardPage(dailyCalorieIntake: _service.calculateDailyCalorieIntake(profileInfo),),
+        ),
+      );
     } else {
       print('Please answer all questions');
     }

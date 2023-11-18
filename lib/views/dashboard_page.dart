@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class DashboardPage extends StatelessWidget {
-  const DashboardPage({Key? key}) : super(key: key);
+  final int dailyCalorieIntake;
+  const DashboardPage({Key? key, required this.dailyCalorieIntake}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -13,15 +15,14 @@ class DashboardPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.check_circle,
-              color: Colors.green,
-              size: 100,
-            ),
-            const SizedBox(height: 20),
             Text(
-              'Success!',
-              style: Theme.of(context).textTheme.headline5,
+              'Your Daily Calorie Intake:',
+              style: TextStyle(fontSize: 20),
+            ),
+            SizedBox(height: 10),
+            Text(
+              '$dailyCalorieIntake calories',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
           ],
         ),
