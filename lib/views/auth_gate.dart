@@ -87,7 +87,7 @@ class _AuthGateState extends State<AuthGate> {
         }
         if (profileInfo != null)
           {
-            return MainPage(dailyCalorieIntake: service!.calculateDailyCalorieIntake(profileInfo!));
+            return MainPage(profileInfo: profileInfo!);
           }
         return const QuestionsPage();
       },

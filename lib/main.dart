@@ -45,7 +45,7 @@ class MainApp extends StatelessWidget {
               final args = settings.arguments as MainPage;
               return MaterialPageRoute(
                 builder: (_) =>
-                    MainPage(dailyCalorieIntake: args.dailyCalorieIntake),
+                    MainPage(profileInfo: args.profileInfo),
               );
             }
             return null;

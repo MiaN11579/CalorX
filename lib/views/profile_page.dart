@@ -1,12 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:final_project/models/profile_info.dart';
 
 import '../theme.dart';
 
 class ProfilePage extends StatelessWidget {
-  final int dailyCalorieIntake;
-  ProfilePage({Key? key, required this.dailyCalorieIntake}) : super(key: key);
+  final ProfileInfo profileInfo;
+  ProfilePage({Key? key, required this.profileInfo}) : super(key: key);
 
 
   @override
@@ -43,7 +44,7 @@ class ProfilePage extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              '$dailyCalorieIntake calories',
+              '${profileInfo.calorieIntake} calories',
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
           ],

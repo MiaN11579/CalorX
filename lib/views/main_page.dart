@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'dashboard_page.dart';
 import 'profile_page.dart';
 import 'log_page.dart';
+import 'package:final_project/models/profile_info.dart';
 
 class MainPage extends StatefulWidget {
-  final int dailyCalorieIntake;
-  const MainPage({Key? key, required this.dailyCalorieIntake}) : super(key: key);
+  final ProfileInfo profileInfo;
+  const MainPage({Key? key, required this.profileInfo}) : super(key: key);
   @override
   State<MainPage> createState() => _MainPageState();
 }
@@ -18,7 +19,7 @@ class _MainPageState extends State<MainPage> {
     final screens = [
       const DashboardPage(),
       const LogPage(),
-      ProfilePage(dailyCalorieIntake: widget.dailyCalorieIntake),
+      ProfilePage(profileInfo: widget.profileInfo),
     ];
     return Scaffold(
       body: screens[currentPageIndex],

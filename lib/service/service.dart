@@ -53,6 +53,7 @@ class Service {
           activityLevel: info['activityLevel'],
           goal: info['goal'],
           duration: info['duration'],
+          calorieIntake: info['calorieIntake'],
         );
       } else {
         debugPrint('Error: The entry does not contain profileInfo.');

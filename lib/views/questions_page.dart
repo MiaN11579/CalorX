@@ -126,8 +126,11 @@ class _QuestionsPageState extends State<QuestionsPage> {
                             activityLevel: answers[5],
                             goal: answers[6],
                             duration: answers[7],
+                            calorieIntake: 0
                           );
 
+                          profileInfo.calorieIntake = _service
+                              .calculateDailyCalorieIntake(profileInfo);
                           print(_service
                               .calculateDailyCalorieIntake(profileInfo));
                           _submitAnswers();
@@ -442,7 +445,11 @@ class _QuestionsPageState extends State<QuestionsPage> {
         activityLevel: answers[5],
         goal: answers[6],
         duration: answers[7],
+        calorieIntake: 0,
       );
+
+      profileInfo.calorieIntake = _service
+          .calculateDailyCalorieIntake(profileInfo);
 
       UserAccount userAccount = UserAccount(
         uid: currentUser!.uid,
@@ -462,8 +469,8 @@ class _QuestionsPageState extends State<QuestionsPage> {
       // Navigate to the success screen
       Navigator.pushReplacementNamed(context, '/main',
           arguments: MainPage(
-            dailyCalorieIntake:
-                _service.calculateDailyCalorieIntake(profileInfo),
+            profileInfo:
+                profileInfo,
           ));
     } else {
       print('Please answer all questions');
