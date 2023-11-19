@@ -1,28 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-ThemeData lightTheme = ThemeData(
-  primarySwatch: Colors.teal,
-  scaffoldBackgroundColor: Colors.white,
-  textTheme: GoogleFonts.poppinsTextTheme(),
-);
-
-ThemeData darkTheme = ThemeData.dark().copyWith(
-  primaryColor: Colors.indigo,
-  hintColor: Colors.amber,
-  // Add more customizations for the dark theme
-);
-
 class ThemeProvider with ChangeNotifier {
+  bool isDark = false;
+
+  final ThemeData _lightTheme = ThemeData(
+    scaffoldBackgroundColor: Colors.blue.shade100,
+    primarySwatch: Colors.blueGrey,
+    textTheme: GoogleFonts.poppinsTextTheme(),
+  );
+
+  final ThemeData _darkTheme = ThemeData(
+    primarySwatch: Colors.grey,
+    brightness: Brightness.dark,
+    indicatorColor: Colors.white,
+    primaryIconTheme: const IconThemeData(
+      color: Colors.white,
+    ),
+    textTheme: GoogleFonts.poppinsTextTheme(),
+  );
 
 
-  ThemeData _themeData = lightTheme; // Set the default theme to light.
-
-  ThemeData get themeData => _themeData;
+  ThemeData get currentTheme => isDark ? _darkTheme : _lightTheme;
 
   void toggleTheme() {
-    _themeData =
-    _themeData.brightness == Brightness.light ? darkTheme : lightTheme;
+    isDark = !isDark;
     notifyListeners();
   }
 }

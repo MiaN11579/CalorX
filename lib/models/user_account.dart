@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'ProfileInfo.dart';
+import 'profile_info.dart';
 
 class UserAccount {
+  final String? id;
   String uid;
   String? email;
   // Add other user-related fields here
@@ -10,8 +11,9 @@ class UserAccount {
   ProfileInfo profileInfo;
 
   UserAccount({
+    this.id,
     required this.uid,
-     this.email,
+    this.email,
     required this.profileInfo,
     // Add other parameters here
   });
@@ -28,6 +30,7 @@ class UserAccount {
   static UserAccount fromMap(DocumentSnapshot doc) {
     Map<String, dynamic> map = doc.data() as Map<String, dynamic>;
     return UserAccount(
+      id: doc.id,
       uid: map['uid'] ?? '',
       email: map['email'] ?? '',
       profileInfo: ProfileInfo.fromMap(map['profileInfo'] ?? {}),

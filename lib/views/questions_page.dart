@@ -1,14 +1,9 @@
-import 'package:final_project/views/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
-import 'package:final_project/google_sign_in.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
-import 'package:final_project/models/ProfileInfo.dart';
-import 'package:final_project/models/UserAccount.dart';
+import 'package:final_project/models/profile_info.dart';
+import 'package:final_project/models/user_account.dart';
 import 'package:final_project/service/service.dart';
-import 'package:final_project/views/dashboard_page.dart';
 import 'package:intl/intl.dart';
 
 import 'main_page.dart';
@@ -36,7 +31,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
   List<TextEditingController> controllers =
       List.generate(8, (index) => TextEditingController());
   final currentUser = FirebaseAuth.instance.currentUser;
-  Service _service = Service();
+  final Service _service = Service();
   DateTime selectedDate = DateTime.now();
 
   // Add the dateController
@@ -434,7 +429,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
     }
   }
 
-  void _submitAnswers() {
+  Future<void> _submitAnswers() async {
     // Check if all questions are answered
     if (answers.every((answer) => answer.isNotEmpty)) {
       // Save the user's inputs to the ProfileInfo model
@@ -455,15 +450,21 @@ class _QuestionsPageState extends State<QuestionsPage> {
         profileInfo: profileInfo,
       );
 
-      _service.saveUserProfile(userAccount);
+      if (currentUser != null) {
+        String? id = await _service.profileExists();
+        if (id != null) {
+          _service.updateUserProfile(userAccount, id!);
+        } else {
+          _service.saveUserProfile(userAccount);
+        }
+      }
 
       // Navigate to the success screen
       Navigator.pushReplacementNamed(context, '/main',
           arguments: MainPage(
             dailyCalorieIntake:
                 _service.calculateDailyCalorieIntake(profileInfo),
-          )
-      );
+          ));
     } else {
       print('Please answer all questions');
     }

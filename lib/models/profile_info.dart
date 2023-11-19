@@ -34,7 +34,6 @@ class ProfileInfo {
       'activityLevel': activityLevel,
       'goal': goal,
       'duration': duration,
-
     };
   }
 
@@ -50,7 +49,6 @@ class ProfileInfo {
       activityLevel: map['activityLevel'] ?? '',
       goal: map['goal'] ?? '',
       duration: map['duration'] ?? '',
-
     );
   }
 }

@@ -11,7 +11,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int currentPageIndex = 1;
+  int currentPageIndex = 2;
 
   @override
   Widget build(BuildContext context) {

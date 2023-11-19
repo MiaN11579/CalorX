@@ -30,7 +30,7 @@ class MainApp extends StatelessWidget {
         create: (context) => GoogleSignInProvider(),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          theme: Provider.of<ThemeProvider>(context).themeData,
+          theme: context.watch<ThemeProvider>().currentTheme,
           initialRoute: '/auth',
           onGenerateRoute: (settings) {
             if (settings.name == '/auth') {
