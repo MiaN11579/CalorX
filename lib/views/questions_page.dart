@@ -76,8 +76,26 @@ class _QuestionsPageState extends State<QuestionsPage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            Padding(
+              padding: const EdgeInsets.all(50.0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back),
+                  color: Colors.blueGrey,
+                  onPressed: () {
+                    if (currentQuestionIndex > 0) {
+                      setState(() {
+                        currentQuestionIndex--;
+                      });
+                    }
+                  },
+                ),
+              ),
+              ),
+            SizedBox(height: 50,),
             Text(
               questions[currentQuestionIndex],
               style: Theme.of(context).textTheme.headline6,
@@ -92,17 +110,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                ElevatedButton(
-                  onPressed: () {
-                    // Check if there are previous questions
-                    if (currentQuestionIndex > 0) {
-                      setState(() {
-                        currentQuestionIndex--;
-                      });
-                    }
-                  },
-                  child: const Text('Previous'),
-                ),
+
                 ElevatedButton(
                   onPressed: () {
                     FocusScope.of(context).unfocus(); // Dismiss the keyboard
@@ -435,45 +443,86 @@ class _QuestionsPageState extends State<QuestionsPage> {
   Future<void> _submitAnswers() async {
     // Check if all questions are answered
     if (answers.every((answer) => answer.isNotEmpty)) {
-      // Save the user's inputs to the ProfileInfo model
-      ProfileInfo profileInfo = ProfileInfo(
-        name: answers[0],
-        dob: answers[1],
-        weight: int.tryParse(answers[2]) ?? 0,
-        height: int.tryParse(answers[3]) ?? 0,
-        gender: answers[4],
-        activityLevel: answers[5],
-        goal: answers[6],
-        duration: answers[7],
-        calorieIntake: 0,
+      setState(() {
+        // Clear the content of the page
+        questions = [];
+        answers = List.filled(questions.length, ''); // Reset answers
+      });
+
+      // Show loading indicator with a message
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                ),
+                SizedBox(height: 16),
+                Text(
+                  'Calculating your daily calorie intake...',
+                  style: TextStyle(color: Colors.blue),
+                ),
+              ],
+            ),
+          );
+        },
       );
 
-      profileInfo.calorieIntake = _service
-          .calculateDailyCalorieIntake(profileInfo);
+      try {
+        // Simulate a delay (replace this with your actual data loading or navigation logic)
+        await Future.delayed(const Duration(seconds: 5));
 
-      UserAccount userAccount = UserAccount(
-        uid: currentUser!.uid,
-        email: currentUser!.email,
-        profileInfo: profileInfo,
-      );
+        // Save the user's inputs to the ProfileInfo model
+        ProfileInfo profileInfo = ProfileInfo(
+          name: answers[0],
+          dob: answers[1],
+          weight: int.tryParse(answers[2]) ?? 0,
+          height: int.tryParse(answers[3]) ?? 0,
+          gender: answers[4],
+          activityLevel: answers[5],
+          goal: answers[6],
+          duration: answers[7],
+          calorieIntake: 0,
+        );
 
-      if (currentUser != null) {
-        String? id = await _service.profileExists();
-        if (id != null) {
-          _service.updateUserProfile(userAccount, id!);
-        } else {
-          _service.saveUserProfile(userAccount);
+        profileInfo.calorieIntake =
+            _service.calculateDailyCalorieIntake(profileInfo);
+
+        UserAccount userAccount = UserAccount(
+          uid: currentUser!.uid,
+          email: currentUser!.email,
+          profileInfo: profileInfo,
+        );
+
+        if (currentUser != null) {
+          String? id = await _service.profileExists();
+          if (id != null) {
+            _service.updateUserProfile(userAccount, id!);
+          } else {
+            _service.saveUserProfile(userAccount);
+          }
         }
-      }
 
-      // Navigate to the success screen
-      Navigator.pushReplacementNamed(context, '/main',
-          arguments: MainPage(
-            profileInfo:
-                profileInfo,
-          ));
+        // Close the loading indicator
+        Navigator.pop(context);
+
+        // Navigate to the success screen
+        Navigator.pushReplacementNamed(
+          context,
+          '/main',
+          arguments: MainPage(profileInfo: profileInfo),
+        );
+      } catch (e) {
+        print('Error during processing: $e');
+        // Handle errors as needed
+      }
     } else {
       print('Please answer all questions');
     }
   }
+
 }

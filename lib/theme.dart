@@ -5,7 +5,7 @@ class ThemeProvider with ChangeNotifier {
   bool isDark = false;
 
   final ThemeData _lightTheme = ThemeData(
-    scaffoldBackgroundColor: Colors.blue.shade100,
+    scaffoldBackgroundColor: Colors.white,
     primarySwatch: Colors.blueGrey,
     textTheme: GoogleFonts.poppinsTextTheme(),
   );
