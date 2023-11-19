@@ -21,8 +21,8 @@ class AuthGate extends StatelessWidget {
               EmailAuthProvider(),
             ],
             headerBuilder: (context, constraints, shrinkOffset) {
-              return Padding(
-                padding: const EdgeInsets.all(20),
+              return const Padding(
+                padding: EdgeInsets.all(20),
                 child: AspectRatio(
                   aspectRatio: 1,
                   child: Text('Welcome to CalorX!'),
@@ -39,10 +39,10 @@ class AuthGate extends StatelessWidget {
             },
             footerBuilder: (context, action) {
               return  Padding(
-                  padding: EdgeInsets.only(top: 16),
+                  padding: const EdgeInsets.only(top: 16),
                   child: ElevatedButton.icon(
-                      icon: FaIcon(FontAwesomeIcons.google, color: Colors.white,),
-                      label: Text('Sign In With Google'),
+                      icon: const FaIcon(FontAwesomeIcons.google, color: Colors.white,),
+                      label: const Text('Sign In With Google'),
                       onPressed: (){
                         final provider = Provider.of<GoogleSignInProvider>(context, listen:false);
                         provider.googleLogin();
@@ -54,7 +54,7 @@ class AuthGate extends StatelessWidget {
           );
         }
 
-        return QuestionsPage();
+        return const QuestionsPage();
       },
     );
   }

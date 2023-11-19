@@ -1,3 +1,4 @@
+import 'package:final_project/views/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
@@ -9,6 +10,8 @@ import 'package:final_project/models/UserAccount.dart';
 import 'package:final_project/service/service.dart';
 import 'package:final_project/views/dashboard_page.dart';
 import 'package:intl/intl.dart';
+
+import 'main_page.dart';
 
 class QuestionsPage extends StatefulWidget {
   const QuestionsPage({Key? key}) : super(key: key);
@@ -31,7 +34,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
   ];
   List<String> answers = List.filled(8, ''); // Initialize with empty strings
   List<TextEditingController> controllers =
-  List.generate(8, (index) => TextEditingController());
+      List.generate(8, (index) => TextEditingController());
   final currentUser = FirebaseAuth.instance.currentUser;
   Service _service = Service();
   DateTime selectedDate = DateTime.now();
@@ -59,10 +62,10 @@ class _QuestionsPageState extends State<QuestionsPage> {
                         Navigator.of(context).pop();
                       })
                     ],
-                    children: [
-                      const Divider(),
+                    children: const [
+                      Divider(),
                       Padding(
-                        padding: const EdgeInsets.all(2),
+                        padding: EdgeInsets.all(2),
                         child: AspectRatio(
                           aspectRatio: 1,
                         ),
@@ -81,16 +84,16 @@ class _QuestionsPageState extends State<QuestionsPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '${questions[currentQuestionIndex]}',
+              questions[currentQuestionIndex],
               style: Theme.of(context).textTheme.headline6,
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             SizedBox(
               width: 300,
               child: _buildInputField(),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -103,7 +106,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
                       });
                     }
                   },
-                  child: Text('Previous'),
+                  child: const Text('Previous'),
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -130,7 +133,8 @@ class _QuestionsPageState extends State<QuestionsPage> {
                             duration: answers[7],
                           );
 
-                          print(_service.calculateDailyCalorieIntake(profileInfo));
+                          print(_service
+                              .calculateDailyCalorieIntake(profileInfo));
                           _submitAnswers();
                         });
                       }
@@ -158,7 +162,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
       return InkWell(
         onTap: () => _selectDate(context),
         child: InputDecorator(
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             labelText: 'Select date of birth',
             border: OutlineInputBorder(),
           ),
@@ -169,7 +173,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
               Text(
                 dateController.text,
               ),
-              Icon(Icons.calendar_today),
+              const Icon(Icons.calendar_today),
             ],
           ),
         ),
@@ -179,7 +183,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
       return Column(
         children: [
           RadioListTile(
-            title: Text('Little or no exercise.'),
+            title: const Text('Little or no exercise.'),
             value: 'Little or no exercise.',
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
@@ -189,7 +193,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
             },
           ),
           RadioListTile(
-            title: Text('Light exercise or sports 1-3 days a week.'),
+            title: const Text('Light exercise or sports 1-3 days a week.'),
             value: 'Light exercise or sports 1-3 days a week.',
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
@@ -199,7 +203,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
             },
           ),
           RadioListTile(
-            title: Text('Moderate exercise or sports 3-5 days a week.'),
+            title: const Text('Moderate exercise or sports 3-5 days a week.'),
             value: 'Moderate exercise or sports 3-5 days a week.',
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
@@ -209,7 +213,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
             },
           ),
           RadioListTile(
-            title: Text('Hard exercise or sports 6-7 days a week.'),
+            title: const Text('Hard exercise or sports 6-7 days a week.'),
             value: 'Hard exercise or sports 6-7 days a week.',
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
@@ -234,8 +238,8 @@ class _QuestionsPageState extends State<QuestionsPage> {
               });
             },
           ),
-          Text('Male'),
-          SizedBox(width: 20),
+          const Text('Male'),
+          const SizedBox(width: 20),
           Radio(
             value: 'Female',
             groupValue: answers[currentQuestionIndex],
@@ -245,7 +249,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
               });
             },
           ),
-          Text('Female'),
+          const Text('Female'),
         ],
       );
     } else if (currentQuestionIndex == 6) {
@@ -253,7 +257,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
       return Column(
         children: [
           RadioListTile(
-            title: Text('Weight Loss'),
+            title: const Text('Weight Loss'),
             value: 'Weight Loss',
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
@@ -263,7 +267,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
             },
           ),
           RadioListTile(
-            title: Text('Weight Maintenance'),
+            title: const Text('Weight Maintenance'),
             value: 'Weight Maintenance',
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
@@ -273,7 +277,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
             },
           ),
           RadioListTile(
-            title: Text('Muscle Gain'),
+            title: const Text('Muscle Gain'),
             value: 'Muscle Gain',
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
@@ -283,7 +287,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
             },
           ),
           RadioListTile(
-            title: Text('General Health'),
+            title: const Text('General Health'),
             value: 'General Health',
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
@@ -299,7 +303,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
       return Column(
         children: [
           RadioListTile(
-            title: Text('Within 6 months'),
+            title: const Text('Within 6 months'),
             value: 'Within 6 months',
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
@@ -309,7 +313,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
             },
           ),
           RadioListTile(
-            title: Text('Within 1 year'),
+            title: const Text('Within 1 year'),
             value: 'Within 1 year',
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
@@ -319,7 +323,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
             },
           ),
           RadioListTile(
-            title: Text('Within 2 years'),
+            title: const Text('Within 2 years'),
             value: 'Within 2 years',
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
@@ -329,7 +333,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
             },
           ),
           RadioListTile(
-            title: Text('2 years or more'),
+            title: const Text('2 years or more'),
             value: '2 years or more',
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
@@ -340,13 +344,12 @@ class _QuestionsPageState extends State<QuestionsPage> {
           ),
         ],
       );
-    }
-    else if (currentQuestionIndex == 7) {
+    } else if (currentQuestionIndex == 7) {
       // Show radio buttons for goal deadline
       return Column(
         children: [
           RadioListTile(
-            title: Text('Within 6 months'),
+            title: const Text('Within 6 months'),
             value: 'Within 6 months',
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
@@ -356,7 +359,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
             },
           ),
           RadioListTile(
-            title: Text('Within 1 year'),
+            title: const Text('Within 1 year'),
             value: 'Within 1 year',
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
@@ -366,7 +369,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
             },
           ),
           RadioListTile(
-            title: Text('Within 2 years'),
+            title: const Text('Within 2 years'),
             value: 'Within 2 years',
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
@@ -376,7 +379,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
             },
           ),
           RadioListTile(
-            title: Text('2 years or more'),
+            title: const Text('2 years or more'),
             value: '2 years or more',
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
@@ -387,8 +390,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
           ),
         ],
       );
-    }
-    else {
+    } else {
       // Show text field for other questions
       return TextField(
         controller: controllers[currentQuestionIndex],
@@ -405,17 +407,15 @@ class _QuestionsPageState extends State<QuestionsPage> {
           }
         },
         keyboardType: (currentQuestionIndex == 2 || currentQuestionIndex == 3)
-            ? TextInputType.numberWithOptions(decimal: true)
+            ? const TextInputType.numberWithOptions(decimal: true)
             : TextInputType.text,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           hintText: 'Enter your answer',
           border: OutlineInputBorder(),
         ),
       );
-
     }
   }
-
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -458,11 +458,11 @@ class _QuestionsPageState extends State<QuestionsPage> {
       _service.saveUserProfile(userAccount);
 
       // Navigate to the success screen
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => DashboardPage(dailyCalorieIntake: _service.calculateDailyCalorieIntake(profileInfo),),
-        ),
+      Navigator.pushReplacementNamed(context, '/main',
+          arguments: MainPage(
+            dailyCalorieIntake:
+                _service.calculateDailyCalorieIntake(profileInfo),
+          )
       );
     } else {
       print('Please answer all questions');
