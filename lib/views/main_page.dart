@@ -26,7 +26,6 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
         body: screens[currentPageIndex],
         bottomNavigationBar: NavigationBar(
-          // backgroundColor: Colors.blueGrey, // <-- This works for fixed
           onDestinationSelected: (int index) {
             setState(() {
               currentPageIndex = index;

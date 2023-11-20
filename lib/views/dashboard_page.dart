@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import 'components/gradient_background.dart';
+
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);
 
@@ -12,7 +14,7 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   DateTime _selectedDate = DateTime.now();
-  final PageController _controller = PageController(viewportFraction: 0.8);
+  final PageController _controller = PageController(viewportFraction: 0.95);
 
   final List<SfCircularChart> sfCharts = [];
   final List<CircularChartAnnotation> _annotationSources =
@@ -52,71 +54,84 @@ class _DashboardPageState extends State<DashboardPage> {
     }
   }
 
+  List<Widget> getAppBarCalendar() {
+    return <Widget>[
+      IconButton(
+        icon: const Icon(Icons.arrow_back_ios_rounded),
+        onPressed: () {
+          setState(() {
+            _selectedDate =
+                _selectedDate.subtract(const Duration(days: 1));
+          });
+        },
+      ),
+      GestureDetector(
+        child: Text(
+            DateFormat('EE, MMM d').format(_selectedDate.toLocal())),
+        onTap: () => _selectDate(context),
+      ),
+      IconButton(
+        icon: const Icon(Icons.arrow_forward_ios_rounded),
+        onPressed: () {
+          setState(() {
+            _selectedDate = _selectedDate.add(const Duration(days: 1));
+          });
+        },
+      ),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
           centerTitle: true,
           title: Row(
             mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.arrow_back_ios_rounded),
-                onPressed: () {
-                  setState(() {
-                    _selectedDate =
-                        _selectedDate.subtract(const Duration(days: 1));
-                  });
-                },
-              ),
-              GestureDetector(
-                child: Text(
-                    DateFormat('EE, MMM d').format(_selectedDate.toLocal())),
-                onTap: () => _selectDate(context),
-              ),
-              IconButton(
-                icon: const Icon(Icons.arrow_forward_ios_rounded),
-                onPressed: () {
-                  setState(() {
-                    _selectedDate = _selectedDate.add(const Duration(days: 1));
-                  });
-                },
+            children: getAppBarCalendar(),
+          )),
+      body: Container(
+        decoration: getGradientBackground(context),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.only(top: 80),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 800,
+                child: PageView.builder(
+                  itemCount: 2,
+                  controller: _controller,
+                  itemBuilder: (context, index) {
+                    return ListenableBuilder(
+                      listenable: _controller,
+                      builder: (context, child) {
+                        double factor = 1;
+                        if (_controller.position.hasContentDimensions) {
+                          factor = 1 - (_controller.page! - index).abs();
+                        }
+
+                        return Center(
+                          child: SizedBox(
+                            height: 300 + (factor * 30),
+                            child: Card(
+                              color: Theme.of(context).cardColor,
+                              elevation: 0,
+                              child: sfCharts[index],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
               ),
             ],
-          )),
-      body: SizedBox(
-        height: 450, // Card height
-        child: PageView.builder(
-          itemCount: 2,
-          controller: _controller,
-          itemBuilder: (context, index) {
-            return ListenableBuilder(
-              listenable: _controller,
-              builder: (context, child) {
-                double factor = 1;
-                if (_controller.position.hasContentDimensions) {
-                  factor = 1 - (_controller.page! - index).abs();
-                }
-
-                return Center(
-                  child: SizedBox(
-                    height: 300 + (factor * 30),
-                    child: Card(
-                      color: Colors.white,
-                      elevation: 0,
-                      child: sfCharts[index],
-                    ),
-                  ),
-                );
-              },
-            );
-          },
+          ),
         ),
       ),
-      // Column(children: [
-      //   //Initialize the chart widget
-      //
     );
   }
 
