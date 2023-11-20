@@ -60,7 +60,6 @@ class Service {
         return null;
       }
     } else {
-      debugPrint('Error: The collection is empty.');
       return null;
     }
   }

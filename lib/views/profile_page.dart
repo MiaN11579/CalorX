@@ -8,7 +8,7 @@ import '../theme.dart';
 
 class ProfilePage extends StatelessWidget {
   final ProfileInfo profileInfo;
-  ProfilePage({Key? key, required this.profileInfo}) : super(key: key);
+  const ProfilePage({Key? key, required this.profileInfo}) : super(key: key);
 
   Widget _buildRichTextWithBox(String label, String value) {
     if (label == 'Date of Birth:') {
@@ -31,7 +31,7 @@ class ProfilePage extends StatelessWidget {
   Widget _buildRichText(String label, String value) {
     return RichText(
       text: TextSpan(
-        style: const TextStyle(fontSize: 24, color: Colors.black),
+        style: const TextStyle(fontSize: 20, color: Colors.black),
         children: [
           TextSpan(
             text: '$label ',
@@ -93,6 +93,7 @@ class ProfilePage extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,

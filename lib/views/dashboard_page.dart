@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);
@@ -13,13 +12,30 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   DateTime _selectedDate = DateTime.now();
-  List<_SalesData> data = [
-    _SalesData('Jan', 35),
-    _SalesData('Feb', 28),
-    _SalesData('Mar', 34),
-    _SalesData('Apr', 32),
-    _SalesData('May', 40)
+  final PageController _controller = PageController(viewportFraction: 0.8);
+
+  final List<SfCircularChart> sfCharts = [];
+  final List<CircularChartAnnotation> _annotationSources =
+      <CircularChartAnnotation>[
+    CircularChartAnnotation(
+        angle: 0, radius: '0%', widget: const Icon(Icons.fastfood)),
+    CircularChartAnnotation(
+        angle: 0, radius: '0%', widget: const Icon(Icons.fastfood)),
+    CircularChartAnnotation(
+        angle: 0, radius: '0%', widget: const Icon(Icons.fastfood))
   ];
+
+  final List<ChartData> chartData = [
+    ChartData('Carbs', 70, Colors.deepOrange),
+    ChartData('Fat', 165, Colors.teal),
+    ChartData('Protein', 110, Colors.blueAccent),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    createCharts();
+  }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -36,6 +52,7 @@ class _DashboardPageState extends State<DashboardPage> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,12 +65,14 @@ class _DashboardPageState extends State<DashboardPage> {
                 icon: const Icon(Icons.arrow_back_ios_rounded),
                 onPressed: () {
                   setState(() {
-                    _selectedDate = _selectedDate.subtract(const Duration(days: 1));
+                    _selectedDate =
+                        _selectedDate.subtract(const Duration(days: 1));
                   });
                 },
               ),
               GestureDetector(
-                child: Text(DateFormat('EE, MMM d').format(_selectedDate.toLocal())),
+                child: Text(
+                    DateFormat('EE, MMM d').format(_selectedDate.toLocal())),
                 onTap: () => _selectDate(context),
               ),
               IconButton(
@@ -65,54 +84,142 @@ class _DashboardPageState extends State<DashboardPage> {
                 },
               ),
             ],
-          )
-    ),
-        body: Column(children: [
-          //Initialize the chart widget
-          SfCartesianChart(
-              primaryXAxis: CategoryAxis(),
-              // Chart title
-              title: ChartTitle(text: 'Half yearly sales analysis'),
-              // Enable legend
-              legend: Legend(isVisible: true),
-              // Enable tooltip
-              tooltipBehavior: TooltipBehavior(enable: true),
-              series: <ChartSeries<_SalesData, String>>[
-                LineSeries<_SalesData, String>(
-                    dataSource: data,
-                    xValueMapper: (_SalesData sales, _) => sales.year,
-                    yValueMapper: (_SalesData sales, _) => sales.sales,
-                    name: 'Sales',
-                    // Enable data label
-                    dataLabelSettings: DataLabelSettings(isVisible: true))
-              ]),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              //Initialize the spark charts widget
-              child: SfSparkLineChart.custom(
-                //Enable the trackball
-                trackball: SparkChartTrackball(
-                    activationMode: SparkChartActivationMode.tap),
-                //Enable marker
-                marker: SparkChartMarker(
-                    displayMode: SparkChartMarkerDisplayMode.all),
-                //Enable data label
-                labelDisplayMode: SparkChartLabelDisplayMode.all,
-                xValueMapper: (int index) => data[index].year,
-                yValueMapper: (int index) => data[index].sales,
-                dataCount: 5,
-              ),
-            ),
-          )
-        ])
+          )),
+      body: SizedBox(
+        height: 450, // Card height
+        child: PageView.builder(
+          itemCount: 2,
+          controller: _controller,
+          itemBuilder: (context, index) {
+            return ListenableBuilder(
+              listenable: _controller,
+              builder: (context, child) {
+                double factor = 1;
+                if (_controller.position.hasContentDimensions) {
+                  factor = 1 - (_controller.page! - index).abs();
+                }
+
+                return Center(
+                  child: SizedBox(
+                    height: 300 + (factor * 30),
+                    child: Card(
+                      color: Colors.tealAccent.shade400.withOpacity(0.3),
+                      elevation: 0,
+                      child: sfCharts[index],
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+        ),
+      ),
+      // Column(children: [
+      //   //Initialize the chart widget
+      //
     );
+  }
+
+  void createCharts() {
+    sfCharts.add(SfCircularChart(
+      title: ChartTitle(text: 'Pie Chart'),
+      series: <CircularSeries>[
+        // Render pie chart
+        DoughnutSeries<ChartData, String>(
+          dataSource: chartData,
+          // pointColorMapper: (ChartData data, _) => data.color,
+          xValueMapper: (ChartData data, _) => data.x,
+          yValueMapper: (ChartData data, _) => data.y,
+          dataLabelSettings: const DataLabelSettings(isVisible: true),
+          pointColorMapper: (ChartData data, _) => data.color,
+        )
+      ],
+    ));
+
+    sfCharts.add(SfCircularChart(
+      title: ChartTitle(text: 'Radial chart'),
+      legend: Legend(
+        isVisible: true,
+        overflowMode: LegendItemOverflowMode.wrap,
+        legendItemBuilder:
+            (String name, dynamic series, dynamic point, int index) {
+          return SizedBox(
+              height: 60,
+              width: 120,
+              child: Row(children: <Widget>[
+                SizedBox(
+                    height: 75,
+                    width: 65,
+                    child: SfCircularChart(
+                      annotations: <CircularChartAnnotation>[
+                        _annotationSources![index],
+                      ],
+                      series: <RadialBarSeries<ChartData, String>>[
+                        RadialBarSeries<ChartData, String>(
+                            dataSource: <ChartData>[chartData![index]],
+                            maximumValue: 150,
+                            radius: '100%',
+                            cornerStyle: CornerStyle.bothCurve,
+                            xValueMapper: (ChartData data, _) =>
+                            point.x as String,
+                            yValueMapper: (ChartData data, _) => data.y,
+                            pointColorMapper: (ChartData data, _) => data.color,
+                            trackOpacity: 0.3,
+                            useSeriesColor: true,
+                            innerRadius: '75%',
+                            pointRadiusMapper: (ChartData data, _) => data.x),
+                      ],
+                    )),
+                SizedBox(
+                    width: 55,
+                    child: Text(point.x)
+                ),
+              ]));
+        },
+      ),
+      series: _getRadialBarCustomizedSeries(),
+      annotations: <CircularChartAnnotation>[
+        CircularChartAnnotation(
+          angle: 0,
+          radius: '30%',
+          height: '40%',
+          width: '100%',
+          widget: const Text("TEST"),
+        ),
+      ],
+    ));
+
+    setState(() {
+      sfCharts;
+    });
+  }
+
+  /// Returns radial bar which need to be customized.
+  List<RadialBarSeries<ChartData, String>> _getRadialBarCustomizedSeries() {
+    return <RadialBarSeries<ChartData, String>>[
+      RadialBarSeries<ChartData, String>(
+        maximumValue: 150,
+        gap: '10%',
+        radius: '100%',
+        dataSource: chartData,
+        cornerStyle: CornerStyle.bothCurve,
+        innerRadius: '50%',
+        xValueMapper: (ChartData data, _) => data.x,
+        yValueMapper: (ChartData data, _) => data.y,
+        pointRadiusMapper: (ChartData data, _) => data.x,
+        pointColorMapper: (ChartData data, _) => data.color,
+        trackOpacity: 0.3,
+        useSeriesColor: true,
+        legendIconType: LegendIconType.circle,
+      ),
+    ];
   }
 }
 
-class _SalesData {
-  _SalesData(this.year, this.sales);
+class ChartData {
+  ChartData(this.x, this.y, [this.color = Colors.white]);
 
-  final String year;
-  final double sales;
+  final String x;
+  final double y;
+  final Color color;
 }

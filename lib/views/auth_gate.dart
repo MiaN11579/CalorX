@@ -18,17 +18,17 @@ class AuthGate extends StatefulWidget {
 }
 
 class _AuthGateState extends State<AuthGate> {
-  ProfileInfo? profileInfo;
-  Service? service;
+  ProfileInfo? _profileInfo;
+  Service? _service;
 
   Future<void> profileExists() async {
-    service = Service();
+    _service = Service();
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
-      profileInfo = await service?.getUserProfile();
+      _profileInfo = await _service?.getUserProfile();
       if (mounted) {
         setState(() {
-          profileInfo;
+          _profileInfo;
         });
       }
     }
@@ -85,9 +85,9 @@ class _AuthGateState extends State<AuthGate> {
             },
           );
         }
-        if (profileInfo != null)
+        if (_profileInfo != null)
           {
-            return MainPage(profileInfo: profileInfo!);
+            return MainPage(profileInfo: _profileInfo!);
           }
         return const QuestionsPage();
       },
