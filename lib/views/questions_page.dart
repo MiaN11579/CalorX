@@ -83,7 +83,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
               child: Align(
                 alignment: Alignment.topLeft,
                 child: IconButton(
-                  icon: Icon(Icons.arrow_back),
+                  icon: const Icon(Icons.arrow_back),
                   color: Colors.blueGrey,
                   onPressed: () {
                     if (currentQuestionIndex > 0) {
@@ -95,10 +95,10 @@ class _QuestionsPageState extends State<QuestionsPage> {
                 ),
               ),
               ),
-            SizedBox(height: 50,),
+            const SizedBox(height: 50,),
             Text(
               questions[currentQuestionIndex],
-              style: Theme.of(context).textTheme.headline6,
+              style: Theme.of(context).textTheme.titleLarge,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
@@ -501,7 +501,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
         if (currentUser != null) {
           String? id = await _service.profileExists();
           if (id != null) {
-            _service.updateUserProfile(userAccount, id!);
+            _service.updateUserProfile(userAccount, id);
           } else {
             _service.saveUserProfile(userAccount);
           }

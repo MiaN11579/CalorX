@@ -103,7 +103,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   child: SizedBox(
                     height: 300 + (factor * 30),
                     child: Card(
-                      color: Colors.tealAccent.shade400.withOpacity(0.3),
+                      color: Colors.white,
                       elevation: 0,
                       child: sfCharts[index],
                     ),
@@ -152,11 +152,11 @@ class _DashboardPageState extends State<DashboardPage> {
                     width: 65,
                     child: SfCircularChart(
                       annotations: <CircularChartAnnotation>[
-                        _annotationSources![index],
+                        _annotationSources[index],
                       ],
                       series: <RadialBarSeries<ChartData, String>>[
                         RadialBarSeries<ChartData, String>(
-                            dataSource: <ChartData>[chartData![index]],
+                            dataSource: <ChartData>[chartData[index]],
                             maximumValue: 150,
                             radius: '100%',
                             cornerStyle: CornerStyle.bothCurve,

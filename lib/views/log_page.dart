@@ -11,7 +11,7 @@ class LogPage extends StatelessWidget {
         centerTitle: true,
         title: const Text('Logs'),
       ),
-      body: Center(
+      body: const Center(
       ),
     );
   }

@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,11 +18,11 @@ class ProfilePage extends StatelessWidget {
     return Container(
       width: 410,
       height: 90,
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.black),
+      decoration: const BoxDecoration(
+        color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(12)), // Adjust the radius for rounded corners
       ),
-      padding: EdgeInsets.all(19), // Adjust the padding for a larger box
+      padding: const EdgeInsets.all(19), // Adjust the padding for a larger box
       child: _buildRichText(label, value),
     );
   }
@@ -99,23 +98,23 @@ class ProfilePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildRichTextWithBox('Name: ', profileInfo.name),
-            SizedBox(height: 8),  // Add space between lines
+            const SizedBox(height: 8),  // Add space between lines
             _buildRichTextWithBox('Date of Birth:', profileInfo.dob),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             _buildRichTextWithBox('Height:', '${profileInfo.height} cm'),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             _buildRichTextWithBox('Weight:', '${profileInfo.weight} kg'),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             _buildRichTextWithBox('Gender:', profileInfo.gender),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             _buildRichTextWithBox('Activity Level:', profileInfo.activityLevel),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             _buildRichTextWithBox('Goal:', profileInfo.goal),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             _buildRichTextWithBox('Duration:', profileInfo.duration),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             _buildRichTextWithBox('Daily Calorie Intake:', '${profileInfo.calorieIntake} Calories'),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
           ],
         ),
       ),
