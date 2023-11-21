@@ -6,7 +6,7 @@ class ThemeProvider with ChangeNotifier {
 
   final ThemeData _lightTheme = ThemeData(
     scaffoldBackgroundColor: Colors.white,
-    cardColor: Colors.grey[200]!,
+    cardColor: Colors.grey[200],
     colorScheme: const ColorScheme.light(
         primary: Colors.white,
         secondary: Colors.black,
@@ -20,7 +20,7 @@ class ThemeProvider with ChangeNotifier {
   final ThemeData _darkTheme = ThemeData(
     scaffoldBackgroundColor: Colors.black,
     brightness: Brightness.dark,
-    cardColor: Colors.grey[900]!,
+    cardColor: Colors.grey[900],
     colorScheme: ColorScheme.dark(
         primary: Colors.blue[800]!.withOpacity(0.6),
         secondary: Colors.white,
