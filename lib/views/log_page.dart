@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'components/food_search_delegate.dart';
 
-class LogPage extends StatelessWidget {
-  const LogPage({Key? key}) : super(key: key);
+class LogPage extends StatefulWidget {
+  const LogPage({super.key});
 
+  @override
+  State<LogPage> createState() => _LogPageState();
+}
+
+class _LogPageState extends State<LogPage> {
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +17,23 @@ class LogPage extends StatelessWidget {
         centerTitle: true,
         title: const Text('Logs'),
       ),
-      body: const Center(
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    showSearch(
+                        context: context, delegate: FoodSearchDelegate());
+                  },
+                  child: const Text(
+                    'Search',
+                    style: TextStyle(color: Colors.black),
+                  )),
+
+            ],
+          ),
+        ),
       ),
     );
   }
