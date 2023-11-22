@@ -5,11 +5,23 @@ import 'package:final_project/models/profile_info.dart';
 import 'package:intl/intl.dart';
 import '../theme.dart';
 import 'components/gradient_background.dart';
+import 'package:final_project/service/service.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   final ProfileInfo profileInfo;
 
-  const ProfilePage({Key? key, required this.profileInfo}) : super(key: key);
+
+  const ProfilePage({
+    Key? key,
+    required this.profileInfo,
+  }) : super(key: key);
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  final Service service = Service();
 
   Widget _buildRichTextWithBox(
       String label, String value, BuildContext context) {
@@ -18,9 +30,12 @@ class ProfilePage extends StatelessWidget {
       String formattedDate = DateFormat('MMM d, y').format(dob);
       value = formattedDate;
     }
+
+    double boxHeight = (label == 'Activity Level:' || label == 'Recommended Daily Calorie Intake:') ? 90 : 65;
+
     return Container(
       width: 410,
-      height: 90,
+      height: boxHeight,
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: const BorderRadius.all(
@@ -113,27 +128,98 @@ class ProfilePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildRichTextWithBox('Name: ', profileInfo.name, context),
-              const SizedBox(height: 8), // Add space between lines
-              _buildRichTextWithBox('Date of Birth:', profileInfo.dob, context),
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Center(
+                    child: CircleAvatar(
+                      radius: 90,
+                      backgroundColor: Theme.of(context).cardColor,
+                      backgroundImage: widget.profileInfo.imageUrl.isNotEmpty
+                          ? NetworkImage(widget.profileInfo.imageUrl)
+                          : null,
+                      child: widget.profileInfo.imageUrl.isEmpty
+                          ? Text(
+                        widget.profileInfo.name.isNotEmpty
+                            ? widget.profileInfo.name[0].toUpperCase()
+                            : '?',
+                        style: TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                          : null,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 100,
+                    child: Container(
+                      padding: EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.8), // Adjust opacity as needed
+                        shape: BoxShape.circle,
+                      ),
+                      child: IconButton(
+                        onPressed: () async {
+                          widget.profileInfo.imageUrl =
+                          await service.getImageFromGallery();
+                          setState(() {});
+                        },
+                        icon: Icon(
+                          Icons.edit,
+                          size: 30,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Center(
+                child: Text(
+                  'Hey ${widget.profileInfo.name}!',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 22),
+              Text(
+                'About',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
+              ),
+              const SizedBox(height: 14),
+              _buildRichTextWithBox(
+                  'Date of Birth:', widget.profileInfo.dob, context),
               const SizedBox(height: 8),
               _buildRichTextWithBox(
-                  'Height:', '${profileInfo.height} cm', context),
+                  'Height:', '${widget.profileInfo.height} cm', context),
               const SizedBox(height: 8),
               _buildRichTextWithBox(
-                  'Weight:', '${profileInfo.weight} kg', context),
-              const SizedBox(height: 8),
-              _buildRichTextWithBox('Gender:', profileInfo.gender, context),
+                  'Weight:', '${widget.profileInfo.weight} kg', context),
               const SizedBox(height: 8),
               _buildRichTextWithBox(
-                  'Activity Level:', profileInfo.activityLevel, context),
+                  'Gender:', widget.profileInfo.gender, context),
               const SizedBox(height: 8),
-              _buildRichTextWithBox('Goal:', profileInfo.goal, context),
+              _buildRichTextWithBox(
+                  'Activity Level:', widget.profileInfo.activityLevel, context),
               const SizedBox(height: 8),
-              _buildRichTextWithBox('Duration:', profileInfo.duration, context),
+              _buildRichTextWithBox('Goal:', widget.profileInfo.goal, context),
               const SizedBox(height: 8),
-              _buildRichTextWithBox('Daily Calorie Intake:',
-                  '${profileInfo.calorieIntake} Calories', context),
+              _buildRichTextWithBox(
+                  'Duration:', widget.profileInfo.duration, context),
+              const SizedBox(height: 8),
+              _buildRichTextWithBox(
+                  'Recommended Daily Calorie Intake:',
+                  '${widget.profileInfo.calorieIntake} Calories',
+                  context),
               const SizedBox(height: 8),
             ],
           ),

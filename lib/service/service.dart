@@ -1,8 +1,12 @@
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_project/models/user_account.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:final_project/models/profile_info.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Service {
   final CollectionReference userCollection;
@@ -54,6 +58,7 @@ class Service {
           goal: info['goal'],
           duration: info['duration'],
           calorieIntake: info['calorieIntake'],
+          imageUrl: "",
         );
       } else {
         debugPrint('Error: The entry does not contain profileInfo.');
@@ -63,6 +68,38 @@ class Service {
       return null;
     }
   }
+  //for the image in profile_page
+  Future<String> uploadImageToStorage(File imageFile, String userId) async {
+    try {
+      FirebaseStorage storage = FirebaseStorage.instance;
+      Reference storageReference = storage.ref().child('users/$userId/images/${DateTime.now().millisecondsSinceEpoch.toString()}');
+      UploadTask uploadTask = storageReference.putFile(imageFile);
+      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
+
+      String imageUrl = await storageReference.getDownloadURL();
+      return imageUrl;
+    } catch (e) {
+      throw Exception('Error uploading image: $e');
+    }
+  }
+  Future<String> getImageFromGallery() async {
+    var user = FirebaseAuth.instance.currentUser;
+    final picker = ImagePicker();
+    String imageUrl = "";
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    File? _imageFile;
+    if (pickedFile != null) {
+      _imageFile = File(pickedFile.path);
+      try {
+        imageUrl = await uploadImageToStorage(_imageFile!, user!.uid);
+      } catch (e) {
+        // Handle upload error, if any.
+        print('Error uploading image: $e');
+      }
+    }
+    return imageUrl;
+  }
+
 
   // Checks if a profile for this user already existed, if yes, returns its entry id
   Future<String?> profileExists() async {

@@ -11,6 +11,7 @@ class ProfileInfo {
   String goal;
   String duration;
   int calorieIntake;
+  String imageUrl;
 
       ProfileInfo({
     this.id,
@@ -22,7 +23,8 @@ class ProfileInfo {
     required this.activityLevel,
     required this.goal,
     required this.duration,
-    required this.calorieIntake
+    required this.calorieIntake,
+    required this.imageUrl
   });
   /// Convert the `DiaryEntry` instance into a `Map<String, dynamic>`.
 
@@ -37,6 +39,7 @@ class ProfileInfo {
       'goal': goal,
       'duration': duration,
       'calorieIntake': calorieIntake,
+      'imageUrl': imageUrl,
     };
   }
 
@@ -53,6 +56,7 @@ class ProfileInfo {
       goal: map['goal'] ?? '',
       duration: map['duration'] ?? '',
       calorieIntake: map['calorieIntake'] ?? 0,
+      imageUrl: map['imageUrl'] ?? '',
     );
   }
 }

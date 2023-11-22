@@ -134,7 +134,8 @@ class _QuestionsPageState extends State<QuestionsPage> {
                             activityLevel: answers[5],
                             goal: answers[6],
                             duration: answers[7],
-                            calorieIntake: 0
+                            calorieIntake: 0,
+                            imageUrl: "",
                           );
 
                           profileInfo.calorieIntake = _service
@@ -487,6 +488,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
           goal: answers[6],
           duration: answers[7],
           calorieIntake: 0,
+          imageUrl: "",
         );
 
         profileInfo.calorieIntake =
