@@ -29,8 +29,8 @@ class _LogPageState extends State<LogPage> {
                   child: const Text(
                     'Search',
                     style: TextStyle(color: Colors.black),
-                  )),
-
+                  ),
+              ),
             ],
           ),
         ),

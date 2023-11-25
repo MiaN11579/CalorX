@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:final_project/models/SearchResult.dart';
 
 class FoodSearchDelegate extends SearchDelegate {
   List<String> searchResults = [
@@ -16,7 +17,7 @@ class FoodSearchDelegate extends SearchDelegate {
   String apiKey = '5Zwsmg1lLYSeaQ9Yx0T1rbstPEIjdQJjA6T56vzn';
   String queryBase = '&query=';
 
-  Future<String> search() async {
+  Future<String> _search() async {
     try {
       final response =
           await http.get(Uri.parse('$urlSearch$apiKey$queryBase"$query"'));
@@ -25,6 +26,7 @@ class FoodSearchDelegate extends SearchDelegate {
       throw Exception(e.toString());
     }
   }
+
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -52,15 +54,34 @@ class FoodSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return FutureBuilder(
-        future: search(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return Text(snapshot.data!);
-          } else {
-            return const CircularProgressIndicator();
-          }
-        });
+    return Center(
+      child: FutureBuilder(
+          future: _search(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              final jsonData = snapshot.data!;
+              final parsedJson = jsonDecode(jsonData);
+              final searchResult = SearchResult.fromJson(parsedJson);
+              final foods = searchResult.foods;
+              if (foods != null) {
+                return ListView.builder(
+                    itemCount: foods.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(foods[index].description),
+                        onTap: () {
+                          print('tap');
+                        },
+                      );
+                    });
+              } else {
+                return Text('No foods match this $query');
+              }
+            } else {
+              return const CircularProgressIndicator();
+            }
+          }),
+    );
   }
 
   @override
