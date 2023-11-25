@@ -51,11 +51,11 @@ class _AuthGateState extends State<AuthGate> {
               EmailAuthProvider(),
             ],
             headerBuilder: (context, constraints, shrinkOffset) {
-              return const Padding(
+              return  Padding(
                 padding: EdgeInsets.all(20),
                 child: AspectRatio(
                   aspectRatio: 1,
-                  child: Text('Welcome to CalorX!'),
+                  child: Image.asset('assets/images/CalorX.png'),
                 ),
               );
             },

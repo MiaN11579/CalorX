@@ -121,7 +121,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: Container(
         padding: const EdgeInsets.only(top: 80),
-        decoration: getGradientBackground(context),
+        // decoration: getGradientBackground(context),
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20.0),
           child: Column(
@@ -143,7 +143,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         widget.profileInfo.name.isNotEmpty
                             ? widget.profileInfo.name[0].toUpperCase()
                             : '?',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 40,
                           fontWeight: FontWeight.bold,
                         ),
@@ -166,7 +166,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           await service.getImageFromGallery();
                           setState(() {});
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.edit,
                           size: 30,
                         ),
@@ -182,7 +182,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
               ),
@@ -192,7 +192,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
               const SizedBox(height: 14),

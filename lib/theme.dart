@@ -5,15 +5,17 @@ class ThemeProvider with ChangeNotifier {
   bool isDark = false;
 
   final ThemeData _lightTheme = ThemeData(
-    scaffoldBackgroundColor: Colors.white70,
+    scaffoldBackgroundColor: Colors.white,
     cardColor: Colors.grey[200],
     colorScheme: ColorScheme.light(
-        primary: Colors.purple[600]!.withOpacity(0.5),
-        secondary: Colors.black,
-        tertiary: Colors.pink[400]!.withOpacity(0.6)),
+        primary: Colors.deepPurple.shade800,
+        secondary: Colors.deepPurple,
+        tertiary: Colors.white
+    ),
     textTheme: GoogleFonts.poppinsTextTheme(),
+
     appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.transparent,
+      color: Colors.deepPurple,
     ),
   );
 

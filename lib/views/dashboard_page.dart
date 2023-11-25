@@ -105,7 +105,7 @@ class _DashboardPageState extends State<DashboardPage> {
           )),
       body: Container(
         padding: const EdgeInsets.only(top: 80),
-        decoration: getGradientBackground(context),
+        // decoration: getGradientBackground(context),
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20.0),
           child: Column(
@@ -114,7 +114,7 @@ class _DashboardPageState extends State<DashboardPage> {
             children: [
               Text("Charts", style: TextStyle(
                 fontSize: 20,
-                color: Theme.of(context).colorScheme.secondary,
+                color: Theme.of(context).colorScheme.primary,
               )),
               SizedBox(
                 height: 330,

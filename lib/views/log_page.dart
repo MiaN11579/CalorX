@@ -26,9 +26,9 @@ class _LogPageState extends State<LogPage> {
                     showSearch(
                         context: context, delegate: FoodSearchDelegate());
                   },
-                  child: const Text(
+                  child:  Text(
                     'Search',
-                    style: TextStyle(color: Colors.black),
+                    style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
                   ),
               ),
             ],

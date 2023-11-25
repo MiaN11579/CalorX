@@ -5,6 +5,9 @@ import 'package:final_project/models/profile_info.dart';
 import 'package:final_project/models/user_account.dart';
 import 'package:final_project/service/service.dart';
 import 'package:intl/intl.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 
 import 'main_page.dart';
 
@@ -84,7 +87,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
                 alignment: Alignment.topLeft,
                 child: IconButton(
                   icon: const Icon(Icons.arrow_back),
-                  color: Colors.blueGrey,
+                  color: Colors.deepPurple,
                   onPressed: () {
                     if (currentQuestionIndex > 0) {
                       setState(() {
@@ -444,33 +447,54 @@ class _QuestionsPageState extends State<QuestionsPage> {
   Future<void> _submitAnswers() async {
     // Check if all questions are answered
     if (answers.every((answer) => answer.isNotEmpty)) {
-      setState(() {
-        // Clear the content of the page
-        questions = [];
-        answers = List.filled(questions.length, ''); // Reset answers
-      });
+
 
       // Show loading indicator with a message
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return const Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+      Navigator.of(context).push(
+        PageRouteBuilder(
+          opaque: false, // Set to false to have a transparent background
+          pageBuilder: (BuildContext context, _, __) {
+            return Container(
+              color: Colors.white, // Set the background color to white
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.deepPurple),
+                    ),
+                    const SizedBox(height: 50),
+                    Container(alignment: Alignment.center,
+                      child: AnimatedTextKit(
+                        animatedTexts: [
+                          TypewriterAnimatedText(
+                            'Calculating your daily calorie intake...',
+                            textAlign: TextAlign.center,
+                            textStyle: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                color: Colors.deepPurple,
+                                fontSize: 14,
+                                backgroundColor: Colors.white,
+                                decoration: TextDecoration.underline,
+                                decorationColor: Colors.white,
+                              ),
+                            ),
+
+                            speed: const Duration(milliseconds: 80),
+                          ),
+
+                        ],
+
+                        totalRepeatCount: 1,
+                        displayFullTextOnTap: true,
+                        stopPauseOnTap: false,
+                      ),),
+                  ],
                 ),
-                SizedBox(height: 16),
-                Text(
-                  'Calculating your daily calorie intake...',
-                  style: TextStyle(color: Colors.blue),
-                ),
-              ],
-            ),
-          );
-        },
+              ),
+            );
+          },
+        ),
       );
 
       try {
@@ -512,12 +536,17 @@ class _QuestionsPageState extends State<QuestionsPage> {
         // Close the loading indicator
         Navigator.pop(context);
 
-        // Navigate to the success screen
-        Navigator.pushReplacementNamed(
+        //Navigate to the success screen
+        Navigator.push(
           context,
-          '/main',
-          arguments: MainPage(profileInfo: profileInfo),
+          MaterialPageRoute(builder: (context) => MainPage(profileInfo: profileInfo)),
         );
+
+        setState(() {
+          // Clear the content of the page
+          answers = List.filled(questions.length, ''); // Reset answers
+        });
+
       } catch (e) {
         print('Error during processing: $e');
         // Handle errors as needed
