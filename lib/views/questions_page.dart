@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
-import 'package:final_project/models/profile_info.dart';
-import 'package:final_project/models/user_account.dart';
-import 'package:final_project/service/service.dart';
 import 'package:intl/intl.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
+import 'package:final_project/models/profile_info.dart';
+import 'package:final_project/models/user_account.dart';
+import 'package:final_project/controller/user_account_service.dart';
 import 'main_page.dart';
 
 class QuestionsPage extends StatefulWidget {
@@ -34,7 +33,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
   List<TextEditingController> controllers =
       List.generate(8, (index) => TextEditingController());
   final currentUser = FirebaseAuth.instance.currentUser;
-  final Service _service = Service();
+  final UserAccountService _userAccountService = UserAccountService();
   DateTime selectedDate = DateTime.now();
 
   // Add the dateController
@@ -141,9 +140,9 @@ class _QuestionsPageState extends State<QuestionsPage> {
                             imageUrl: "",
                           );
 
-                          profileInfo.calorieIntake = _service
+                          profileInfo.calorieIntake = _userAccountService
                               .calculateDailyCalorieIntake(profileInfo);
-                          print(_service
+                          print(_userAccountService
                               .calculateDailyCalorieIntake(profileInfo));
                           _submitAnswers();
                         });
@@ -516,7 +515,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
         );
 
         profileInfo.calorieIntake =
-            _service.calculateDailyCalorieIntake(profileInfo);
+            _userAccountService.calculateDailyCalorieIntake(profileInfo);
 
         UserAccount userAccount = UserAccount(
           uid: currentUser!.uid,
@@ -525,11 +524,11 @@ class _QuestionsPageState extends State<QuestionsPage> {
         );
 
         if (currentUser != null) {
-          String? id = await _service.profileExists();
+          String? id = await _userAccountService.profileExists();
           if (id != null) {
-            _service.updateUserProfile(userAccount, id);
+            _userAccountService.updateUserProfile(userAccount, id);
           } else {
-            _service.saveUserProfile(userAccount);
+            _userAccountService.saveUserProfile(userAccount);
           }
         }
 

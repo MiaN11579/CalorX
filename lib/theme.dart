@@ -6,27 +6,39 @@ class ThemeProvider with ChangeNotifier {
 
   final ThemeData _lightTheme = ThemeData(
     scaffoldBackgroundColor: Colors.white,
-    cardColor: Colors.grey[200],
-    colorScheme: ColorScheme.light(
-        primary: Colors.deepPurple.shade800,
-        secondary: Colors.deepPurple,
-        tertiary: Colors.white
+    cardColor: Colors.blue[400]!.withOpacity(0.6),
+    colorScheme: const ColorScheme.light(
+        primary: Color(0xff8DEBFF),
+        secondary: Colors.white,
+        tertiary: Color(0xff6CACFF),
+      // primary: Color(0xffFDE882),
+      // secondary: Colors.deepPurple,
+      // tertiary: Color(0xffF78FAD),
     ),
-    textTheme: GoogleFonts.poppinsTextTheme(),
 
+    navigationBarTheme: const NavigationBarThemeData(
+      backgroundColor : Color(0xff98D4FF),
+    ),
+
+    textTheme: GoogleFonts.poppinsTextTheme(),
     appBarTheme: const AppBarTheme(
-      color: Colors.deepPurple,
+      color: Colors.transparent,
     ),
   );
 
   final ThemeData _darkTheme = ThemeData(
     scaffoldBackgroundColor: Colors.black,
     brightness: Brightness.dark,
-    cardColor: Colors.grey[900],
+    cardColor: Colors.grey[900]!.withOpacity(0.6),
     colorScheme: ColorScheme.dark(
         primary: Colors.blue[800]!.withOpacity(0.6),
         secondary: Colors.white,
         tertiary: Colors.indigo[800]!.withOpacity(0.4)),
+
+    navigationBarTheme: const NavigationBarThemeData(
+      backgroundColor : Color(0xff121729),
+    ),
+
     textTheme: GoogleFonts.poppinsTextTheme(),
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.transparent,

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:final_project/google_sign_in.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:final_project/service/service.dart';
+import 'package:final_project/controller/user_account_service.dart';
 
 import 'main_page.dart';
 
@@ -19,13 +19,13 @@ class AuthGate extends StatefulWidget {
 
 class _AuthGateState extends State<AuthGate> {
   ProfileInfo? _profileInfo;
-  Service? _service;
+  UserAccountService? _userAccountService;
 
   Future<void> profileExists() async {
-    _service = Service();
+    _userAccountService = UserAccountService();
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
-      _profileInfo = await _service?.getUserProfile();
+      _profileInfo = await _userAccountService?.getUserProfile();
       if (mounted) {
         setState(() {
           _profileInfo;

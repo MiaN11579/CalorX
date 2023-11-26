@@ -5,7 +5,7 @@ import 'package:final_project/models/profile_info.dart';
 import 'package:intl/intl.dart';
 import '../theme.dart';
 import 'components/gradient_background.dart';
-import 'package:final_project/service/service.dart';
+import 'package:final_project/controller/user_account_service.dart';
 
 class ProfilePage extends StatefulWidget {
   final ProfileInfo profileInfo;
@@ -21,7 +21,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final Service service = Service();
+  final UserAccountService _userAccountService = UserAccountService();
 
   Widget _buildRichTextWithBox(
       String label, String value, BuildContext context) {
@@ -37,7 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
       width: 410,
       height: boxHeight,
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
+        color: Theme.of(context).cardColor.withOpacity(0.5),
         borderRadius: const BorderRadius.all(
             Radius.circular(12)), // Adjust the radius for rounded corners
       ),
@@ -121,7 +121,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: Container(
         padding: const EdgeInsets.only(top: 80),
-        // decoration: getGradientBackground(context),
+        decoration: getGradientBackground(context),
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20.0),
           child: Column(
@@ -163,7 +163,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: IconButton(
                         onPressed: () async {
                           widget.profileInfo.imageUrl =
-                          await service.getImageFromGallery();
+                          await _userAccountService.getImageFromGallery();
                           setState(() {});
                         },
                         icon: const Icon(

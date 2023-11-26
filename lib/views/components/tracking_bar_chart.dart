@@ -13,19 +13,34 @@ List<ChartData> chartData = <ChartData>[
 ];
 
 /// Get column series with tracker
-SfCartesianChart getTrackingBarChart([int userCalorie = 0]) {
-  return SfCartesianChart(
-    margin: const EdgeInsets.all(20.0),
-    plotAreaBorderWidth: 0,
-    title: ChartTitle(text: 'Weekly Calories'),
-    primaryXAxis: CategoryAxis(majorGridLines: const MajorGridLines(width: 0)),
-    primaryYAxis: NumericAxis(
-        minimum: 0,
-        maximum: getMax(chartData, userCalorie.toDouble()),
-        axisLine: const AxisLine(width: 0),
-        majorGridLines: const MajorGridLines(width: 0),
-        majorTickLines: const MajorTickLines(size: 0)),
-    series: getColumnSeries(chartData, userCalorie.toDouble()),
+Card getTrackingBarChart(ThemeData themeData, [double userCalorie = 0]) {
+  return Card(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(50),
+    ),
+    color: themeData.cardColor,
+    elevation: 0,
+    child: SfCartesianChart(
+      margin: const EdgeInsets.all(20.0),
+      plotAreaBorderWidth: 0,
+      title: ChartTitle(
+        text: 'Weekly Calories',
+        textStyle: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: themeData.colorScheme.secondary,
+        ),
+      ),
+      primaryXAxis:
+          CategoryAxis(majorGridLines: const MajorGridLines(width: 0)),
+      primaryYAxis: NumericAxis(
+          minimum: 0,
+          maximum: getMax(chartData, userCalorie),
+          axisLine: const AxisLine(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
+      series: getColumnSeries(chartData, userCalorie),
+    ),
   );
 }
 
@@ -37,11 +52,13 @@ double getMax(List<ChartData> chartData, double userCalorie) {
   return max == userCalorie ? (max + max / 6) : (max + max / 10);
 }
 
-List<CartesianSeries> getColumnSeries(List<ChartData> chartData, double userCalorie) {
+List<CartesianSeries> getColumnSeries(
+    List<ChartData> chartData, double userCalorie) {
   return <CartesianSeries>[
     // Render column series
     ColumnSeries<ChartData, String>(
         dataSource: chartData,
+
         /// We can enable the track for column here.
         isTrackVisible: true,
         trackColor: Colors.grey[800]!,

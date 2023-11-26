@@ -6,7 +6,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'components/calorie_column_chart.dart';
 import 'components/gradient_background.dart';
 import 'components/pie_chart.dart';
-import 'package:final_project/service/service.dart';
+import 'package:final_project/controller/user_account_service.dart';
 
 import 'components/tracking_bar_chart.dart';
 
@@ -20,32 +20,10 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   DateTime _selectedDate = DateTime.now();
   final PageController _controller = PageController(viewportFraction: 1);
-  final Service _service = Service();
+  final UserAccountService _userAccountService = UserAccountService();
   int? userCalorie;
 
-  final List<SfCircularChart> sfCharts = [];
-  final List<CircularChartAnnotation> _annotationSources =
-      <CircularChartAnnotation>[
-    CircularChartAnnotation(
-        angle: 0, radius: '0%', widget: const ImageIcon(
-      AssetImage("assets/images/carbs.png"),
-      // color: Colors.red,
-      size: 14,
-    ),
-    ),
-    CircularChartAnnotation(
-        angle: 0, radius: '0%', widget: const ImageIcon(
-      AssetImage("assets/images/fat.png"),
-      // color: Colors.red,
-      size: 14,
-    ),),
-    CircularChartAnnotation(
-        angle: 0, radius: '0%', widget: const ImageIcon(
-      AssetImage("assets/images/protein.png"),
-      // color: Colors.red,
-      size: 14,
-    ),)
-  ];
+  final List<Card> dailyCharts = [];
 
   final List<ChartData> chartData = [
     ChartData('Carbs', 70, const Color(0xffFFA268)),
@@ -80,14 +58,12 @@ class _DashboardPageState extends State<DashboardPage> {
         icon: const Icon(Icons.arrow_back_ios_rounded),
         onPressed: () {
           setState(() {
-            _selectedDate =
-                _selectedDate.subtract(const Duration(days: 1));
+            _selectedDate = _selectedDate.subtract(const Duration(days: 1));
           });
         },
       ),
       GestureDetector(
-        child: Text(
-            DateFormat('EE, MMM d').format(_selectedDate.toLocal())),
+        child: Text(DateFormat('EE, MMM d').format(_selectedDate.toLocal())),
         onTap: () => _selectDate(context),
       ),
       IconButton(
@@ -113,21 +89,22 @@ class _DashboardPageState extends State<DashboardPage> {
           )),
       body: Container(
         padding: const EdgeInsets.only(top: 80),
-        // decoration: getGradientBackground(context),
+        decoration: getGradientBackground(context),
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Charts", style: TextStyle(
-                fontSize: 20,
-                color: Theme.of(context).colorScheme.primary,
-              )),
+              Text("Daily Charts",
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Theme.of(context).colorScheme.primary,
+                  )),
               SizedBox(
                 height: 330,
                 child: PageView.builder(
-                  itemCount: sfCharts.length,
+                  itemCount: dailyCharts.length,
                   controller: _controller,
                   itemBuilder: (context, index) {
                     return ListenableBuilder(
@@ -140,14 +117,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         return Center(
                           child: SizedBox(
                             height: 300 + (factor * 30),
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                              color: Theme.of(context).cardColor,
-                              elevation: 0,
-                              child: sfCharts[index],
-                            ),
+                            child: dailyCharts[index],
                           ),
                         );
                       },
@@ -155,30 +125,30 @@ class _DashboardPageState extends State<DashboardPage> {
                   },
                 ),
               ),
-              const SizedBox(height: 60,),
-              SizedBox(
-                height: 330,
-                child:  Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  color: Theme.of(context).cardColor,
-                  elevation: 0,
-                  child: userCalorie == null ? getCalorieColumnChart() : getCalorieColumnChart(userCalorie!),
+              const SizedBox(
+                height: 60,
+              ),
+              Text(
+                "Weekly Charts",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
-              const SizedBox(height: 60,),
               SizedBox(
                 height: 330,
-                child:  Card(
+                child: Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50),
                   ),
-                  color: Theme.of(context).cardColor,
+                  color: Theme.of(context).cardColor.withOpacity(0.5),
                   elevation: 0,
-                  child: userCalorie == null ? getTrackingBarChart() : getTrackingBarChart(userCalorie!),
+                  child: userCalorie == null
+                      ? getTrackingBarChart(Theme.of(context))
+                      : getTrackingBarChart(
+                          Theme.of(context), userCalorie!.toDouble()),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -187,16 +157,19 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   void createCharts() {
-    sfCharts.add(getPieChart(chartData, userCalorie!.toDouble()));
-    sfCharts.add(getRadialChart(chartData));
+    dailyCharts
+        .add(getCalorieColumnChart(Theme.of(context), userCalorie!.toDouble()));
+    dailyCharts.add(
+        getPieChart(Theme.of(context), chartData, userCalorie!.toDouble()));
+    dailyCharts.add(getRadialChart(Theme.of(context), chartData));
 
     setState(() {
-      sfCharts;
+      dailyCharts;
     });
   }
 
   void initDashboard() async {
-    userCalorie = await _service.getUserCalorie();
+    userCalorie = await _userAccountService.getUserCalorie();
     setState(() {
       userCalorie;
     });
@@ -206,6 +179,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
 class ChartData {
   ChartData(this.x, this.y, [this.color = Colors.white]);
+
   final String x;
   final double y;
   final Color color;
