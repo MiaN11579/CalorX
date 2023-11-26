@@ -1,8 +1,14 @@
+import 'package:final_project/views/components/radial_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import 'components/calorie_column_chart.dart';
 import 'components/gradient_background.dart';
+import 'components/pie_chart.dart';
+import 'package:final_project/service/service.dart';
+
+import 'components/tracking_bar_chart.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);
@@ -14,6 +20,8 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   DateTime _selectedDate = DateTime.now();
   final PageController _controller = PageController(viewportFraction: 1);
+  final Service _service = Service();
+  int? userCalorie;
 
   final List<SfCircularChart> sfCharts = [];
   final List<CircularChartAnnotation> _annotationSources =
@@ -40,15 +48,15 @@ class _DashboardPageState extends State<DashboardPage> {
   ];
 
   final List<ChartData> chartData = [
-    ChartData('Carbs', 70, Colors.deepOrange),
-    ChartData('Fat', 165, Colors.teal),
-    ChartData('Protein', 110, Colors.blueAccent),
+    ChartData('Carbs', 70, const Color(0xffFFA268)),
+    ChartData('Fat', 165, const Color(0xff2FDAC6)),
+    ChartData('Protein', 110, const Color(0xffEF6461)),
   ];
 
   @override
   void initState() {
     super.initState();
-    createCharts();
+    initDashboard();
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -119,7 +127,7 @@ class _DashboardPageState extends State<DashboardPage> {
               SizedBox(
                 height: 330,
                 child: PageView.builder(
-                  itemCount: 2,
+                  itemCount: sfCharts.length,
                   controller: _controller,
                   itemBuilder: (context, index) {
                     return ListenableBuilder(
@@ -156,20 +164,19 @@ class _DashboardPageState extends State<DashboardPage> {
                   ),
                   color: Theme.of(context).cardColor,
                   elevation: 0,
-                  child: SfCartesianChart(
-                    margin: const EdgeInsets.all(20.0),
-                    plotAreaBorderWidth: 0,
-                    title: ChartTitle(text: 'Bar chart'),
-                    primaryXAxis:
-                    CategoryAxis(majorGridLines: const MajorGridLines(width: 0)),
-                    primaryYAxis: NumericAxis(
-                        minimum: 0,
-                        maximum: 100,
-                        axisLine: const AxisLine(width: 0),
-                        majorGridLines: const MajorGridLines(width: 0),
-                        majorTickLines: const MajorTickLines(size: 0)),
-                    series: _getTracker(),
+                  child: userCalorie == null ? getCalorieColumnChart() : getCalorieColumnChart(userCalorie!),
+                ),
+              ),
+              const SizedBox(height: 60,),
+              SizedBox(
+                height: 330,
+                child:  Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
                   ),
+                  color: Theme.of(context).cardColor,
+                  elevation: 0,
+                  child: userCalorie == null ? getTrackingBarChart() : getTrackingBarChart(userCalorie!),
                 ),
               )
             ],
@@ -180,128 +187,20 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   void createCharts() {
-    sfCharts.add(SfCircularChart(
-      margin: const EdgeInsets.all(20.0),
-      title: ChartTitle(text: 'Pie Chart'),
-      series: <CircularSeries>[
-        // Render pie chart
-        DoughnutSeries<ChartData, String>(
-          dataSource: chartData,
-          dataLabelSettings: const DataLabelSettings(isVisible: true),
-          cornerStyle: CornerStyle.bothCurve,
-          radius: '100%',
-          innerRadius: '80%',
-          pointColorMapper: (ChartData data, _) => data.color,
-          xValueMapper: (ChartData data, _) => data.x,
-          yValueMapper: (ChartData data, _) => data.y,
-        )
-      ],
-    ));
-
-    sfCharts.add(SfCircularChart(
-      // margin: const EdgeInsets.all(12.0),
-      title: ChartTitle(text: 'Radial chart'),
-      legend: Legend(
-        isVisible: true,
-        // overflowMode: LegendItemOverflowMode.wrap,
-        legendItemBuilder: (String name, dynamic series, dynamic point, int index) {
-          return SizedBox(
-              height: 65,
-              width: 120,
-              child: Row(children: <Widget>[
-                SizedBox(
-                    height: 65,
-                    width: 65,
-                    child: SfCircularChart(
-                      annotations: <CircularChartAnnotation>[
-                        _annotationSources[index],
-                      ],
-                      series: <RadialBarSeries<ChartData, String>>[
-                        RadialBarSeries<ChartData, String>(
-                            dataSource: <ChartData>[chartData[index]],
-                            maximumValue: 150,
-                            radius: '100%',
-                            cornerStyle: CornerStyle.bothCurve,
-                            xValueMapper: (ChartData data, _) =>
-                            point.x as String,
-                            yValueMapper: (ChartData data, _) => data.y,
-                            pointColorMapper: (ChartData data, _) => data.color,
-                            trackOpacity: 0.3,
-                            useSeriesColor: true,
-                            innerRadius: '75%',
-                            pointRadiusMapper: (ChartData data, _) => data.x),
-                      ],
-                    )),
-                SizedBox(
-                    width: 55,
-                    child: Text(point.x)
-                ),
-              ])
-          );
-        },
-      ),
-      series: _getRadialBarCustomizedSeries(),
-      annotations: <CircularChartAnnotation>[
-        CircularChartAnnotation(
-          angle: 0,
-          widget: const Text("TEST"),
-        ),
-      ],
-    ));
+    sfCharts.add(getPieChart(chartData, userCalorie!.toDouble()));
+    sfCharts.add(getRadialChart(chartData));
 
     setState(() {
       sfCharts;
     });
   }
 
-  /// Returns radial bar which need to be customized.
-  List<RadialBarSeries<ChartData, String>> _getRadialBarCustomizedSeries() {
-    return <RadialBarSeries<ChartData, String>>[
-      RadialBarSeries<ChartData, String>(
-        maximumValue: 150,
-        gap: '10%',
-        radius: '100%',
-        dataSource: chartData,
-        cornerStyle: CornerStyle.bothCurve,
-        innerRadius: '50%',
-        trackOpacity: 0.3,
-        useSeriesColor: true,
-        legendIconType: LegendIconType.circle,
-        xValueMapper: (ChartData data, _) => data.x,
-        yValueMapper: (ChartData data, _) => data.y,
-        pointRadiusMapper: (ChartData data, _) => data.x,
-        pointColorMapper: (ChartData data, _) => data.color,
-      ),
-    ];
-  }
-
-  /// Get column series with tracker
-  List<ColumnSeries<ChartData, String>> _getTracker() {
-    return <ColumnSeries<ChartData, String>>[
-      ColumnSeries<ChartData, String>(
-          dataSource: <ChartData>[
-            ChartData('Mon', 71),
-            ChartData('Tue', 84),
-            ChartData('Wed', 48),
-            ChartData('Thu', 80),
-            ChartData('Fri', 76),
-            ChartData('Sat', 80),
-            ChartData('Sun', 76),
-          ],
-
-          /// We can enable the track for column here.
-          isTrackVisible: true,
-          trackColor: const Color.fromRGBO(198, 201, 207, 1),
-          color: Colors.amber[800],
-          borderRadius: BorderRadius.circular(15),
-          xValueMapper: (ChartData data, _) => data.x,
-          yValueMapper: (ChartData data, _) => data.y,
-          name: 'Marks',
-          dataLabelSettings: const DataLabelSettings(
-              isVisible: true,
-              labelAlignment: ChartDataLabelAlignment.top,
-              textStyle: TextStyle(fontSize: 10, color: Colors.white)))
-    ];
+  void initDashboard() async {
+    userCalorie = await _service.getUserCalorie();
+    setState(() {
+      userCalorie;
+    });
+    createCharts();
   }
 }
 

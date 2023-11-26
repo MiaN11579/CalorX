@@ -68,6 +68,23 @@ class Service {
       return null;
     }
   }
+
+  Future<int?> getUserCalorie() async {
+    final snapshot = await userCollection.get();
+    if (snapshot.docs.isNotEmpty) {
+      // Retrieve profileInfo from the first entry
+      Map<String, dynamic> data = snapshot.docs.first.data() as Map<String, dynamic>;
+      if (data.containsKey('profileInfo')) {
+        final info = data['profileInfo'];
+        return info['calorieIntake'];
+      } else {
+        debugPrint('Error: The entry does not contain profileInfo.');
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
   //for the image in profile_page
   Future<String> uploadImageToStorage(File imageFile, String userId) async {
     try {
