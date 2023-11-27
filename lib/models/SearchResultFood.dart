@@ -38,7 +38,7 @@ class SearchResultFood {
     final datatype = data['datatype'];
     final description = data['description'];
     final foodCode = data['foodCode']?.toString();
-    final foodNutrient = data['foodNutrient'] as List<dynamic>?;
+    final foodNutrient = data['foodNutrients'] as List<dynamic>?;
     final publicationDate = data['publicationDate'];
     final scientificName = data['scientificName'];
     final brandOwner = data['brandOwner'];

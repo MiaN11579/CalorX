@@ -1,3 +1,4 @@
+import 'package:final_project/models/SearchResultFood.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:async';
@@ -20,13 +21,32 @@ class FoodSearchDelegate extends SearchDelegate {
   Future<String> _search() async {
     try {
       final response =
-          await http.get(Uri.parse('$urlSearch$apiKey$queryBase"$query"'));
+          await http.get(Uri.parse('$urlSearch$apiKey$queryBase"$query"&dataType=Branded'));
       return response.body;
     } catch (e) {
       throw Exception(e.toString());
     }
   }
 
+  List<Widget> foodDetails(SearchResultFood food) {
+    final nutrients = food.foodNutrient;
+    var details = <Widget>[];
+    if (nutrients != null) {
+      for(var nutrient in nutrients){
+        final number = nutrient.number;
+        final name = nutrient.name;
+        final amount = nutrient.amount;
+        final unitName = nutrient.unitName;
+        final derivationCode = nutrient.derivationCode;
+        final derivationDescription = nutrient.derivationDescription;
+        final line = Text('$number, $name, $amount, $unitName, $derivationCode, $derivationDescription');
+        if (amount! > 0){
+          details.add(line);
+        }
+      }
+    }
+    return details;
+  }
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -67,11 +87,11 @@ class FoodSearchDelegate extends SearchDelegate {
                 return ListView.builder(
                     itemCount: foods.length,
                     itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(foods[index].description),
-                        onTap: () {
-                          print('tap');
-                        },
+                      return Card(
+                        child: ExpansionTile(
+                          title: Text(foods[index].description),
+                          children: foodDetails(foods[index]),
+                        ),
                       );
                     });
               } else {
