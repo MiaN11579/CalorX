@@ -526,7 +526,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
         if (currentUser != null) {
           String? id = await _userAccountService.profileExists();
           if (id != null) {
-            _userAccountService.updateUserProfile(userAccount, id);
+            _userAccountService.updateUserProfile(userAccount);
           } else {
             _userAccountService.saveUserProfile(userAccount);
           }

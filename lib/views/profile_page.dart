@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:final_project/models/profile_info.dart';
 import 'package:intl/intl.dart';
+import '../models/user_account.dart';
 import '../theme.dart';
 import 'components/gradient_background.dart';
 import 'package:final_project/controller/user_account_service.dart';
@@ -22,7 +24,16 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final UserAccountService _userAccountService = UserAccountService();
+  final currentUser = FirebaseAuth.instance.currentUser;
 
+  @override
+  Future<void> loadProfile() async {
+    super.initState();
+
+    ProfileInfo profileInfoFetched = (await _userAccountService.getUserProfile())!;
+    widget.profileInfo.imageUrl = profileInfoFetched.imageUrl;
+        
+  }
   Widget _buildRichTextWithBox(
       String label, String value, BuildContext context) {
     if (label == 'Date of Birth:') {
@@ -151,6 +162,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           : null,
                     ),
                   ),
+
                   Positioned(
                     bottom: 0,
                     right: 100,
@@ -162,9 +174,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       child: IconButton(
                         onPressed: () async {
+
                           widget.profileInfo.imageUrl =
                           await _userAccountService.getImageFromGallery();
-                          setState(() {});
+                          setState(() {
+                            UserAccount user = UserAccount(uid: currentUser!.uid, email:currentUser!.email, profileInfo: widget.profileInfo);
+                            _userAccountService.updateUserProfile(user);
+                          });
                         },
                         icon: const Icon(
                           Icons.edit,
