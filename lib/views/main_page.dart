@@ -31,22 +31,21 @@ class _MainPageState extends State<MainPage> {
               currentPageIndex = index;
             });
           },
-          indicatorColor: Colors.deepPurple,
+          indicatorColor: const Color(0xffFDBBBC),
           selectedIndex: currentPageIndex,
           destinations: const <Widget>[
             NavigationDestination(
-              selectedIcon: Icon(Icons.dashboard_outlined),
-              icon: Icon(Icons.dashboard),
-
+              selectedIcon: Icon(Icons.dashboard_outlined, color: Colors.white,),
+              icon: Icon(Icons.dashboard, color: Colors.white,),
               label: 'Dashboard',
             ),
             NavigationDestination(
-              icon: Icon(Icons.list_alt),
+              icon: Icon(Icons.list_alt, color: Colors.white,),
               label: 'Logs',
             ),
             NavigationDestination(
-              selectedIcon: Icon(Icons.person_outline),
-              icon: Icon(Icons.person),
+              selectedIcon: Icon(Icons.person_outline, color: Colors.white,),
+              icon: Icon(Icons.person, color: Colors.white,),
               label: 'Profile',
             ),
           ],

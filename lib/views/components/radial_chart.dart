@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../dashboard_page.dart';
@@ -18,7 +17,7 @@ Card getRadialChart(ThemeData themeData, List<ChartData> chartData) {
         textStyle: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          color: themeData.colorScheme.secondary,
+          color: themeData.colorScheme.primary,
         ),
       ),
       legend: Legend(

@@ -26,7 +26,7 @@ class FoodEntryService {
   }
 
   /// Deletes a car with the specified [id] from Firestore.
-  Future<void> removeEntry(String id, List<String>? imageNames) async {
+  Future<void> removeEntry(String id) async {
     try {
       // Remove entry from Firestore
       await entryCollection.doc(id).delete();
