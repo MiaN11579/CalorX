@@ -10,6 +10,8 @@ import 'package:image_picker/image_picker.dart';
 
 class UserAccountService {
   final CollectionReference userCollection;
+  final currentUser = FirebaseAuth.instance.currentUser;
+
 
   UserAccountService()
       : userCollection = FirebaseFirestore.instance
@@ -29,11 +31,11 @@ class UserAccountService {
     }
   }
 
-  Future<void> updateUserProfile(UserAccount user, String id) async {
+  Future<void> updateUserProfile(UserAccount user) async {
     debugPrint(FirebaseAuth.instance.currentUser!.uid);
     try {
       // Save the user data to Firestore
-      await userCollection.doc(id).update(user.toMap());
+      await userCollection.doc(await profileExists()).update(user.toMap());
     } catch (e) {
       // Handle any errors that occur during the save process
       debugPrint('Error updating user profile: $e');
@@ -58,7 +60,7 @@ class UserAccountService {
           goal: info['goal'],
           duration: info['duration'],
           calorieIntake: info['calorieIntake'],
-          imageUrl: "",
+          imageUrl: info['imageUrl'],
         );
       } else {
         debugPrint('Error: The entry does not contain profileInfo.');
@@ -89,9 +91,22 @@ class UserAccountService {
   Future<String> uploadImageToStorage(File imageFile, String userId) async {
     try {
       FirebaseStorage storage = FirebaseStorage.instance;
-      Reference storageReference = storage.ref().child('users/$userId/images/${DateTime.now().millisecondsSinceEpoch.toString()}');
-      UploadTask uploadTask = storageReference.putFile(imageFile);
-      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
+      String imagePath = 'users/${currentUser!.uid}/images';
+      String imageName = '${currentUser!.uid}';
+
+      // Check if the user already has an image
+      bool userHasImage = await storage.ref('$imagePath/$imageName').listAll().then((result) => result.items.isNotEmpty);
+
+      Reference storageReference = storage.ref().child('$imagePath/$imageName');
+
+      if (userHasImage) {
+        // If the user already has an image, update the existing image
+        await storageReference.putFile(imageFile);
+      } else {
+        // If the user doesn't have an image, upload a new image
+        UploadTask uploadTask = storageReference.putFile(imageFile);
+        await uploadTask.whenComplete(() {});
+      }
 
       String imageUrl = await storageReference.getDownloadURL();
       return imageUrl;
@@ -99,6 +114,7 @@ class UserAccountService {
       throw Exception('Error uploading image: $e');
     }
   }
+
   Future<String> getImageFromGallery() async {
     var user = FirebaseAuth.instance.currentUser;
     final picker = ImagePicker();
