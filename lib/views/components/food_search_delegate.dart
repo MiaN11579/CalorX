@@ -17,11 +17,12 @@ class FoodSearchDelegate extends SearchDelegate {
   String urlSearch = 'https://api.nal.usda.gov/fdc/v1/foods/search?api_key=';
   String apiKey = '5Zwsmg1lLYSeaQ9Yx0T1rbstPEIjdQJjA6T56vzn';
   String queryBase = '&query=';
+  String dataType = 'Foundation,Survey (FNDDS),Branded';
 
   Future<String> _search() async {
     try {
       final response =
-          await http.get(Uri.parse('$urlSearch$apiKey$queryBase"$query"&dataType=Branded'));
+          await http.get(Uri.parse('$urlSearch$apiKey$queryBase"$query"&dataType=$dataType'));
       return response.body;
     } catch (e) {
       throw Exception(e.toString());
