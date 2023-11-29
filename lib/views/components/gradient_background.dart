@@ -5,8 +5,8 @@ BoxDecoration getGradientBackground(BuildContext context) {
       gradient: LinearGradient(
           colors: [
             Theme.of(context).colorScheme.tertiary,
-            Theme.of(context).colorScheme.secondary,
-            // Theme.of(context).colorScheme.primary,
+            // Theme.of(context).colorScheme.secondary,
+            Theme.of(context).colorScheme.primary,
           ],
           stops: const [0.5, 1],
           begin: Alignment.bottomLeft,

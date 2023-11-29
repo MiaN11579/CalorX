@@ -52,7 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
       text: TextSpan(
         style: TextStyle(
           fontSize: 20,
-          color: Theme.of(context).colorScheme.primary,
+          color: Theme.of(context).colorScheme.secondary,
         ),
         children: [
           TextSpan(

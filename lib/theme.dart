@@ -6,23 +6,23 @@ class ThemeProvider with ChangeNotifier {
 
   final ThemeData _lightTheme = ThemeData(
     scaffoldBackgroundColor: Colors.white,
-    cardColor: const Color(0xffFFC5C0).withOpacity(0.6),
+    cardColor: Colors.blue[400]!.withOpacity(0.6),
     colorScheme: const ColorScheme.light(
-      primary: Colors.white,
-      secondary: Color(0xffFDE882),
-      tertiary: Color(0xffF78FAD),
+        primary: Color(0xff8DEBFF),
+        secondary: Colors.white,
+        tertiary: Color(0xff6CACFF),
+      // primary: Color(0xffFDE882),
+      // secondary: Colors.deepPurple,
+      // tertiary: Color(0xffF78FAD),
     ),
-    navigationBarTheme: NavigationBarThemeData(
-      backgroundColor: const Color(0xffF4668F),
-      labelTextStyle: MaterialStateProperty.resolveWith<TextStyle>(
-        (Set<MaterialState> states) => const TextStyle(color: Colors.white),
-      ),
+
+    navigationBarTheme: const NavigationBarThemeData(
+      backgroundColor : Color(0xff98D4FF),
     ),
+
     textTheme: GoogleFonts.poppinsTextTheme(),
     appBarTheme: const AppBarTheme(
       color: Colors.transparent,
-      titleTextStyle: TextStyle(color: Colors.white, fontSize: 24),
-      iconTheme: IconThemeData(color: Colors.white),
     ),
   );
 
@@ -31,12 +31,14 @@ class ThemeProvider with ChangeNotifier {
     brightness: Brightness.dark,
     cardColor: Colors.grey[900]!.withOpacity(0.6),
     colorScheme: ColorScheme.dark(
-        primary: Colors.white,
-        secondary: Colors.blue[800]!.withOpacity(0.6),
+        primary: Colors.blue[800]!.withOpacity(0.6),
+        secondary: Colors.white,
         tertiary: Colors.indigo[800]!.withOpacity(0.4)),
+
     navigationBarTheme: const NavigationBarThemeData(
-      backgroundColor: Color(0xff121729),
+      backgroundColor : Color(0xff121729),
     ),
+
     textTheme: GoogleFonts.poppinsTextTheme(),
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.transparent,

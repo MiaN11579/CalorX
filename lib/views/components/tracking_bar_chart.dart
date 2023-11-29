@@ -28,7 +28,7 @@ Card getTrackingBarChart(ThemeData themeData, [double userCalorie = 0]) {
         textStyle: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          color: themeData.colorScheme.primary,
+          color: themeData.colorScheme.secondary,
         ),
       ),
       primaryXAxis:
