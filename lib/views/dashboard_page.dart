@@ -99,7 +99,7 @@ class _DashboardPageState extends State<DashboardPage> {
               Text("Daily Charts",
                   style: TextStyle(
                     fontSize: 20,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: Theme.of(context).scaffoldBackgroundColor,
                   )),
               SizedBox(
                 height: 330,
@@ -132,22 +132,17 @@ class _DashboardPageState extends State<DashboardPage> {
                 "Weekly Charts",
                 style: TextStyle(
                   fontSize: 20,
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                 ),
               ),
               SizedBox(
                 height: 330,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  color: Theme.of(context).cardColor.withOpacity(0.5),
-                  elevation: 0,
-                  child: userCalorie == null
-                      ? getTrackingBarChart(Theme.of(context))
-                      : getTrackingBarChart(
-                          Theme.of(context), userCalorie!.toDouble()),
-                ),
+                child: userCalorie == null
+                    ? getTrackingBarChart(Theme.of(context))
+                    : getTrackingBarChart(
+                        Theme.of(context),
+                        userCalorie!.toDouble(),
+                      ),
               ),
             ],
           ),

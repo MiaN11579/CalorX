@@ -8,7 +8,7 @@ class ThemeProvider with ChangeNotifier {
     scaffoldBackgroundColor: Colors.white,
     cardColor: const Color(0xffFFC5C0).withOpacity(0.6),
     colorScheme: const ColorScheme.light(
-      primary: Colors.white,
+      primary: Colors.black,
       secondary: Color(0xffFDE882),
       tertiary: Color(0xffF78FAD),
     ),
@@ -18,7 +18,7 @@ class ThemeProvider with ChangeNotifier {
         (Set<MaterialState> states) => const TextStyle(color: Colors.white),
       ),
     ),
-    textTheme: GoogleFonts.poppinsTextTheme(),
+    // textTheme: GoogleFonts.poppinsTextTheme(),
     appBarTheme: const AppBarTheme(
       color: Colors.transparent,
       titleTextStyle: TextStyle(color: Colors.white, fontSize: 24),

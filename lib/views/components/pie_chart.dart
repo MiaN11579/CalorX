@@ -16,10 +16,10 @@ Card getPieChart(
       margin: const EdgeInsets.all(20.0),
       title: ChartTitle(
         text: 'Macros',
-        textStyle: TextStyle(
+        textStyle: const TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          color: themeData.colorScheme.primary,
+          color: Colors.white,
         ),
       ),
       series: <CircularSeries>[

@@ -25,10 +25,10 @@ Card getTrackingBarChart(ThemeData themeData, [double userCalorie = 0]) {
       plotAreaBorderWidth: 0,
       title: ChartTitle(
         text: 'Weekly Calories',
-        textStyle: TextStyle(
+        textStyle: const TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          color: themeData.colorScheme.primary,
+          color: Colors.white,
         ),
       ),
       primaryXAxis:

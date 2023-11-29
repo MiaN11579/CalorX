@@ -89,14 +89,15 @@ class _LogPageState extends State<LogPage> {
                 children: [
                   Icon(label == "Breakfast" ? Icons.free_breakfast :
                   label=="Lunch" ? Icons.lunch_dining : label == "Dinner" ? Icons.dinner_dining : Icons.apple,
-                    color: Theme.of(context).colorScheme.primary,),
-                  SizedBox(width: 10,),
+                    color: Colors.white,
+                  ),
+                  const SizedBox(width: 10,),
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      "$label",
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
+                      label,
+                      style: const TextStyle(
+                        color: Colors.white,
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
@@ -110,8 +111,8 @@ class _LogPageState extends State<LogPage> {
                 itemBuilder: (context, index) {
                   return Text(
                     foodItems[index],
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
+                    style: const TextStyle(
+                      color: Colors.white,
                       fontSize: 15,
                     ),
                   );
@@ -124,7 +125,7 @@ class _LogPageState extends State<LogPage> {
           bottom: 0,
           right: 0,
           child: Container(
-            margin: EdgeInsets.all(12),
+            margin: const EdgeInsets.all(12),
             child: ElevatedButton(
               onPressed: () {
                 showSearch(

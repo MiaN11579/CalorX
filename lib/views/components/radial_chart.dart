@@ -14,10 +14,10 @@ Card getRadialChart(ThemeData themeData, List<ChartData> chartData) {
       // margin: const EdgeInsets.all(12.0),
       title: ChartTitle(
         text: 'Radial chart',
-        textStyle: TextStyle(
+        textStyle: const TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          color: themeData.colorScheme.primary,
+          color: Colors.white,
         ),
       ),
       legend: Legend(
