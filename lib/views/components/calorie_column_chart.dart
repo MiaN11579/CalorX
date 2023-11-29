@@ -19,10 +19,10 @@ Card getCalorieColumnChart(ThemeData themeData, double userCalorie) {
       plotAreaBorderWidth: 0,
       title: ChartTitle(
         text: 'Today Calories',
-        textStyle: TextStyle(
+        textStyle: const TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          color: themeData.colorScheme.secondary,
+          color: Colors.white,
         ),
       ),
       primaryXAxis:

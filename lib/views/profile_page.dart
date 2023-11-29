@@ -1,15 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:final_project/models/profile_info.dart';
 import 'package:intl/intl.dart';
+import '../models/user_account.dart';
 import '../theme.dart';
 import 'components/gradient_background.dart';
 import 'package:final_project/controller/user_account_service.dart';
 
 class ProfilePage extends StatefulWidget {
   final ProfileInfo profileInfo;
-
 
   const ProfilePage({
     Key? key,
@@ -22,6 +23,16 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final UserAccountService _userAccountService = UserAccountService();
+  final currentUser = FirebaseAuth.instance.currentUser;
+
+  @override
+  Future<void> loadProfile() async {
+    super.initState();
+
+    ProfileInfo profileInfoFetched =
+        (await _userAccountService.getUserProfile())!;
+    widget.profileInfo.imageUrl = profileInfoFetched.imageUrl;
+  }
 
   Widget _buildRichTextWithBox(
       String label, String value, BuildContext context) {
@@ -31,7 +42,10 @@ class _ProfilePageState extends State<ProfilePage> {
       value = formattedDate;
     }
 
-    double boxHeight = (label == 'Activity Level:' || label == 'Recommended Daily Calorie Intake:') ? 90 : 65;
+    double boxHeight = (label == 'Activity Level:' ||
+            label == 'Recommended Daily Calorie Intake:')
+        ? 90
+        : 65;
 
     return Container(
       width: 410,
@@ -52,7 +66,7 @@ class _ProfilePageState extends State<ProfilePage> {
       text: TextSpan(
         style: TextStyle(
           fontSize: 20,
-          color: Theme.of(context).colorScheme.secondary,
+          // color: Theme.of(context).colorScheme.primary,
         ),
         children: [
           TextSpan(
@@ -96,7 +110,22 @@ class _ProfilePageState extends State<ProfilePage> {
                 MaterialPageRoute<ProfileScreen>(
                   builder: (context) => ProfileScreen(
                     appBar: AppBar(
-                      title: const Text('User Profile'),
+                      title: const Text(
+                        'User Profile',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                        ),
+                      ),
+                      leading: InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Icon(
+                          Icons.arrow_back,
+                          color: Colors.black54,
+                        ),
+                      ),
                     ),
                     actions: [
                       SignedOutAction((context) {
@@ -140,14 +169,14 @@ class _ProfilePageState extends State<ProfilePage> {
                           : null,
                       child: widget.profileInfo.imageUrl.isEmpty
                           ? Text(
-                        widget.profileInfo.name.isNotEmpty
-                            ? widget.profileInfo.name[0].toUpperCase()
-                            : '?',
-                        style: const TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )
+                              widget.profileInfo.name.isNotEmpty
+                                  ? widget.profileInfo.name[0].toUpperCase()
+                                  : '?',
+                              style: const TextStyle(
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
                           : null,
                     ),
                   ),
@@ -157,14 +186,21 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Container(
                       padding: EdgeInsets.all(4),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.8), // Adjust opacity as needed
+                        color: Colors.white.withOpacity(0.8),
+                        // Adjust opacity as needed
                         shape: BoxShape.circle,
                       ),
                       child: IconButton(
                         onPressed: () async {
                           widget.profileInfo.imageUrl =
-                          await _userAccountService.getImageFromGallery();
-                          setState(() {});
+                              await _userAccountService.getImageFromGallery();
+                          setState(() {
+                            UserAccount user = UserAccount(
+                                uid: currentUser!.uid,
+                                email: currentUser!.email,
+                                profileInfo: widget.profileInfo);
+                            _userAccountService.updateUserProfile(user);
+                          });
                         },
                         icon: const Icon(
                           Icons.edit,
@@ -179,20 +215,20 @@ class _ProfilePageState extends State<ProfilePage> {
               Center(
                 child: Text(
                   'Hey ${widget.profileInfo.name}!',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: Colors.white,
                   ),
                 ),
               ),
               const SizedBox(height: 22),
-              Text(
+              const Text(
                 'About',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Colors.white,
                 ),
               ),
               const SizedBox(height: 14),
@@ -216,10 +252,8 @@ class _ProfilePageState extends State<ProfilePage> {
               _buildRichTextWithBox(
                   'Duration:', widget.profileInfo.duration, context),
               const SizedBox(height: 8),
-              _buildRichTextWithBox(
-                  'Recommended Daily Calorie Intake:',
-                  '${widget.profileInfo.calorieIntake} Calories',
-                  context),
+              _buildRichTextWithBox('Recommended Daily Calorie Intake:',
+                  '${widget.profileInfo.calorieIntake} Calories', context),
               const SizedBox(height: 8),
             ],
           ),
