@@ -5,6 +5,7 @@ import 'package:fraction/fraction.dart';
 class FoodEntry {
   final String? id;
   final DateTime date;
+  final String name;
   final MixedFraction amount;
   final double calories;
   final double carbs;
@@ -14,6 +15,7 @@ class FoodEntry {
   FoodEntry({
     this.id,
     required this.date,
+    required this.name,
     required this.amount,
     required this.calories,
     required this.carbs,
@@ -33,6 +35,7 @@ class FoodEntry {
     return FoodEntry(
       id: doc.id,
       date: map['date'] ?? '',
+      name: map['name'] ?? '',
       amount: map['amount'] ?? '',
       calories: map['calories'] ?? '',
       carbs: map['carbs'] ?? '',
