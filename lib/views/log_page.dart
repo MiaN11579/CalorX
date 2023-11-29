@@ -127,13 +127,14 @@ class _LogPageState extends State<LogPage> {
           child: Container(
             margin: const EdgeInsets.all(12),
             child: ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
               onPressed: () {
                 showSearch(
                     context: context, delegate: FoodSearchDelegate());
               },
               child:  Text(
                 'Add food',
-                style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+                style: TextStyle(color: const Color(0xffF4668F)),
               ),
             ),
           ),
