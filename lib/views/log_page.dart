@@ -6,7 +6,6 @@ import 'components/food_search_delegate.dart';
 import 'components/gradient_background.dart';
 import 'package:final_project/models/meal.dart';
 
-
 class LogPage extends StatefulWidget {
   const LogPage({super.key});
 
@@ -18,17 +17,38 @@ class _LogPageState extends State<LogPage> {
   DateTime _selectedDate = DateTime.now();
 
   //create a meal object using the food entries user has added
-  Meal  myMeal = Meal(
-  breakfast: [
-  FoodEntry(date: DateTime.now(), name: "eggs", amount: MixedFraction(denominator: 4, numerator: 3, whole: 1), calories: 70, carbs: 0, fat: 0, protein: 0),
-  FoodEntry(date: DateTime.now(), name: "coffee", amount: MixedFraction(denominator: 4, numerator: 3, whole: 1), calories: 70, carbs: 0, fat: 0, protein: 0),
-  FoodEntry(date: DateTime.now(), name: "toast", amount: MixedFraction(denominator: 4, numerator: 3, whole: 1), calories: 70, carbs: 0, fat: 0, protein: 0)
-  ],
-  lunch: [],dinner: [],snack: []);
+  Meal myMeal = Meal(breakfast: [
+    FoodEntry(
+        date: DateTime.now(),
+        name: "eggs",
+        amount: MixedFraction(denominator: 4, numerator: 3, whole: 1),
+        calories: 70,
+        carbs: 0,
+        fat: 0,
+        protein: 0),
+    FoodEntry(
+        date: DateTime.now(),
+        name: "coffee",
+        amount: MixedFraction(denominator: 4, numerator: 3, whole: 1),
+        calories: 70,
+        carbs: 0,
+        fat: 0,
+        protein: 0),
+    FoodEntry(
+        date: DateTime.now(),
+        name: "toast",
+        amount: MixedFraction(denominator: 4, numerator: 3, whole: 1),
+        calories: 70,
+        carbs: 0,
+        fat: 0,
+        protein: 0)
+  ], lunch: [], dinner: [], snack: []);
 
   late List<String> breakfastItems = [];
+
   List<String> initializeBreakfastItems() {
-    breakfastItems = myMeal.breakfast!.map((foodEntry) => foodEntry.name).toList();
+    breakfastItems =
+        myMeal.breakfast!.map((foodEntry) => foodEntry.name).toList();
     return breakfastItems;
   }
 
@@ -43,84 +63,87 @@ class _LogPageState extends State<LogPage> {
             children: getAppBarCalendar(),
           )),
       body: Center(
-        child: Container(
-
-            decoration: getGradientBackground(context),
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(20.0),
-
-              child: Column(
-              children: [
-                SizedBox(height: 70,),
-                _buildBox("Breakfast", initializeBreakfastItems()),
-                SizedBox(height: 20,),
-                _buildBox("Lunch", []),
-                SizedBox(height: 20,),
-                _buildBox("Dinner", []),
-                SizedBox(height: 20,),
-                _buildBox("Snack", []),
-                SizedBox(height: 20,),
-
-              ],
-            ),
+          child: Container(
+        padding: const EdgeInsets.only(top: 80),
+        decoration: getGradientBackground(context),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            children: [
+              _buildBox("Breakfast", initializeBreakfastItems()),
+              const SizedBox(height: 20),
+              _buildBox("Lunch", []),
+              const SizedBox(height: 20),
+              _buildBox("Dinner", []),
+              const SizedBox(height: 20),
+              _buildBox("Snack", []),
+              const SizedBox(height: 20),
+            ],
           ),
-        )
-      ),
+        ),
+      )),
     );
   }
 
-
-  Widget _buildBox(String label, List<String>? foodItems){
+  Widget _buildBox(String label, List<String>? foodItems) {
     return Stack(
       children: [
         Container(
-          width: 380,
-          height: 200,
-          decoration: BoxDecoration(
-            color: Theme.of(context).cardColor.withOpacity(0.5),
-            borderRadius: const BorderRadius.all(
-              Radius.circular(12),
+            width: 380,
+            height: 200,
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor.withOpacity(0.5),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(12),
+              ),
             ),
-          ),
-          padding: const EdgeInsets.all(19),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Icon(label == "Breakfast" ? Icons.free_breakfast :
-                  label=="Lunch" ? Icons.lunch_dining : label == "Dinner" ? Icons.dinner_dining : Icons.apple,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(width: 10,),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      label,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+            padding: const EdgeInsets.all(19),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      label == "Breakfast"
+                          ? Icons.free_breakfast
+                          : label == "Lunch"
+                              ? Icons.lunch_dining
+                              : label == "Dinner"
+                                  ? Icons.dinner_dining
+                                  : Icons.apple,
+                      color: Colors.white,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        label,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
+                  ],
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: foodItems!.length,
+                    itemBuilder: (context, index) {
+                      return Text(
+                        foodItems[index],
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                        ),
+                      );
+                    },
                   ),
-                ],
-              ),
-              Expanded(child:
-              ListView.builder(
-                itemCount: foodItems!.length,
-                itemBuilder: (context, index) {
-                  return Text(
-                    foodItems[index],
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                    ),
-                  );
-                },
-              ),)
-            ],
-          )
-        ),
+                )
+              ],
+            )),
         Positioned(
           bottom: 0,
           right: 0,
@@ -129,10 +152,9 @@ class _LogPageState extends State<LogPage> {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
               onPressed: () {
-                showSearch(
-                    context: context, delegate: FoodSearchDelegate());
+                showSearch(context: context, delegate: FoodSearchDelegate());
               },
-              child:  Text(
+              child: Text(
                 'Add food',
                 style: TextStyle(color: const Color(0xffF4668F)),
               ),

@@ -31,7 +31,6 @@ class _MainPageState extends State<MainPage> {
               currentPageIndex = index;
             });
           },
-          indicatorColor: const Color(0xffFDBBBC),
           selectedIndex: currentPageIndex,
           destinations: const <Widget>[
             NavigationDestination(

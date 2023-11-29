@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../dashboard_page.dart';
@@ -15,13 +14,23 @@ Card getPieChart(
     child: SfCircularChart(
       margin: const EdgeInsets.all(20.0),
       title: ChartTitle(
-        text: 'Macros',
+        text: 'My Macros',
         textStyle: const TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
           color: Colors.white,
         ),
       ),
+      legend: const Legend(
+        position: LegendPosition.bottom,
+        textStyle: TextStyle(
+            color: Colors.white,
+            fontFamily: 'Roboto',
+            fontSize: 16,
+            fontStyle: FontStyle.italic),
+        isVisible: true,
+        isResponsive:true,
+        overflowMode: LegendItemOverflowMode.wrap),
       series: <CircularSeries>[
         // Render pie chart
         DoughnutSeries<ChartData, String>(
@@ -29,17 +38,14 @@ Card getPieChart(
           dataLabelSettings: const DataLabelSettings(isVisible: true),
           cornerStyle: CornerStyle.bothFlat,
           radius: '100%',
-          innerRadius: '70%',
+          innerRadius: '50%',
+          explodeAll: true,
+          explodeOffset: '2%',
+          explode: true,
           pointColorMapper: (ChartData data, _) => data.color,
           xValueMapper: (ChartData data, _) => data.x,
           yValueMapper: (ChartData data, _) => data.y,
         )
-      ],
-      annotations: <CircularChartAnnotation>[
-        CircularChartAnnotation(
-          angle: 0,
-          widget: Text("$userCalorie Calories"),
-        ),
       ],
     ),
   );

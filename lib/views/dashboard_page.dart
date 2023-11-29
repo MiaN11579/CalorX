@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import 'components/calorie_column_chart.dart';
+import 'components/daily_calories_chart.dart';
 import 'components/gradient_background.dart';
 import 'components/pie_chart.dart';
 import 'package:final_project/controller/user_account_service.dart';
 
-import 'components/tracking_bar_chart.dart';
+import 'components/weekly_calories_chart.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);
@@ -26,9 +26,9 @@ class _DashboardPageState extends State<DashboardPage> {
   final List<Card> dailyCharts = [];
 
   final List<ChartData> chartData = [
-    ChartData('Carbs', 70, const Color(0xffFFA268)),
+    ChartData('Carbs', 70, const Color(0xffDD7292)),
     ChartData('Fat', 165, const Color(0xff2FDAC6)),
-    ChartData('Protein', 110, const Color(0xffEF6461)),
+    ChartData('Protein', 110, const Color(0xffDB5461)),
   ];
 
   @override
@@ -96,11 +96,12 @@ class _DashboardPageState extends State<DashboardPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Daily Charts",
+              const Text("Daily Charts",
                   style: TextStyle(
-                    fontSize: 20,
-                    color: Theme.of(context).scaffoldBackgroundColor,
+                    fontSize: 22,
+                    color: Colors.white,
                   )),
+              const SizedBox(height: 20),
               SizedBox(
                 height: 330,
                 child: PageView.builder(
@@ -125,21 +126,20 @@ class _DashboardPageState extends State<DashboardPage> {
                   },
                 ),
               ),
-              const SizedBox(
-                height: 60,
-              ),
-              Text(
+              const SizedBox(height: 50),
+              const Text(
                 "Weekly Charts",
                 style: TextStyle(
-                  fontSize: 20,
-                  color: Theme.of(context).scaffoldBackgroundColor,
+                  fontSize: 22,
+                  color: Colors.white,
                 ),
               ),
+              const SizedBox(height: 20),
               SizedBox(
                 height: 330,
                 child: userCalorie == null
-                    ? getTrackingBarChart(Theme.of(context))
-                    : getTrackingBarChart(
+                    ? getWeeklyCaloriesChart(Theme.of(context))
+                    : getWeeklyCaloriesChart(
                         Theme.of(context),
                         userCalorie!.toDouble(),
                       ),
@@ -153,7 +153,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   void createCharts() {
     dailyCharts
-        .add(getCalorieColumnChart(Theme.of(context), userCalorie!.toDouble()));
+        .add(getDailyCaloriesChart(Theme.of(context), userCalorie!.toDouble()));
     dailyCharts.add(
         getPieChart(Theme.of(context), chartData, userCalorie!.toDouble()));
     dailyCharts.add(getRadialChart(Theme.of(context), chartData));

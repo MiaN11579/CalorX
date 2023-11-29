@@ -14,11 +14,12 @@ class ThemeProvider with ChangeNotifier {
     ),
     navigationBarTheme: NavigationBarThemeData(
       backgroundColor: const Color(0xffF4668F),
+      indicatorColor: const Color(0xffFDBBBC),
       labelTextStyle: MaterialStateProperty.resolveWith<TextStyle>(
         (Set<MaterialState> states) => const TextStyle(color: Colors.white),
       ),
     ),
-    // textTheme: GoogleFonts.poppinsTextTheme(),
+    textTheme: GoogleFonts.poppinsTextTheme(),
     appBarTheme: const AppBarTheme(
       color: Colors.transparent,
       titleTextStyle: TextStyle(color: Colors.white, fontSize: 24),

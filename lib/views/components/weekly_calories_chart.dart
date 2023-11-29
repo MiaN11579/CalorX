@@ -13,7 +13,7 @@ List<ChartData> chartData = <ChartData>[
 ];
 
 /// Get column series with tracker
-Card getTrackingBarChart(ThemeData themeData, [double userCalorie = 0]) {
+Card getWeeklyCaloriesChart(ThemeData themeData, [double userCalorie = 0]) {
   return Card(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(50),
@@ -24,21 +24,37 @@ Card getTrackingBarChart(ThemeData themeData, [double userCalorie = 0]) {
       margin: const EdgeInsets.all(20.0),
       plotAreaBorderWidth: 0,
       title: ChartTitle(
-        text: 'Weekly Calories',
+        text: 'My Calories Week',
+        borderColor: Colors.transparent,
+        borderWidth: 10,
         textStyle: const TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
           color: Colors.white,
         ),
       ),
-      primaryXAxis:
-          CategoryAxis(majorGridLines: const MajorGridLines(width: 0)),
+      primaryXAxis: CategoryAxis(
+        majorGridLines: const MajorGridLines(width: 0),
+        majorTickLines:
+            const MajorTickLines(size: 15, color: Colors.transparent),
+        labelStyle: const TextStyle(
+            color: Colors.white,
+            fontFamily: 'Roboto',
+            fontSize: 16,
+            fontStyle: FontStyle.italic),
+      ),
       primaryYAxis: NumericAxis(
-          minimum: 0,
-          maximum: getMax(chartData, userCalorie),
-          axisLine: const AxisLine(width: 0),
-          majorGridLines: const MajorGridLines(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+        minimum: 0,
+        maximum: getMax(chartData, userCalorie),
+        axisLine: const AxisLine(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
+        majorTickLines: const MajorTickLines(size: 0),
+        labelStyle: const TextStyle(
+            color: Colors.white,
+            fontFamily: 'Roboto',
+            fontSize: 16,
+            fontStyle: FontStyle.italic),
+      ),
       series: getColumnSeries(chartData, userCalorie),
     ),
   );
@@ -57,19 +73,18 @@ List<CartesianSeries> getColumnSeries(
   return <CartesianSeries>[
     // Render column series
     ColumnSeries<ChartData, String>(
-        dataSource: chartData,
-
-        /// We can enable the track for column here.
-        isTrackVisible: true,
-        trackColor: Colors.grey[800]!,
-        color: Colors.greenAccent,
-        borderRadius: BorderRadius.circular(15),
-        xValueMapper: (ChartData data, _) => data.x,
-        yValueMapper: (ChartData data, _) => data.y,
-        dataLabelSettings: const DataLabelSettings(
-            isVisible: true,
-            labelAlignment: ChartDataLabelAlignment.top,
-            textStyle: TextStyle(fontSize: 10, color: Colors.white))),
+      dataSource: chartData,
+      isTrackVisible: true,
+      trackColor: Colors.indigo[800]!.withOpacity(0.4),
+      color: const Color(0xffDD7292),
+      borderRadius: BorderRadius.circular(15),
+      xValueMapper: (ChartData data, _) => data.x,
+      yValueMapper: (ChartData data, _) => data.y,
+      dataLabelSettings: const DataLabelSettings(
+          isVisible: true,
+          labelAlignment: ChartDataLabelAlignment.top,
+          textStyle: TextStyle(fontSize: 10, color: Colors.white)),
+    ),
     // Render line series
     LineSeries<ChartData, String>(
         dataSource: <ChartData>[
@@ -82,6 +97,7 @@ List<CartesianSeries> getColumnSeries(
           ChartData('Sun', userCalorie),
         ],
         xValueMapper: (ChartData data, _) => data.x,
-        yValueMapper: (ChartData data, _) => data.y)
+        yValueMapper: (ChartData data, _) => data.y,
+        pointColorMapper: (ChartData data, _) => data.color)
   ];
 }
