@@ -19,7 +19,7 @@ Card getPieChart(
         textStyle: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          color: themeData.colorScheme.secondary,
+          color: themeData.colorScheme.primary,
         ),
       ),
       series: <CircularSeries>[

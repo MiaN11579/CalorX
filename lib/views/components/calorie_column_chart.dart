@@ -22,7 +22,7 @@ Card getCalorieColumnChart(ThemeData themeData, double userCalorie) {
         textStyle: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          color: themeData.colorScheme.secondary,
+          color: themeData.colorScheme.primary,
         ),
       ),
       primaryXAxis:
