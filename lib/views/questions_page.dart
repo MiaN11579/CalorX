@@ -42,7 +42,8 @@ class _QuestionsPageState extends State<QuestionsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
         actions: [
           IconButton(
             icon: const Icon(Icons.person),
@@ -76,92 +77,98 @@ class _QuestionsPageState extends State<QuestionsPage> {
         ],
         automaticallyImplyLeading: false,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(50.0),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  color: Colors.deepPurple,
-                  onPressed: () {
-                    if (currentQuestionIndex > 0) {
-                      setState(() {
-                        currentQuestionIndex--;
-                      });
-                    }
-                  },
-                ),
-              ),
-              ),
-            const SizedBox(height: 50,),
-            Text(
-              questions[currentQuestionIndex],
-              style: Theme.of(context).textTheme.titleLarge,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: 300,
-              child: _buildInputField(),
-            ),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-
-                ElevatedButton(
-                  onPressed: () {
-                    FocusScope.of(context).unfocus(); // Dismiss the keyboard
-                    if (answers[currentQuestionIndex].isNotEmpty) {
-                      // controllers[currentQuestionIndex].clear();
-
-                      if (currentQuestionIndex < questions.length - 1) {
+      body: Container(
+        color: const Color(0xffFFC5C0).withOpacity(0.6),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(height: 70,),
+              Padding(
+                padding: const EdgeInsets.all(50.0),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    color: const Color(0xffF4668F),
+                    onPressed: () {
+                      if (currentQuestionIndex > 0) {
                         setState(() {
-                          currentQuestionIndex++;
-                        });
-                      } else {
-                        // If it's the last question, change the button text to "Submit"
-                        // and navigate to the success screen
-                        setState(() {
-                          ProfileInfo profileInfo = ProfileInfo(
-                            name: answers[0],
-                            dob: answers[1],
-                            weight: int.tryParse(answers[2]) ?? 0,
-                            height: int.tryParse(answers[3]) ?? 0,
-                            gender: answers[4],
-                            activityLevel: answers[5],
-                            goal: answers[6],
-                            duration: answers[7],
-                            calorieIntake: 0,
-                            imageUrl: "",
-                          );
-
-                          profileInfo.calorieIntake = _userAccountService
-                              .calculateDailyCalorieIntake(profileInfo);
-                          print(_userAccountService
-                              .calculateDailyCalorieIntake(profileInfo));
-                          _submitAnswers();
+                          currentQuestionIndex--;
                         });
                       }
-                    } else {
-                      print('Please answer the question');
-                    }
-                  },
-                  child: Text(
-                    currentQuestionIndex < questions.length - 1
-                        ? 'Next'
-                        : 'Submit',
+                    },
                   ),
                 ),
-              ],
-            ),
-          ],
+              ),
+              const SizedBox(height: 50,),
+              Text(
+                questions[currentQuestionIndex],
+                style: Theme.of(context).textTheme.titleLarge,
+                textAlign: TextAlign.center,
+
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: 300,
+                child: _buildInputField(),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(backgroundColor: const Color(0xffF4668F)),
+                    onPressed: () {
+                      FocusScope.of(context).unfocus(); // Dismiss the keyboard
+                      if (answers[currentQuestionIndex].isNotEmpty) {
+                        // controllers[currentQuestionIndex].clear();
+
+                        if (currentQuestionIndex < questions.length - 1) {
+                          setState(() {
+                            currentQuestionIndex++;
+                          });
+                        } else {
+                          // If it's the last question, change the button text to "Submit"
+                          // and navigate to the success screen
+                          setState(() {
+                            ProfileInfo profileInfo = ProfileInfo(
+                              name: answers[0],
+                              dob: answers[1],
+                              weight: int.tryParse(answers[2]) ?? 0,
+                              height: int.tryParse(answers[3]) ?? 0,
+                              gender: answers[4],
+                              activityLevel: answers[5],
+                              goal: answers[6],
+                              duration: answers[7],
+                              calorieIntake: 0,
+                              imageUrl: "",
+                            );
+
+                            profileInfo.calorieIntake = _userAccountService
+                                .calculateDailyCalorieIntake(profileInfo);
+                            print(_userAccountService
+                                .calculateDailyCalorieIntake(profileInfo));
+                            _submitAnswers();
+                          });
+                        }
+                      } else {
+                        print('Please answer the question');
+                      }
+                    },
+                    child: Text(
+                      currentQuestionIndex < questions.length - 1
+                          ? 'Next'
+                          : 'Submit',
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
+      )
     );
   }
 
@@ -174,6 +181,8 @@ class _QuestionsPageState extends State<QuestionsPage> {
           decoration: const InputDecoration(
             labelText: 'Select date of birth',
             border: OutlineInputBorder(),
+            filled: true,
+            fillColor: Colors.white,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -194,6 +203,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
           RadioListTile(
             title: const Text('Little or no exercise.'),
             value: 'Little or no exercise.',
+            activeColor: const Color(0xffF4668F),
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
               setState(() {
@@ -204,6 +214,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
           RadioListTile(
             title: const Text('Light exercise or sports 1-3 days a week.'),
             value: 'Light exercise or sports 1-3 days a week.',
+            activeColor: const Color(0xffF4668F),
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
               setState(() {
@@ -214,6 +225,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
           RadioListTile(
             title: const Text('Moderate exercise or sports 3-5 days a week.'),
             value: 'Moderate exercise or sports 3-5 days a week.',
+            activeColor: const Color(0xffF4668F),
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
               setState(() {
@@ -224,6 +236,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
           RadioListTile(
             title: const Text('Hard exercise or sports 6-7 days a week.'),
             value: 'Hard exercise or sports 6-7 days a week.',
+            activeColor: const Color(0xffF4668F),
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
               setState(() {
@@ -241,6 +254,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
           Radio(
             value: 'Male',
             groupValue: answers[currentQuestionIndex],
+            activeColor: const Color(0xffF4668F),
             onChanged: (value) {
               setState(() {
                 answers[currentQuestionIndex] = value.toString();
@@ -252,6 +266,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
           Radio(
             value: 'Female',
             groupValue: answers[currentQuestionIndex],
+            activeColor: const Color(0xffF4668F),
             onChanged: (value) {
               setState(() {
                 answers[currentQuestionIndex] = value.toString();
@@ -268,6 +283,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
           RadioListTile(
             title: const Text('Weight Loss'),
             value: 'Weight Loss',
+            activeColor: const Color(0xffF4668F),
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
               setState(() {
@@ -278,6 +294,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
           RadioListTile(
             title: const Text('Weight Maintenance'),
             value: 'Weight Maintenance',
+            activeColor: const Color(0xffF4668F),
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
               setState(() {
@@ -288,6 +305,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
           RadioListTile(
             title: const Text('Muscle Gain'),
             value: 'Muscle Gain',
+            activeColor: const Color(0xffF4668F),
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
               setState(() {
@@ -298,6 +316,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
           RadioListTile(
             title: const Text('General Health'),
             value: 'General Health',
+            activeColor: const Color(0xffF4668F),
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
               setState(() {
@@ -314,6 +333,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
           RadioListTile(
             title: const Text('Within 6 months'),
             value: 'Within 6 months',
+            activeColor: const Color(0xffF4668F),
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
               setState(() {
@@ -324,6 +344,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
           RadioListTile(
             title: const Text('Within 1 year'),
             value: 'Within 1 year',
+            activeColor: const Color(0xffF4668F),
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
               setState(() {
@@ -334,6 +355,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
           RadioListTile(
             title: const Text('Within 2 years'),
             value: 'Within 2 years',
+            activeColor: const Color(0xffF4668F),
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
               setState(() {
@@ -344,52 +366,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
           RadioListTile(
             title: const Text('2 years or more'),
             value: '2 years or more',
-            groupValue: answers[currentQuestionIndex],
-            onChanged: (value) {
-              setState(() {
-                answers[currentQuestionIndex] = value.toString();
-              });
-            },
-          ),
-        ],
-      );
-    } else if (currentQuestionIndex == 7) {
-      // Show radio buttons for goal deadline
-      return Column(
-        children: [
-          RadioListTile(
-            title: const Text('Within 6 months'),
-            value: 'Within 6 months',
-            groupValue: answers[currentQuestionIndex],
-            onChanged: (value) {
-              setState(() {
-                answers[currentQuestionIndex] = value.toString();
-              });
-            },
-          ),
-          RadioListTile(
-            title: const Text('Within 1 year'),
-            value: 'Within 1 year',
-            groupValue: answers[currentQuestionIndex],
-            onChanged: (value) {
-              setState(() {
-                answers[currentQuestionIndex] = value.toString();
-              });
-            },
-          ),
-          RadioListTile(
-            title: const Text('Within 2 years'),
-            value: 'Within 2 years',
-            groupValue: answers[currentQuestionIndex],
-            onChanged: (value) {
-              setState(() {
-                answers[currentQuestionIndex] = value.toString();
-              });
-            },
-          ),
-          RadioListTile(
-            title: const Text('2 years or more'),
-            value: '2 years or more',
+            activeColor: const Color(0xffF4668F),
             groupValue: answers[currentQuestionIndex],
             onChanged: (value) {
               setState(() {
@@ -421,6 +398,8 @@ class _QuestionsPageState extends State<QuestionsPage> {
         decoration: const InputDecoration(
           hintText: 'Enter your answer',
           border: OutlineInputBorder(),
+          filled: true,
+          fillColor: Colors.white,
         ),
       );
     }
@@ -460,7 +439,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.deepPurple),
+                      valueColor: AlwaysStoppedAnimation<Color>( Color(0xffF4668F)),
                     ),
                     const SizedBox(height: 50),
                     Container(alignment: Alignment.center,
@@ -471,7 +450,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
                             textAlign: TextAlign.center,
                             textStyle: GoogleFonts.poppins(
                               textStyle: const TextStyle(
-                                color: Colors.deepPurple,
+                                color: Color(0xffF4668F),
                                 fontSize: 14,
                                 backgroundColor: Colors.white,
                                 decoration: TextDecoration.underline,
