@@ -42,6 +42,33 @@ class UserAccountService {
       rethrow;
     }
   }
+  Future<void> updateUserProfileField(String fieldLabel, String updatedValue) async {
+    try {
+      // Get the current user's profile
+      var userProfile = await getUserProfile();
+
+      // Update the specific field in the profile
+      if (userProfile != null) {
+        switch (fieldLabel.toLowerCase()) {
+          case 'weight':
+            userProfile.weight = int.parse(updatedValue);
+            break;
+          case 'height':
+            userProfile.height = int.parse(updatedValue);
+            break;
+        // Add more cases for other fields as needed
+        }
+
+        // Save the updated profile back to Firestore
+        await userCollection.doc(await profileExists()).update({
+          'profileInfo': userProfile.toMap(),
+        });
+      }
+    } catch (e) {
+      debugPrint('Error updating user profile field: $e');
+      rethrow;
+    }
+  }
 
   Future<ProfileInfo?> getUserProfile() async {
     final snapshot = await userCollection.get();

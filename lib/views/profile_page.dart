@@ -31,6 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       widget.profileInfo.imageUrl = profileInfoFetched.imageUrl;
       widget.profileInfo.weight = profileInfoFetched.weight;
+      widget.profileInfo.height = profileInfoFetched.height;
     });
   }
 
@@ -51,7 +52,11 @@ class _ProfilePageState extends State<ProfilePage> {
 
     return GestureDetector(
       onDoubleTap: () {
-        _editProfileField(label, value);
+        if (label.toLowerCase() == 'Hey') {
+          _editProfileField('Hey ', widget.profileInfo.name);
+        } else {
+          _editProfileField(label, value);
+        }
       },
       child: Container(
         width: 410,
@@ -110,6 +115,10 @@ class _ProfilePageState extends State<ProfilePage> {
       setState(() {
         if (label.toLowerCase() == 'weight') {
           widget.profileInfo.weight = int.parse(updatedValue);
+        } else if (label.toLowerCase() == 'height') {
+          widget.profileInfo.height = int.parse(updatedValue);
+        } else if (label.toLowerCase() == 'name:') {
+          widget.profileInfo.name = updatedValue;
         }
         // Add similar handling for other fields
         _loadProfile(); // Fetch updated profile information
