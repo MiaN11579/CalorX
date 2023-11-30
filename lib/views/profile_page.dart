@@ -1,13 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:final_project/models/profile_info.dart';
 import 'package:intl/intl.dart';
-import '../models/user_account.dart';
-import '../theme.dart';
-import 'components/gradient_background.dart';
+import 'package:final_project/models/profile_info.dart';
+import 'package:final_project/models/user_account.dart';
+import 'package:final_project/theme.dart';
 import 'package:final_project/controller/user_account_service.dart';
+import 'components/gradient_background.dart';
+import 'edit_profile_page.dart';
 
 class ProfilePage extends StatefulWidget {
   final ProfileInfo profileInfo;
@@ -25,39 +24,47 @@ class _ProfilePageState extends State<ProfilePage> {
   final UserAccountService _userAccountService = UserAccountService();
   final currentUser = FirebaseAuth.instance.currentUser;
 
-  @override
-  Future<void> loadProfile() async {
-    super.initState();
+  bool isEditing = false;
 
-    ProfileInfo profileInfoFetched =
-        (await _userAccountService.getUserProfile())!;
-    widget.profileInfo.imageUrl = profileInfoFetched.imageUrl;
+  Future<void> _loadProfile() async {
+    ProfileInfo profileInfoFetched = (await _userAccountService.getUserProfile())!;
+    setState(() {
+      widget.profileInfo.imageUrl = profileInfoFetched.imageUrl;
+      widget.profileInfo.weight = profileInfoFetched.weight;
+    });
   }
 
-  Widget _buildRichTextWithBox(
-      String label, String value, BuildContext context) {
+  @override
+  void initState() {
+    super.initState();
+    _loadProfile();
+  }
+
+  Widget _buildRichTextWithBox(String label, String value, BuildContext context) {
     if (label == 'Date of Birth:') {
       DateTime dob = DateTime.parse(value);
       String formattedDate = DateFormat('MMM d, y').format(dob);
       value = formattedDate;
     }
 
-    double boxHeight = (label == 'Activity Level:' ||
-            label == 'Recommended Daily Calorie Intake:')
-        ? 90
-        : 65;
+    double boxHeight = (label == 'Activity Level:' || label == 'Recommended Daily Calorie Intake:') ? 90 : 65;
 
-    return Container(
-      width: 410,
-      height: boxHeight,
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor.withOpacity(0.5),
-        borderRadius: const BorderRadius.all(
-            Radius.circular(12)), // Adjust the radius for rounded corners
+    return GestureDetector(
+      onDoubleTap: () {
+        _editProfileField(label, value);
+      },
+      child: Container(
+        width: 410,
+        height: boxHeight,
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor.withOpacity(0.5),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(12),
+          ),
+        ),
+        padding: const EdgeInsets.all(19),
+        child: _buildRichText(label, value, context),
       ),
-      padding: const EdgeInsets.all(19),
-      // Adjust the padding for a larger box
-      child: _buildRichText(label, value, context),
     );
   }
 
@@ -66,7 +73,7 @@ class _ProfilePageState extends State<ProfilePage> {
       text: TextSpan(
         style: TextStyle(
           fontSize: 20,
-          // color: Theme.of(context).colorScheme.primary,
+          color: Theme.of(context).colorScheme.primary,
         ),
         children: [
           TextSpan(
@@ -86,67 +93,37 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  void _editProfileField(String label, String currentValue) async {
+    var updatedValue = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditProfileScreen(
+          userAccountService: _userAccountService,
+          fieldLabel: label,
+          initialValue: currentValue,
+        ),
+      ),
+    );
+
+    // Check if the user saved changes and update the UI
+    if (updatedValue != null) {
+      setState(() {
+        if (label.toLowerCase() == 'weight') {
+          widget.profileInfo.weight = int.parse(updatedValue);
+        }
+        // Add similar handling for other fields
+        _loadProfile(); // Fetch updated profile information
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final themeProvider = context.watch<ThemeProvider>();
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Your Profile'),
-        actions: [
-          IconButton(
-            icon: Icon(
-                themeProvider.isDark ? Icons.brightness_7 : Icons.brightness_4),
-            onPressed: () {
-              themeProvider.toggleTheme();
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute<ProfileScreen>(
-                  builder: (context) => ProfileScreen(
-                    appBar: AppBar(
-                      title: const Text(
-                        'User Profile',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black,
-                        ),
-                      ),
-                      leading: InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Icon(
-                          Icons.arrow_back,
-                          color: Colors.black54,
-                        ),
-                      ),
-                    ),
-                    actions: [
-                      SignedOutAction((context) {
-                        Navigator.of(context).pop();
-                      })
-                    ],
-                    children: const [
-                      Divider(),
-                      Padding(
-                        padding: EdgeInsets.all(2),
-                        child: AspectRatio(
-                          aspectRatio: 1,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          )
-        ],
       ),
       body: Container(
         padding: const EdgeInsets.only(top: 80),
@@ -169,14 +146,14 @@ class _ProfilePageState extends State<ProfilePage> {
                           : null,
                       child: widget.profileInfo.imageUrl.isEmpty
                           ? Text(
-                              widget.profileInfo.name.isNotEmpty
-                                  ? widget.profileInfo.name[0].toUpperCase()
-                                  : '?',
-                              style: const TextStyle(
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
+                        widget.profileInfo.name.isNotEmpty
+                            ? widget.profileInfo.name[0].toUpperCase()
+                            : '?',
+                        style: const TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
                           : null,
                     ),
                   ),
@@ -184,16 +161,15 @@ class _ProfilePageState extends State<ProfilePage> {
                     bottom: 0,
                     right: 100,
                     child: Container(
-                      padding: EdgeInsets.all(4),
+                      padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.8),
-                        // Adjust opacity as needed
                         shape: BoxShape.circle,
                       ),
                       child: IconButton(
                         onPressed: () async {
                           widget.profileInfo.imageUrl =
-                              await _userAccountService.getImageFromGallery();
+                          await _userAccountService.getImageFromGallery();
                           setState(() {
                             UserAccount user = UserAccount(
                                 uid: currentUser!.uid,
@@ -215,20 +191,20 @@ class _ProfilePageState extends State<ProfilePage> {
               Center(
                 child: Text(
                   'Hey ${widget.profileInfo.name}!',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
               ),
               const SizedBox(height: 22),
-              const Text(
+              Text(
                 'About',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
               const SizedBox(height: 14),
@@ -241,8 +217,7 @@ class _ProfilePageState extends State<ProfilePage> {
               _buildRichTextWithBox(
                   'Weight:', '${widget.profileInfo.weight} kg', context),
               const SizedBox(height: 8),
-              _buildRichTextWithBox(
-                  'Gender:', widget.profileInfo.gender, context),
+              _buildRichTextWithBox('Gender:', widget.profileInfo.gender, context),
               const SizedBox(height: 8),
               _buildRichTextWithBox(
                   'Activity Level:', widget.profileInfo.activityLevel, context),
@@ -252,8 +227,10 @@ class _ProfilePageState extends State<ProfilePage> {
               _buildRichTextWithBox(
                   'Duration:', widget.profileInfo.duration, context),
               const SizedBox(height: 8),
-              _buildRichTextWithBox('Recommended Daily Calorie Intake:',
-                  '${widget.profileInfo.calorieIntake} Calories', context),
+              _buildRichTextWithBox(
+                  'Recommended Daily Calorie Intake:',
+                  '${widget.profileInfo.calorieIntake} Calories',
+                  context),
               const SizedBox(height: 8),
             ],
           ),
