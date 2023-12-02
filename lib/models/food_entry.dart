@@ -65,4 +65,36 @@ class FoodEntry {
       baseProtein: map['baseProtein'] ?? '',
     );
   }
+
+  factory FoodEntry.fromJson(Map<String, dynamic> data){
+    final id = data['id'];
+    final date = data['date'];
+    final category = data['category'];
+    final name = data['name'];
+    final amount = data['amount'];
+    final calories = data['calories'];
+    final carbs = data['carbs'];
+    final fat = data['fat'];
+    final protein = data['protein'];
+    final baseCalories = data['baseCalories'];
+    final baseCarbs = data['baseCarbs'];
+    final baseFat = data['baseFat'];
+    final baseProtein = data['baseProtein'];
+
+    return FoodEntry(
+      id: id,
+      date: date,
+      category: category,
+      name: name,
+      amount: amount,
+      calories: calories,
+      carbs: carbs,
+      fat: fat,
+      protein: protein,
+      baseCalories: baseCalories,
+      baseCarbs: baseCarbs,
+      baseFat: baseFat,
+      baseProtein: baseProtein,
+    );
+  }
 }

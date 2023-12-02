@@ -20,11 +20,10 @@ class _LogPageState extends State<LogPage> {
 
   late List<String> breakfastItems = [];
 
-  List<String> initializeBreakfastItems() {
-    breakfastItems =
-        myMeal.breakfast!.map((foodEntry) => foodEntry.name).toList();
-    return breakfastItems;
-  }
+  // List<String> initializeBreakfastItems() {
+  //   breakfastItems = myMeal.breakfast!.map((foodEntry) => foodEntry.name).toList();
+  //   return breakfastItems;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +43,7 @@ class _LogPageState extends State<LogPage> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              _buildBox("Breakfast", initializeBreakfastItems()),
+              _buildBox("Breakfast", []),
               const SizedBox(height: 20),
               _buildBox("Lunch", []),
               const SizedBox(height: 20),

@@ -1,3 +1,4 @@
+import 'package:final_project/controller/meal_service.dart';
 import 'package:final_project/models/AbridgedFoodNutrient.dart';
 import 'package:final_project/models/food_entry.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:final_project/controller/food_entry_service.dart';
 import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 
+import '../models/meal.dart';
 import 'components/gradient_background.dart';
 
 final nutrientType = {
@@ -43,6 +45,7 @@ double getNutrientAmount(List<AbridgedFoodNutrient> nutrients, int number) {
 
 class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
   final FoodEntryService foodEntryService = FoodEntryService();
+  final MealService mealService = MealService();
 
   late double _protein;
   late double _fat;
@@ -50,6 +53,9 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
   late double _calories;
 
   final _amountController = TextEditingController();
+
+
+
 
   List<Widget> foodDetails(SearchResultFood food) {
     final nutrients = food.foodNutrient;
@@ -72,7 +78,7 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
     return details;
   }
 
-  void _saveFoodItem() {
+  Future<void> _saveFoodItem() async {
     final String text = _amountController.text;
     if (text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -108,9 +114,26 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
         baseProtein: _protein);
 
     foodEntryService.addEntry(newEntry);
-    Navigator.pop(context);
-    Navigator.pop(context);
+    print('hi');
+    var meal = (await mealService.getMeal())!;
+    print(meal.toString());
+    if(newEntry.category == "Breakfast"){
+      meal.breakfast!.add(newEntry);
+    } if(newEntry.category == "Lunch"){
+      meal.lunch!.add(newEntry);
+    } if(newEntry.category == "Dinner"){
+      meal.dinner!.add(newEntry);
+    } if(newEntry.category == "Snack"){
+      meal.snack!.add(newEntry);
+    }
+
+    print(meal.toString());
+    mealService.updateEntry(meal);
+    // Navigator.pop(context);
+    // Navigator.pop(context);
   }
+
+
 
   @override
   void initState() {

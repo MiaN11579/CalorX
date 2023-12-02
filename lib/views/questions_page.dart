@@ -8,6 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:final_project/models/profile_info.dart';
 import 'package:final_project/models/user_account.dart';
 import 'package:final_project/controller/user_account_service.dart';
+import '../controller/meal_service.dart';
+import '../models/meal.dart';
 import 'main_page.dart';
 
 class QuestionsPage extends StatefulWidget {
@@ -35,6 +37,10 @@ class _QuestionsPageState extends State<QuestionsPage> {
   final currentUser = FirebaseAuth.instance.currentUser;
   final UserAccountService _userAccountService = UserAccountService();
   DateTime selectedDate = DateTime.now();
+  Meal myMeal = Meal(breakfast: [], lunch: [], dinner: [], snack: []);
+  final MealService mealService = MealService();
+
+
 
   // Add the dateController
   TextEditingController dateController = TextEditingController();
@@ -510,6 +516,8 @@ class _QuestionsPageState extends State<QuestionsPage> {
             _userAccountService.saveUserProfile(userAccount);
           }
         }
+
+        mealService.addEntry(myMeal);
 
         // Close the loading indicator
         Navigator.pop(context);
