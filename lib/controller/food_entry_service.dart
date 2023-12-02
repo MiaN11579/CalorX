@@ -1,17 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final_project/views/components/macro_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../models/food_entry.dart';
+import '../views/components/chart_data.dart';
 
 class FoodEntryService {
   final CollectionReference entryCollection;
 
   FoodEntryService()
       : entryCollection = FirebaseFirestore.instance
-      .collection('users')
-      .doc(FirebaseAuth.instance.currentUser?.uid)
-      .collection('foodEntries');
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser?.uid)
+            .collection('foodEntries');
 
   Future<void> addEntry(FoodEntry entry) async {
     debugPrint(FirebaseAuth.instance.currentUser!.uid);

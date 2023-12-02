@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:final_project/models/food_entry.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../models/meal.dart';
+import '../views/components/chart_data.dart';
+import '../views/components/macro_data.dart';
 
 class MealService {
   final CollectionReference entryCollection;
@@ -74,11 +75,26 @@ class MealService {
         return Meal.fromJson(data);
       }
     }
-
     return null;
   }
 
+  Future<int> getDailyCalorie(DateTime selectedDate) async {
+    return 2000 - selectedDate.day * 20;
+  }
 
+  Future<MacroData> getDailyMacro(DateTime selectedDate) async {
+    return MacroData(89, 67, 72);
+  }
 
-
+  Future<List<ChartData>> getWeeklyCalorie(DateTime selectedDate) async {
+    return <ChartData>[
+      ChartData('Mon', 1610),
+      ChartData('Tue', 1140),
+      ChartData('Wed', 1480),
+      ChartData('Thu', 2200),
+      ChartData('Fri', 1760),
+      ChartData('Sat', 1500),
+      ChartData('Sun', 1460),
+    ];
+  }
 }

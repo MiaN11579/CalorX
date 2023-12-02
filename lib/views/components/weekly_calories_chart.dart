@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import '../dashboard_page.dart';
+import 'chart_data.dart';
 
-List<ChartData> chartData = <ChartData>[
-  ChartData('Mon', 1610),
-  ChartData('Tue', 1140),
-  ChartData('Wed', 1480),
-  ChartData('Thu', 2200),
-  ChartData('Fri', 1760),
-  ChartData('Sat', 1500),
-  ChartData('Sun', 1460),
-];
+// List<ChartData> chartData = <ChartData>[
+//   ChartData('Mon', 1610),
+//   ChartData('Tue', 1140),
+//   ChartData('Wed', 1480),
+//   ChartData('Thu', 2200),
+//   ChartData('Fri', 1760),
+//   ChartData('Sat', 1500),
+//   ChartData('Sun', 1460),
+// ];
 
 /// Get column series with tracker
-Card getWeeklyCaloriesChart(ThemeData themeData, [double userCalorie = 0]) {
+Card getWeeklyCaloriesChart(Color cardColor, List<ChartData> chartData, [double userCalorie = 0]) {
   return Card(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(50),
     ),
-    color: themeData.cardColor,
+    color: cardColor,
     elevation: 0,
     child: SfCartesianChart(
       margin: const EdgeInsets.all(20.0),
@@ -28,7 +28,7 @@ Card getWeeklyCaloriesChart(ThemeData themeData, [double userCalorie = 0]) {
         borderColor: Colors.transparent,
         borderWidth: 10,
         textStyle: const TextStyle(
-          fontSize: 20,
+          fontSize: 22,
           fontWeight: FontWeight.bold,
           color: Colors.white,
         ),

@@ -264,15 +264,15 @@ class _ProfilePageState extends State<ProfilePage> {
               Center(
                 child: Text(
                   'Hey ${widget.profileInfo.name}!',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 24,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w500,
                     color: Colors.white,
                   ),
                 ),
               ),
               const SizedBox(height: 22),
-              Text(
+              const Text(
                 'About',
                 style: TextStyle(
                   fontSize: 18,

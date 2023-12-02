@@ -49,7 +49,8 @@ class FoodSearchDelegate extends SearchDelegate {
         final derivationCode = nutrient.derivationCode;
         final derivationDescription = nutrient.derivationDescription;
         final line = Text(
-            '$number, $name, $amount, $unitName, $derivationCode, $derivationDescription');
+            '$number, $name, $amount, $unitName, $derivationCode, $derivationDescription',
+            style: const TextStyle(fontSize: 22, color: Colors.white));
         if (amount! > 0) {
           details.add(line);
         }
@@ -105,7 +106,8 @@ class FoodSearchDelegate extends SearchDelegate {
                       itemCount: foods.length,
                       itemBuilder: (context, index) {
                         return ListTile(
-                          title: Text(foods[index].description),
+                          title: Text(foods[index].description,
+                              style: const TextStyle(fontSize: 22, color: Colors.white)),
                           onTap: () {
                             Navigator.push(
                               context,
@@ -127,7 +129,8 @@ class FoodSearchDelegate extends SearchDelegate {
                 return Scaffold(
                     body: Container(
                         decoration: getGradientBackground(context),
-                        child: const Center(child: CircularProgressIndicator())));
+                        child:
+                            const Center(child: CircularProgressIndicator(color: Colors.white))));
               }
             }),
       ),
@@ -149,7 +152,9 @@ class FoodSearchDelegate extends SearchDelegate {
           itemBuilder: (context, index) {
             var suggestion = suggestions[index];
             return ListTile(
-              title: Text(suggestion),
+              title: Text(suggestion,
+                  style: const TextStyle(fontSize: 22, color: Colors.white)),
+              textColor: Colors.white,
               onTap: () {
                 query = suggestion;
                 showResults(context);

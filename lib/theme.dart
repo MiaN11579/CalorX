@@ -19,7 +19,7 @@ class ThemeProvider with ChangeNotifier {
         (Set<MaterialState> states) => const TextStyle(color: Colors.white),
       ),
     ),
-    textTheme: GoogleFonts.poppinsTextTheme(),
+    textTheme: GoogleFonts.rubikTextTheme(),
     appBarTheme: const AppBarTheme(
       color: Colors.transparent,
       titleTextStyle: TextStyle(color: Colors.white, fontSize: 24),
@@ -38,7 +38,7 @@ class ThemeProvider with ChangeNotifier {
     navigationBarTheme: const NavigationBarThemeData(
       backgroundColor: Color(0xff121729),
     ),
-    textTheme: GoogleFonts.poppinsTextTheme(),
+    textTheme: GoogleFonts.rubikTextTheme(),
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.transparent,
     ),

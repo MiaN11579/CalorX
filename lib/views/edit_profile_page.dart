@@ -11,7 +11,8 @@ class EditProfileScreen extends StatefulWidget {
   final String fieldLabel;
   final String initialValue;
 
-  EditProfileScreen({
+  const EditProfileScreen({
+    super.key,
     required this.userAccountService,
     required this.fieldLabel,
     required this.initialValue,
@@ -52,9 +53,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit',style: TextStyle(color: Color(0xffF4668F)),),
+        title: const Text('Edit',style: TextStyle(color: Color(0xffF4668F)),),
         backgroundColor: const Color(0xffFFC5C0).withOpacity(0.6),
-        iconTheme: IconThemeData(color: const Color(0xffF4668F)),
+        iconTheme: const IconThemeData(color: Color(0xffF4668F)),
       ),
       body: Container(
         color: const Color(0xffFFC5C0).withOpacity(0.6),
@@ -62,7 +63,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(height: 70,),
+              const SizedBox(height: 70),
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -72,7 +73,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     if (widget.fieldLabel == 'Gender:') ...{
                       // Show radio buttons for gender selection
                       RadioListTile(
-                        title: Text('Male'),
+                        title: const Text('Male'),
                         value: 'Male',
                         activeColor: const Color(0xffF4668F),
                         groupValue: selectedGender,
@@ -83,7 +84,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         },
                       ),
                       RadioListTile(
-                        title: Text('Female'),
+                        title: const Text('Female'),
                         value: 'Female',
                         activeColor: const Color(0xffF4668F),
                         groupValue: selectedGender,
@@ -96,7 +97,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     } else if (widget.fieldLabel == 'Activity Level:') ...{
                       // Show radio buttons for activity level selection
                       RadioListTile(
-                        title: Text('Little or no exercise'),
+                        title: const Text('Little or no exercise'),
                         value: 'Little or no exercise',
                         activeColor: const Color(0xffF4668F),
                         groupValue: selectedActivityLevel,
@@ -107,7 +108,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         },
                       ),
                       RadioListTile(
-                        title: Text('Light exercise or sports 1-3 days a week'),
+                        title: const Text('Light exercise or sports 1-3 days a week'),
                         value: 'Light exercise or sports 1-3 days a week',
                         activeColor: const Color(0xffF4668F),
                         groupValue: selectedActivityLevel,
@@ -118,7 +119,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         },
                       ),
                       RadioListTile(
-                        title: Text('Moderate exercise or sports 3-5 days a week'),
+                        title: const Text('Moderate exercise or sports 3-5 days a week'),
                         value: 'Moderate exercise or sports 3-5 days a week',
                         activeColor: const Color(0xffF4668F),
                         groupValue: selectedActivityLevel,
@@ -129,7 +130,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         },
                       ),
                       RadioListTile(
-                        title: Text('Hard exercise or sports 6-7 days a week'),
+                        title: const Text('Hard exercise or sports 6-7 days a week'),
                         value: 'Hard exercise or sports 6-7 days a week',
                         activeColor: const Color(0xffF4668F),
                         groupValue: selectedActivityLevel,
@@ -142,7 +143,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     } else if (widget.fieldLabel == 'Goal:') ...{
                       // Show radio buttons for goal selection
                       RadioListTile(
-                        title: Text('Weight Loss'),
+                        title: const Text('Weight Loss'),
                         value: 'Weight Loss',
                         activeColor: const Color(0xffF4668F),
                         groupValue: selectedGoal,
@@ -153,7 +154,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         },
                       ),
                       RadioListTile(
-                        title: Text('Weight Maintenance'),
+                        title: const Text('Weight Maintenance'),
                         value: 'Weight Maintenance',
                         activeColor: const Color(0xffF4668F),
                         groupValue: selectedGoal,
@@ -164,7 +165,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         },
                       ),
                       RadioListTile(
-                        title: Text('Muscle Gain'),
+                        title: const Text('Muscle Gain'),
                         value: 'Muscle Gain',
                         activeColor: const Color(0xffF4668F),
                         groupValue: selectedGoal,
@@ -175,7 +176,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         },
                       ),
                       RadioListTile(
-                        title: Text('General Health'),
+                        title: const Text('General Health'),
                         value: 'General Health',
                         activeColor: const Color(0xffF4668F),
                         groupValue: selectedGoal,
@@ -188,7 +189,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     } else if (widget.fieldLabel == 'Duration:') ...{
                       // Show radio buttons for duration selection
                       RadioListTile(
-                        title: Text('Within 6 months'),
+                        title: const Text('Within 6 months'),
                         value: 'Within 6 months',
                         activeColor: const Color(0xffF4668F),
                         groupValue: selectedDuration,
@@ -199,7 +200,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         },
                       ),
                       RadioListTile(
-                        title: Text('Within 1 year'),
+                        title: const Text('Within 1 year'),
                         value: 'Within 1 year',
                         activeColor: const Color(0xffF4668F),
                         groupValue: selectedDuration,
@@ -210,7 +211,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         },
                       ),
                       RadioListTile(
-                        title: Text('Within 2 years'),
+                        title: const Text('Within 2 years'),
                         value: 'Within 2 years',
                         activeColor: const Color(0xffF4668F),
                         groupValue: selectedDuration,
@@ -221,7 +222,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         },
                       ),
                       RadioListTile(
-                        title: Text('2 years or more'),
+                        title: const Text('2 years or more'),
                         value: '2 years or more',
                         activeColor: const Color(0xffF4668F),
                         groupValue: selectedDuration,
@@ -261,7 +262,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         keyboardType: widget.fieldLabel == 'Name:' ? TextInputType.text : TextInputType.number,
                       ),
                     },
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () async {
                         var profileInfoFetched = await _loadProfile();
@@ -311,8 +312,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           ),
                         );
                       },
-                      style: ElevatedButton.styleFrom(backgroundColor: Color(0xffF4668F),),
-                      child: Text('Save Changes'),
+                      style: ElevatedButton.styleFrom(backgroundColor: const Color(0xffF4668F)),
+                      child: const Text('Save Changes'),
                     ),
                   ],
                 ),
