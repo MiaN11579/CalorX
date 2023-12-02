@@ -57,6 +57,7 @@ class FoodSearchDelegate extends SearchDelegate {
     }
     return details;
   }
+
   @override
   ThemeData appBarTheme(BuildContext context) {
     return Theme.of(context);
@@ -123,7 +124,10 @@ class FoodSearchDelegate extends SearchDelegate {
                   return Text('No foods match this $query');
                 }
               } else {
-                return const CircularProgressIndicator();
+                return Scaffold(
+                    body: Container(
+                        decoration: getGradientBackground(context),
+                        child: const Center(child: CircularProgressIndicator())));
               }
             }),
       ),
