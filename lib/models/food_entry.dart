@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FoodEntry {
   final String? id;
-  final DateTime date;
+  final String date;
   final String category;
   final String name;
   final double amount;
@@ -84,7 +84,7 @@ class FoodEntry {
 
     return FoodEntry(
       id: id,
-      date: date.toDate(),
+      date: date.toString(),
       category: category,
       name: name.toString(),
       amount: amount,

@@ -1,6 +1,7 @@
 import 'package:final_project/models/food_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../controller/meal_service.dart';
 import 'components/food_search_delegate.dart';
 import 'components/gradient_background.dart';
 import 'package:final_project/models/meal.dart';
@@ -18,12 +19,34 @@ class _LogPageState extends State<LogPage> {
   //create a meal object using the food entries user has added
   // Meal myMeal = Meal(breakfast: [], lunch: [], dinner: [], snack: [], date: _selectedDate);
 
-  late List<String> breakfastItems = [];
+  late Meal meal = Meal(breakfast: [], lunch: [], dinner: [], snack: [], date: DateFormat('yyyy-MM-dd').format(_selectedDate.toLocal()));
+  final MealService mealService = MealService();
+  late  List<String> breakfastItems = [];
+  late List<String> lunchItems = [];
+  late List<String> dinnerItems = [];
+  late List<String> snackItems = [];
 
-  // List<String> initializeBreakfastItems() {
-  //   breakfastItems = myMeal.breakfast!.map((foodEntry) => foodEntry.name).toList();
-  //   return breakfastItems;
-  // }
+  Future<void> _getMealObject() async {
+    print(DateFormat('yyyy-MM-dd').format(_selectedDate.toLocal()));
+    meal = (await mealService.getMeal(DateFormat('yyyy-MM-dd').format(_selectedDate.toLocal())))!;
+    setState(() {
+      breakfastItems = meal.breakfast!.map((entry) => entry.name).toList();
+      lunchItems = meal.lunch!.map((entry) => entry.name).toList();
+      dinnerItems = meal.dinner!.map((entry) => entry.name).toList();
+      snackItems = meal.snack!.map((entry) => entry.name).toList();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeState();
+  }
+
+  Future<void> _initializeState() async {
+    await _getMealObject();
+    print(meal.dinner);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,13 +66,13 @@ class _LogPageState extends State<LogPage> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              _buildBox("Breakfast", []),
+              _buildBox("Breakfast", breakfastItems),
               const SizedBox(height: 20),
-              _buildBox("Lunch", []),
+              _buildBox("Lunch", lunchItems),
               const SizedBox(height: 20),
-              _buildBox("Dinner", []),
+              _buildBox("Dinner", dinnerItems),
               const SizedBox(height: 20),
-              _buildBox("Snack", []),
+              _buildBox("Snack", snackItems),
               const SizedBox(height: 20),
             ],
           ),
@@ -118,7 +141,7 @@ class _LogPageState extends State<LogPage> {
               ],
             )),
         Positioned(
-          bottom: 0,
+          top: 0,
           right: 0,
           child: Container(
             margin: const EdgeInsets.all(12),

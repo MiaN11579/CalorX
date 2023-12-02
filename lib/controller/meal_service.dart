@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 
 import '../models/meal.dart';
 import '../views/components/chart_data.dart';
@@ -65,17 +66,20 @@ class MealService {
   }
 
 
-  Future<Meal?> getMeal(DateTime date) async {
+  Future<Meal?> getMeal(String date) async {
     final snapshot = await entryCollection.where('date', isEqualTo: date).get();
 
     if (snapshot.docs.isNotEmpty) {
-      Map<String, dynamic>? data = snapshot.docs.first.data() as Map<String, dynamic>?;
-      if (data != null) {
 
+      Map<String, dynamic>? data = snapshot.docs.first.data() as Map<String, dynamic>?;
+      print(data);
+      if (data != null) {
         return Meal.fromJson(data);
       }
     }
     return null;
+    
+
   }
 
   Future<int> getDailyCalorie(DateTime selectedDate) async {

@@ -6,6 +6,7 @@ import 'package:final_project/models/SearchResultFood.dart';
 import 'package:final_project/controller/food_entry_service.dart';
 import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
 
 import '../models/meal.dart';
 import 'components/gradient_background.dart';
@@ -100,7 +101,7 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
     final double multiplier = amount / perOneHundredGrams;
 
     final FoodEntry newEntry = FoodEntry(
-        date: widget.date,
+        date: DateFormat('yyyy-MM-dd').format(widget.date.toLocal()),
         category: widget.category,
         name: widget.food.description,
         amount: amount,
@@ -120,7 +121,7 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
 
 
 // Check if a meal with the same date already exists in Firebase
-    final existingMeal = await mealService.getMeal(widget.date);
+    final existingMeal = await mealService.getMeal(DateFormat('yyyy-MM-dd').format(widget.date.toLocal()));
 
     if (existingMeal != null) {
       // If meal exists, update it
@@ -136,7 +137,7 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
       await mealService.updateEntry(existingMeal);
     } else {
       // If meal doesn't exist, add a new entry
-      Meal meal = Meal(breakfast: [], lunch: [], dinner: [], snack: [], date: widget.date);
+      Meal meal = Meal(breakfast: [], lunch: [], dinner: [], snack: [], date: DateFormat('yyyy-MM-dd').format(widget.date.toLocal()));
       if (newEntry.category == "Breakfast") {
         meal.breakfast!.add(newEntry);
       } else if (newEntry.category == "Lunch") {

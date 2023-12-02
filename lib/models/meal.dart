@@ -8,7 +8,7 @@ class Meal {
   late  List<FoodEntry>? lunch;
   late  List<FoodEntry>? dinner;
   late  List<FoodEntry>? snack;
-  late  DateTime? date;
+  late  String? date;
 
   Meal({
     this.id,
@@ -65,7 +65,7 @@ class Meal {
       snack: (data['snack'] as List<dynamic>?)
           ?.map((e) => FoodEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
-      date: (data['date']).toDate(),
+      date: (data['date']).toString(),
     );
   }
 
