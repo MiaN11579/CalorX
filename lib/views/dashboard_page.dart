@@ -25,10 +25,10 @@ class _DashboardPageState extends State<DashboardPage> {
   final UserAccountService _userAccountService = UserAccountService();
   final MealService _mealService = MealService();
   int? _goalCalorie;
-  int _dailyCalorie = 0;
+  double _dailyCalorie = 0;
   final List<Card> _dailyCharts = [];
   final List<Card> _weeklyCharts = [];
-  MacroData _macroData = MacroData(0, 0, 0);
+  MacroData _macroData = MacroData();
   List<ChartData> _weeklyCalorieData = <ChartData>[
     ChartData('Mon', 0),
     ChartData('Tue', 0),
@@ -187,7 +187,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
     _dailyCharts.clear();
     _dailyCharts.add(getDailyCaloriesChart(
-        cardColor, _dailyCalorie.toDouble(), _goalCalorie!.toDouble()));
+        cardColor, _dailyCalorie, _goalCalorie!.toDouble()));
     _dailyCharts.add(getDonutChart(cardColor, _macroData));
     _dailyCharts.add(getRadialChart(cardColor, _macroData));
 

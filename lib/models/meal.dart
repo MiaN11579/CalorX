@@ -1,6 +1,5 @@
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_project/models/food_entry.dart';
+import '../views/components/macro_data.dart';
 
 class Meal {
   final String? id;
@@ -9,6 +8,8 @@ class Meal {
   late  List<FoodEntry>? dinner;
   late  List<FoodEntry>? snack;
   late  String? date;
+  double dailyCalorie = 0;
+  MacroData macroData = MacroData();
 
   Meal({
     this.id,
@@ -17,7 +18,8 @@ class Meal {
     this.dinner,
     this.snack,
     this.date,
-
+    required this.dailyCalorie,
+    required this.macroData,
   });
 
   Map<String, dynamic> toMap() {
@@ -27,28 +29,10 @@ class Meal {
       'dinner': dinner?.map((entry) => entry.toMap()).toList(),
       'snack': snack?.map((entry) => entry.toMap()).toList(),
       'date': date,
+      'dailyCalorie': dailyCalorie,
+      'macroData': macroData.toMap(),
     };
   }
-
-
-  // static Meal fromMap(DocumentSnapshot doc) {
-  //   Map<String, dynamic> map = doc.data() as Map<String, dynamic>;
-  //   return Meal(
-  //     id: doc.id,
-  //     breakfast:(map['breakfast'] as List<dynamic> )
-  //         .map((entryMap) => FoodEntry.fromMap(entryMap ?? {}))
-  //         .toList(),
-  //     lunch: (map['lunch'] as List<dynamic> )
-  //         .map((entryMap) => FoodEntry.fromMap(entryMap ?? {}))
-  //         .toList(),
-  //     dinner: (map['dinner'] as List<dynamic> )
-  //         .map((entryMap) => FoodEntry.fromMap(entryMap ?? {}))
-  //         .toList(),
-  //     snack: (map['snack'] as List<dynamic>)
-  //         .map((entryMap) => FoodEntry.fromMap(entryMap ?? {}))
-  //         .toList(),
-  //   );
-  // }
 
   factory Meal.fromJson(Map<String, dynamic> data) {
 
@@ -65,7 +49,9 @@ class Meal {
       snack: (data['snack'] as List<dynamic>?)
           ?.map((e) => FoodEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
-      date: (data['date']).toString(),
+      date: data['date'],
+      dailyCalorie: data['dailyCalorie'],
+      macroData: MacroData.fromMap(data['macroData']),
     );
   }
 

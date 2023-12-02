@@ -12,15 +12,16 @@ class MealService {
 
   MealService()
       : entryCollection = FirebaseFirestore.instance
-      .collection('users')
-      .doc(FirebaseAuth.instance.currentUser?.uid)
-      .collection('meals');
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser?.uid)
+            .collection('meals');
 
   Future<void> addEntry(Meal meal) async {
     try {
       // Assuming you have a unique identifier for the meal (e.g., user ID)
       final existingMeal = await entryCollection
-          .where('date', isEqualTo: meal.date) // Replace 'date' with the actual field name
+          .where('date',
+              isEqualTo: meal.date) // Replace 'date' with the actual field name
           .limit(1)
           .get();
 
@@ -38,8 +39,6 @@ class MealService {
     }
   }
 
-
-
   /// Deletes a car with the specified [id] from Firestore.
   Future<void> removeEntry(String id) async {
     try {
@@ -56,7 +55,8 @@ class MealService {
   Future<void> updateEntry(Meal meal) async {
     debugPrint(FirebaseAuth.instance.currentUser!.uid);
     try {
-      final snapshot = await entryCollection.where('date', isEqualTo: meal.date).get();
+      final snapshot =
+          await entryCollection.where('date', isEqualTo: meal.date).get();
       final mealDocument = snapshot.docs.first;
       await mealDocument.reference.update(meal.toMap());
     } catch (e) {
@@ -65,29 +65,60 @@ class MealService {
     }
   }
 
-
   Future<Meal?> getMeal(String date) async {
     final snapshot = await entryCollection.where('date', isEqualTo: date).get();
 
     if (snapshot.docs.isNotEmpty) {
-
-      Map<String, dynamic>? data = snapshot.docs.first.data() as Map<String, dynamic>?;
-      print(data);
+      Map<String, dynamic>? data =
+          snapshot.docs.first.data() as Map<String, dynamic>?;
+      // print(data);
       if (data != null) {
         return Meal.fromJson(data);
       }
     }
     return null;
-    
-
   }
 
-  Future<int> getDailyCalorie(DateTime selectedDate) async {
-    return 2000 - selectedDate.day * 20;
+  Future<double> getDailyCalorie(DateTime selectedDate) async {
+    final snapshot = await entryCollection
+        .where('date',
+            isEqualTo: DateFormat('yyyy-MM-dd').format(selectedDate.toLocal()))
+        .get();
+
+    if (snapshot.docs.isNotEmpty) {
+      Map<String, dynamic>? data =
+          snapshot.docs.first.data() as Map<String, dynamic>?;
+      if (data != null) {
+        return Meal.fromJson(data).dailyCalorie;
+      }
+    }
+    return 0;
   }
 
   Future<MacroData> getDailyMacro(DateTime selectedDate) async {
-    return MacroData(89, 67, 72);
+    final snapshot = await entryCollection
+        .where('date',
+            isEqualTo: DateFormat('yyyy-MM-dd').format(selectedDate.toLocal()))
+        .get();
+
+    if (snapshot.docs.isNotEmpty) {
+      Map<String, dynamic>? data =
+          snapshot.docs.first.data() as Map<String, dynamic>?;
+
+      if (data != null) {
+        if (data.containsKey('macroData')) {
+          final info = data['macroData'];
+          return MacroData(
+            carbs: info['carbs'],
+            fat: info['fat'],
+            protein: info['protein'],
+          );
+        } else {
+          debugPrint('Error: The entry does not contain macroData.');
+        }
+      }
+    }
+    return MacroData();
   }
 
   Future<List<ChartData>> getWeeklyCalorie(DateTime selectedDate) async {

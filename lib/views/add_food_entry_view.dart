@@ -1,9 +1,9 @@
 import 'package:final_project/controller/meal_service.dart';
 import 'package:final_project/models/AbridgedFoodNutrient.dart';
 import 'package:final_project/models/food_entry.dart';
+import 'package:final_project/views/components/macro_data.dart';
 import 'package:flutter/material.dart';
 import 'package:final_project/models/SearchResultFood.dart';
-import 'package:final_project/controller/food_entry_service.dart';
 import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
@@ -45,7 +45,6 @@ double getNutrientAmount(List<AbridgedFoodNutrient> nutrients, int number) {
 }
 
 class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
-  final FoodEntryService foodEntryService = FoodEntryService();
   final MealService mealService = MealService();
 
   late double _protein;
@@ -54,9 +53,6 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
   late double _calories;
 
   final _amountController = TextEditingController();
-
-
-
 
   List<Widget> foodDetails(SearchResultFood food) {
     final nutrients = food.foodNutrient;
@@ -114,11 +110,8 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
         baseFat: _fat,
         baseProtein: _protein);
 
-    foodEntryService.addEntry(newEntry);
-
 
 // Update or add new entry based on the category
-
 
 // Check if a meal with the same date already exists in Firebase
     final existingMeal = await mealService.getMeal(DateFormat('yyyy-MM-dd').format(widget.date.toLocal()));
@@ -134,10 +127,25 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
       } else if (newEntry.category == "Snack") {
         existingMeal.snack!.add(newEntry);
       }
+      // Update calorie and macros
+      existingMeal.dailyCalorie += newEntry.calories;
+      existingMeal.macroData.carbs += newEntry.carbs;
+      existingMeal.macroData.fat += newEntry.fat;
+      existingMeal.macroData.protein += newEntry.protein;
       await mealService.updateEntry(existingMeal);
     } else {
       // If meal doesn't exist, add a new entry
-      Meal meal = Meal(breakfast: [], lunch: [], dinner: [], snack: [], date: DateFormat('yyyy-MM-dd').format(widget.date.toLocal()));
+      Meal meal = Meal(
+          breakfast: [],
+          lunch: [],
+          dinner: [],
+          snack: [],
+          date: DateFormat('yyyy-MM-dd').format(widget.date.toLocal()),
+          dailyCalorie: newEntry.calories,
+          macroData: MacroData(
+              carbs: newEntry.carbs,
+              fat: newEntry.fat,
+              protein: newEntry.protein));
       if (newEntry.category == "Breakfast") {
         meal.breakfast!.add(newEntry);
       } else if (newEntry.category == "Lunch") {

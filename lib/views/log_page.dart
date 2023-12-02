@@ -1,4 +1,5 @@
 import 'package:final_project/models/food_entry.dart';
+import 'package:final_project/views/components/macro_data.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../controller/meal_service.dart';
@@ -19,16 +20,24 @@ class _LogPageState extends State<LogPage> {
   //create a meal object using the food entries user has added
   // Meal myMeal = Meal(breakfast: [], lunch: [], dinner: [], snack: [], date: _selectedDate);
 
-  late Meal meal = Meal(breakfast: [], lunch: [], dinner: [], snack: [], date: DateFormat('yyyy-MM-dd').format(_selectedDate.toLocal()));
+  late Meal meal = Meal(
+      breakfast: [],
+      lunch: [],
+      dinner: [],
+      snack: [],
+      date: DateFormat('yyyy-MM-dd').format(_selectedDate.toLocal()),
+      dailyCalorie: 0,
+      macroData: MacroData());
   final MealService mealService = MealService();
-  late  List<String> breakfastItems = [];
+  late List<String> breakfastItems = [];
   late List<String> lunchItems = [];
   late List<String> dinnerItems = [];
   late List<String> snackItems = [];
 
   Future<void> _getMealObject() async {
     print(DateFormat('yyyy-MM-dd').format(_selectedDate.toLocal()));
-    meal = (await mealService.getMeal(DateFormat('yyyy-MM-dd').format(_selectedDate.toLocal())))!;
+    meal = (await mealService
+        .getMeal(DateFormat('yyyy-MM-dd').format(_selectedDate.toLocal())))!;
     setState(() {
       breakfastItems = meal.breakfast!.map((entry) => entry.name).toList();
       lunchItems = meal.lunch!.map((entry) => entry.name).toList();
@@ -148,7 +157,10 @@ class _LogPageState extends State<LogPage> {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
               onPressed: () {
-                showSearch(context: context, delegate: FoodSearchDelegate(category: label, date: _selectedDate));
+                showSearch(
+                    context: context,
+                    delegate: FoodSearchDelegate(
+                        category: label, date: _selectedDate));
               },
               child: Text(
                 'Add food',
