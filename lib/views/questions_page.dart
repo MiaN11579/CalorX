@@ -37,7 +37,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
   final currentUser = FirebaseAuth.instance.currentUser;
   final UserAccountService _userAccountService = UserAccountService();
   DateTime selectedDate = DateTime.now();
-  Meal myMeal = Meal(breakfast: [], lunch: [], dinner: [], snack: []);
+
   final MealService mealService = MealService();
 
 
@@ -517,7 +517,6 @@ class _QuestionsPageState extends State<QuestionsPage> {
           }
         }
 
-        mealService.addEntry(myMeal);
 
         // Close the loading indicator
         Navigator.pop(context);

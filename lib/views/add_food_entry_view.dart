@@ -114,23 +114,43 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
         baseProtein: _protein);
 
     foodEntryService.addEntry(newEntry);
-    print('hi');
-    var meal = (await mealService.getMeal())!;
-    print(meal.toString());
-    if(newEntry.category == "Breakfast"){
-      meal.breakfast!.add(newEntry);
-    } if(newEntry.category == "Lunch"){
-      meal.lunch!.add(newEntry);
-    } if(newEntry.category == "Dinner"){
-      meal.dinner!.add(newEntry);
-    } if(newEntry.category == "Snack"){
-      meal.snack!.add(newEntry);
+
+
+// Update or add new entry based on the category
+
+
+// Check if a meal with the same date already exists in Firebase
+    final existingMeal = await mealService.getMeal(widget.date);
+
+    if (existingMeal != null) {
+      // If meal exists, update it
+      if (newEntry.category == "Breakfast") {
+        existingMeal.breakfast!.add(newEntry);
+      } else if (newEntry.category == "Lunch") {
+        existingMeal.lunch!.add(newEntry);
+      } else if (newEntry.category == "Dinner") {
+        existingMeal.dinner!.add(newEntry);
+      } else if (newEntry.category == "Snack") {
+        existingMeal.snack!.add(newEntry);
+      }
+      await mealService.updateEntry(existingMeal);
+    } else {
+      // If meal doesn't exist, add a new entry
+      Meal meal = Meal(breakfast: [], lunch: [], dinner: [], snack: [], date: widget.date);
+      if (newEntry.category == "Breakfast") {
+        meal.breakfast!.add(newEntry);
+      } else if (newEntry.category == "Lunch") {
+        meal.lunch!.add(newEntry);
+      } else if (newEntry.category == "Dinner") {
+        meal.dinner!.add(newEntry);
+      } else if (newEntry.category == "Snack") {
+        meal.snack!.add(newEntry);
+      }
+      await mealService.addEntry(meal);
     }
 
-    print(meal.toString());
-    mealService.updateEntry(meal);
-    // Navigator.pop(context);
-    // Navigator.pop(context);
+    Navigator.pop(context);
+    Navigator.pop(context);
   }
 
 

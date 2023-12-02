@@ -4,26 +4,29 @@ import 'package:final_project/models/food_entry.dart';
 
 class Meal {
   final String? id;
-  late final List<FoodEntry>? breakfast;
-  late final List<FoodEntry>? lunch;
-  late final List<FoodEntry>? dinner;
-  late final List<FoodEntry>? snack;
+  late  List<FoodEntry>? breakfast;
+  late  List<FoodEntry>? lunch;
+  late  List<FoodEntry>? dinner;
+  late  List<FoodEntry>? snack;
+  late  DateTime? date;
 
   Meal({
     this.id,
     this.breakfast,
     this.lunch,
-     this.dinner,
-     this.snack,
+    this.dinner,
+    this.snack,
+    this.date,
 
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'breakfast': breakfast,
-      'lunch': lunch,
-      'dinner': dinner,
-      'snack': snack,
+      'breakfast': breakfast?.map((entry) => entry.toMap()).toList(),
+      'lunch': lunch?.map((entry) => entry.toMap()).toList(),
+      'dinner': dinner?.map((entry) => entry.toMap()).toList(),
+      'snack': snack?.map((entry) => entry.toMap()).toList(),
+      'date': date,
     };
   }
 
@@ -61,7 +64,8 @@ class Meal {
         .toList(),
       snack: (data['snack'] as List<dynamic>?)
           ?.map((e) => FoodEntry.fromJson(e as Map<String, dynamic>))
-          .toList()
+          .toList(),
+      date: (data['date']).toDate(),
     );
   }
 

@@ -16,7 +16,7 @@ class _LogPageState extends State<LogPage> {
   DateTime _selectedDate = DateTime.now();
 
   //create a meal object using the food entries user has added
-  Meal myMeal = Meal(breakfast: [], lunch: [], dinner: [], snack: []);
+  // Meal myMeal = Meal(breakfast: [], lunch: [], dinner: [], snack: [], date: _selectedDate);
 
   late List<String> breakfastItems = [];
 

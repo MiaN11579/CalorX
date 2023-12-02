@@ -17,17 +17,25 @@ class MealService {
   Future<void> addEntry(Meal meal) async {
     try {
       // Assuming you have a unique identifier for the meal (e.g., user ID)
-      var mealId = FirebaseAuth.instance.currentUser?.uid;
+      final existingMeal = await entryCollection
+          .where('date', isEqualTo: meal.date) // Replace 'date' with the actual field name
+          .limit(1)
+          .get();
 
-      if (mealId != null) {
-        // Set the specific document ID when adding/updating the meal
-        await entryCollection.doc(mealId).set(meal.toMap());
+      if (existingMeal.docs.isEmpty) {
+        // No existing meal for the given date, so add the new one
+        await entryCollection.add(meal.toMap());
+      } else {
+        // Meal already exists for the given date, handle accordingly
+        // For example, you could display an error message to the user
+        print('Meal already exists for the given date');
       }
     } catch (e) {
       debugPrint('Error saving meal: $e');
       rethrow;
     }
   }
+
 
 
   /// Deletes a car with the specified [id] from Firestore.
@@ -46,36 +54,31 @@ class MealService {
   Future<void> updateEntry(Meal meal) async {
     debugPrint(FirebaseAuth.instance.currentUser!.uid);
     try {
-      // Save the user data to Firestore
-      print(meal);
-      await entryCollection.doc(FirebaseAuth.instance.currentUser?.uid).update(meal.toMap());
+      final snapshot = await entryCollection.where('date', isEqualTo: meal.date).get();
+      final mealDocument = snapshot.docs.first;
+      await mealDocument.reference.update(meal.toMap());
     } catch (e) {
-      // Handle any errors that occur during the save process
       debugPrint('Error updating meal: $e');
       rethrow;
     }
   }
 
 
-  Future<Meal?> getMeal() async {
-    final snapshot = await entryCollection.doc(FirebaseAuth.instance.currentUser?.uid).get();
-    if (snapshot.exists) {
-      // Retrieve profileInfo from the first entry
-      Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
-      print(data!['breakfast']);
+  Future<Meal?> getMeal(DateTime date) async {
+    final snapshot = await entryCollection.where('date', isEqualTo: date).get();
 
-        return Meal(
-          breakfast: data!['breakfast'],
-          lunch: data!['lunch'],
-          dinner: data!['dinner'],
-          snack: data!['snack'],
+    if (snapshot.docs.isNotEmpty) {
+      Map<String, dynamic>? data = snapshot.docs.first.data() as Map<String, dynamic>?;
+      if (data != null) {
 
-        );
-
-    } else {
-      return null;
+        return Meal.fromJson(data);
+      }
     }
+
+    return null;
   }
+
+
 
 
 }

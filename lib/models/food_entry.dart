@@ -34,6 +34,7 @@ class FoodEntry {
   Map<String, dynamic> toMap() {
     return {
       'date': date,
+      'name': name,
       'category' : category,
       'amount' : amount,
       'calories' : calories,
@@ -83,9 +84,9 @@ class FoodEntry {
 
     return FoodEntry(
       id: id,
-      date: date,
+      date: date.toDate(),
       category: category,
-      name: name,
+      name: name.toString(),
       amount: amount,
       calories: calories,
       carbs: carbs,
