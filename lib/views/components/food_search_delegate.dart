@@ -1,11 +1,19 @@
 import 'package:final_project/models/SearchResultFood.dart';
+import 'package:final_project/views/add_food_entry_view.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:final_project/models/SearchResult.dart';
 
+import 'gradient_background.dart';
+
 class FoodSearchDelegate extends SearchDelegate {
+  final String category;
+  final DateTime date;
+
+  FoodSearchDelegate({required this.date, required this.category});
+
   List<String> searchResults = [
     'Cheddar Cheese',
     'Milk',
@@ -21,8 +29,8 @@ class FoodSearchDelegate extends SearchDelegate {
 
   Future<String> _search() async {
     try {
-      final response =
-          await http.get(Uri.parse('$urlSearch$apiKey$queryBase"$query"&dataType=$dataType'));
+      final response = await http.get(
+          Uri.parse('$urlSearch$apiKey$queryBase"$query"&dataType=$dataType'));
       return response.body;
     } catch (e) {
       throw Exception(e.toString());
@@ -33,20 +41,25 @@ class FoodSearchDelegate extends SearchDelegate {
     final nutrients = food.foodNutrient;
     var details = <Widget>[];
     if (nutrients != null) {
-      for(var nutrient in nutrients){
+      for (var nutrient in nutrients) {
         final number = nutrient.number;
         final name = nutrient.name;
         final amount = nutrient.amount;
         final unitName = nutrient.unitName;
         final derivationCode = nutrient.derivationCode;
         final derivationDescription = nutrient.derivationDescription;
-        final line = Text('$number, $name, $amount, $unitName, $derivationCode, $derivationDescription');
-        if (amount! > 0){
+        final line = Text(
+            '$number, $name, $amount, $unitName, $derivationCode, $derivationDescription');
+        if (amount! > 0) {
           details.add(line);
         }
       }
     }
     return details;
+  }
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    return Theme.of(context);
   }
 
   @override
@@ -76,32 +89,44 @@ class FoodSearchDelegate extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     return Center(
-      child: FutureBuilder(
-          future: _search(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              final jsonData = snapshot.data!;
-              final parsedJson = jsonDecode(jsonData);
-              final searchResult = SearchResult.fromJson(parsedJson);
-              final foods = searchResult.foods;
-              if (foods != null) {
-                return ListView.builder(
-                    itemCount: foods.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        child: ExpansionTile(
+      child: Container(
+        decoration: getGradientBackground(context),
+        child: FutureBuilder(
+            future: _search(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                final jsonData = snapshot.data!;
+                final parsedJson = jsonDecode(jsonData);
+                final searchResult = SearchResult.fromJson(parsedJson);
+                final foods = searchResult.foods;
+                if (foods != null) {
+                  return ListView.builder(
+                      itemCount: foods.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
                           title: Text(foods[index].description),
-                          children: foodDetails(foods[index]),
-                        ),
-                      );
-                    });
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AddFoodEntryPage(
+                                  category: category,
+                                  food: foods[index],
+                                  date: date,
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      });
+                } else {
+                  return Text('No foods match this $query');
+                }
               } else {
-                return Text('No foods match this $query');
+                return const CircularProgressIndicator();
               }
-            } else {
-              return const CircularProgressIndicator();
-            }
-          }),
+            }),
+      ),
     );
   }
 
@@ -113,17 +138,20 @@ class FoodSearchDelegate extends SearchDelegate {
       return result.contains(input);
     }).toList();
 
-    return ListView.builder(
-        itemCount: suggestions.length,
-        itemBuilder: (context, index) {
-          var suggestion = suggestions[index];
-          return ListTile(
-            title: Text(suggestion),
-            onTap: () {
-              query = suggestion;
-              showResults(context);
-            },
-          );
-        });
+    return Container(
+      decoration: getGradientBackground(context),
+      child: ListView.builder(
+          itemCount: suggestions.length,
+          itemBuilder: (context, index) {
+            var suggestion = suggestions[index];
+            return ListTile(
+              title: Text(suggestion),
+              onTap: () {
+                query = suggestion;
+                showResults(context);
+              },
+            );
+          }),
+    );
   }
 }

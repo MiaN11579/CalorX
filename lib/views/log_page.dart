@@ -1,6 +1,5 @@
 import 'package:final_project/models/food_entry.dart';
 import 'package:flutter/material.dart';
-import 'package:fraction/fraction.dart';
 import 'package:intl/intl.dart';
 import 'components/food_search_delegate.dart';
 import 'components/gradient_background.dart';
@@ -17,32 +16,7 @@ class _LogPageState extends State<LogPage> {
   DateTime _selectedDate = DateTime.now();
 
   //create a meal object using the food entries user has added
-  Meal myMeal = Meal(breakfast: [
-    FoodEntry(
-        date: DateTime.now(),
-        name: "eggs",
-        amount: MixedFraction(denominator: 4, numerator: 3, whole: 1),
-        calories: 70,
-        carbs: 0,
-        fat: 0,
-        protein: 0),
-    FoodEntry(
-        date: DateTime.now(),
-        name: "coffee",
-        amount: MixedFraction(denominator: 4, numerator: 3, whole: 1),
-        calories: 70,
-        carbs: 0,
-        fat: 0,
-        protein: 0),
-    FoodEntry(
-        date: DateTime.now(),
-        name: "toast",
-        amount: MixedFraction(denominator: 4, numerator: 3, whole: 1),
-        calories: 70,
-        carbs: 0,
-        fat: 0,
-        protein: 0)
-  ], lunch: [], dinner: [], snack: []);
+  Meal myMeal = Meal(breakfast: [], lunch: [], dinner: [], snack: []);
 
   late List<String> breakfastItems = [];
 
@@ -152,7 +126,7 @@ class _LogPageState extends State<LogPage> {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
               onPressed: () {
-                showSearch(context: context, delegate: FoodSearchDelegate());
+                showSearch(context: context, delegate: FoodSearchDelegate(category: label, date: _selectedDate));
               },
               child: Text(
                 'Add food',
