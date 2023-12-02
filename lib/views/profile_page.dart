@@ -1,9 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:final_project/models/profile_info.dart';
 import 'package:final_project/models/user_account.dart';
 import 'package:final_project/theme.dart';
+import 'package:provider/provider.dart';
+import '../models/user_account.dart';
+import '../theme.dart';
+import 'components/gradient_background.dart';
 import 'package:final_project/controller/user_account_service.dart';
 import 'components/gradient_background.dart';
 import 'edit_profile_page.dart';
@@ -41,7 +46,7 @@ class _ProfilePageState extends State<ProfilePage> {
     _loadProfile();
   }
 
-  Widget _buildRichTextWithBox(String label, String value, BuildContext context) {
+  Widget _buildRichTextWithBox(String label, String value, String label2,  BuildContext context) {
     if (label == 'Date of Birth:') {
       DateTime dob = DateTime.parse(value);
       String formattedDate = DateFormat('MMM d, y').format(dob);
@@ -52,9 +57,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     return GestureDetector(
       onDoubleTap: () {
-        if (label.toLowerCase() == 'Hey') {
-          _editProfileField('Hey ', widget.profileInfo.name);
-        } else {
+        if ((label) != 'Recommended Daily Calorie Intake:') {
           _editProfileField(label, value);
         }
       },
@@ -68,17 +71,18 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
         padding: const EdgeInsets.all(19),
-        child: _buildRichText(label, value, context),
+        child: _buildRichText(label, value, label2, context),
       ),
+
     );
   }
 
-  Widget _buildRichText(String label, String value, BuildContext context) {
+  Widget _buildRichText(String label, String value, String label2, BuildContext context) {
     return RichText(
       text: TextSpan(
         style: TextStyle(
           fontSize: 20,
-          color: Theme.of(context).colorScheme.primary,
+          color: Colors.white,
         ),
         children: [
           TextSpan(
@@ -89,6 +93,12 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           TextSpan(
             text: value,
+            style: const TextStyle(
+              fontWeight: FontWeight.normal,
+            ),
+          ),
+          TextSpan(
+            text: label2,
             style: const TextStyle(
               fontWeight: FontWeight.normal,
             ),
@@ -128,11 +138,65 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = context.watch<ThemeProvider>();
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Your Profile'),
+        actions: [
+          IconButton(
+            icon: Icon(
+                themeProvider.isDark ? Icons.brightness_7 : Icons.brightness_4),
+            onPressed: () {
+              themeProvider.toggleTheme();
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<ProfileScreen>(
+                  builder: (context) => ProfileScreen(
+                    appBar: AppBar(
+                      title: const Text(
+                        'User Profile',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                        ),
+                      ),
+                      leading: InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Icon(
+                          Icons.arrow_back,
+                          color: Colors.black54,
+                        ),
+                      ),
+                    ),
+                    actions: [
+                      SignedOutAction((context) {
+                        Navigator.of(context).pop();
+                      })
+                    ],
+                    children: const [
+                      Divider(),
+                      Padding(
+                        padding: EdgeInsets.all(2),
+                        child: AspectRatio(
+                          aspectRatio: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          )
+        ],
       ),
       body: Container(
         padding: const EdgeInsets.only(top: 80),
@@ -203,7 +267,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: Colors.white,
                   ),
                 ),
               ),
@@ -213,32 +277,35 @@ class _ProfilePageState extends State<ProfilePage> {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Colors.white,
                 ),
               ),
               const SizedBox(height: 14),
               _buildRichTextWithBox(
-                  'Date of Birth:', widget.profileInfo.dob, context),
+                  'Name:', widget.profileInfo.name,'', context),
               const SizedBox(height: 8),
               _buildRichTextWithBox(
-                  'Height:', '${widget.profileInfo.height} cm', context),
+                  'Date of Birth:', widget.profileInfo.dob,'', context),
               const SizedBox(height: 8),
               _buildRichTextWithBox(
-                  'Weight:', '${widget.profileInfo.weight} kg', context),
-              const SizedBox(height: 8),
-              _buildRichTextWithBox('Gender:', widget.profileInfo.gender, context),
+                  'Height:', '${widget.profileInfo.height}' , ' cm', context),
               const SizedBox(height: 8),
               _buildRichTextWithBox(
-                  'Activity Level:', widget.profileInfo.activityLevel, context),
+                  'Weight:', '${widget.profileInfo.weight}', ' kg', context),
               const SizedBox(height: 8),
-              _buildRichTextWithBox('Goal:', widget.profileInfo.goal, context),
+              _buildRichTextWithBox('Gender:', widget.profileInfo.gender, '', context),
               const SizedBox(height: 8),
               _buildRichTextWithBox(
-                  'Duration:', widget.profileInfo.duration, context),
+                  'Activity Level:', widget.profileInfo.activityLevel, '', context),
+              const SizedBox(height: 8),
+              _buildRichTextWithBox('Goal:', widget.profileInfo.goal, '', context),
+              const SizedBox(height: 8),
+              _buildRichTextWithBox(
+                  'Duration:', widget.profileInfo.duration, '', context),
               const SizedBox(height: 8),
               _buildRichTextWithBox(
                   'Recommended Daily Calorie Intake:',
-                  '${widget.profileInfo.calorieIntake} Calories',
+                  '${widget.profileInfo.calorieIntake} Calories','',
                   context),
               const SizedBox(height: 8),
             ],

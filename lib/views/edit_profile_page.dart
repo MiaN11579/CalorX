@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:final_project/controller/user_account_service.dart';
+import 'package:intl/intl.dart';
 import '../models/profile_info.dart';
 import '../models/user_account.dart';
 import 'profile_page.dart';
@@ -22,6 +23,7 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   TextEditingController valueController = TextEditingController();
+  TextEditingController dobController = TextEditingController();
   final UserAccountService _userAccountService = UserAccountService();
   final currentUser = FirebaseAuth.instance.currentUser;
 
@@ -29,6 +31,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   String selectedActivityLevel = '';
   String selectedGoal = '';
   String selectedDuration = '';
+  DateTime selectedDate = DateTime.now();
 
   Future<ProfileInfo> _loadProfile() async {
     return (await _userAccountService.getUserProfile())!;
@@ -42,6 +45,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     selectedActivityLevel = widget.initialValue;
     selectedGoal = widget.initialValue;
     selectedDuration = widget.initialValue;
+    dobController.text = widget.initialValue;
   }
 
   @override
@@ -227,7 +231,30 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           });
                         },
                       ),
-                    } else ...{
+                    } else if(widget.fieldLabel == 'Date of Birth:')...{
+
+                      InkWell(
+                        onTap: () => _selectDate(context),
+                        child: InputDecorator(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            filled: true,
+                            fillColor: Colors.white,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Text(
+                                dobController.text,
+                              ),
+                              const Icon(Icons.calendar_today),
+                            ],
+                          ),
+                        ),
+                      )
+                    }
+                    else ...{
                       // Show regular text field for other fields
                       TextField(
                         controller: valueController,
@@ -252,7 +279,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           profileInfoFetched.goal = selectedGoal;
                         } else if (widget.fieldLabel == 'Duration:') {
                           profileInfoFetched.duration = selectedDuration;
+                        } else if (widget.fieldLabel == 'Date of Birth:') {
+                          profileInfoFetched.dob = dobController.text;
                         }
+                        else if (widget.fieldLabel == 'Name:') {
+                          profileInfoFetched.name = valueController.text;
+                        }
+
+                        var calories = await _userAccountService.calculateDailyCalorieIntake(profileInfoFetched);
+                        profileInfoFetched.calorieIntake = calories;
 
                         var id = await _userAccountService.profileExists();
                         UserAccount user = UserAccount(
@@ -261,7 +296,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           profileInfo: profileInfoFetched,
                           email: currentUser!.email,
                         );
-
                         await _userAccountService.updateUserProfile(user);
 
                         // Update the specific field using updateUserProfileField
@@ -288,5 +322,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ),
       ),
     );
+  }
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        dobController.text =
+            DateFormat('yyyy-MM-dd', 'en_US').format(selectedDate);
+
+      });
+    }
   }
 }
