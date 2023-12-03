@@ -11,6 +11,8 @@ import 'package:final_project/controller/user_account_service.dart';
 import 'components/macro_data.dart';
 import 'components/weekly_calories_chart.dart';
 
+import 'package:final_project/date_manager.dart';
+
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);
 
@@ -19,7 +21,7 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  DateTime _selectedDate = DateTime.now();
+  DateTime _selectedDate = DateManager.instance.date;
   final PageController _dailyController = PageController(viewportFraction: 1);
   final PageController _weeklyController = PageController(viewportFraction: 1);
   final UserAccountService _userAccountService = UserAccountService();
@@ -55,7 +57,8 @@ class _DashboardPageState extends State<DashboardPage> {
 
     if (picked != null && picked != _selectedDate) {
       setState(() {
-        _selectedDate = picked;
+        DateManager.instance.setDate(picked);
+        _selectedDate = DateManager.instance.date;
       });
       await updateCharts();
     }
@@ -67,7 +70,9 @@ class _DashboardPageState extends State<DashboardPage> {
         icon: const Icon(Icons.arrow_back_ios_rounded),
         onPressed: () async {
           setState(() {
-            _selectedDate = _selectedDate.subtract(const Duration(days: 1));
+            DateManager.instance
+                .setDate(_selectedDate.subtract(const Duration(days: 1)));
+            _selectedDate = DateManager.instance.date;
           });
           await updateCharts();
         },
@@ -80,7 +85,9 @@ class _DashboardPageState extends State<DashboardPage> {
         icon: const Icon(Icons.arrow_forward_ios_rounded),
         onPressed: () async {
           setState(() {
-            _selectedDate = _selectedDate.add(const Duration(days: 1));
+            DateManager.instance
+                .setDate(_selectedDate.add(const Duration(days: 1)));
+            _selectedDate = DateManager.instance.date;
           });
           await updateCharts();
         },
@@ -192,7 +199,8 @@ class _DashboardPageState extends State<DashboardPage> {
     _dailyCharts.add(getRadialChart(cardColor, _macroData));
 
     _weeklyCharts.clear();
-    _weeklyCharts.add(getWeeklyCaloriesChart(cardColor, _weeklyCalorieData, _goalCalorie!.toDouble()));
+    _weeklyCharts.add(getWeeklyCaloriesChart(
+        cardColor, _weeklyCalorieData, _goalCalorie!.toDouble()));
 
     setState(() {
       _dailyCharts;

@@ -14,14 +14,14 @@ class FoodSearchDelegate extends SearchDelegate {
 
   FoodSearchDelegate({required this.date, required this.category});
 
-  List<String> searchResults = [
+  Set<String> searchResults = {
     'Cheddar Cheese',
     'Milk',
     'Bacon',
     'Eggs',
     'White Rice',
     'Blueberries',
-  ];
+  };
   String urlSearch = 'https://api.nal.usda.gov/fdc/v1/foods/search?api_key=';
   String apiKey = '5Zwsmg1lLYSeaQ9Yx0T1rbstPEIjdQJjA6T56vzn';
   String queryBase = '&query=';
@@ -110,8 +110,7 @@ class FoodSearchDelegate extends SearchDelegate {
                       itemCount: foods.length,
                       itemBuilder: (context, index) {
                         return ListTile(
-                          title: Text(foods[index].description,
-                              style: const TextStyle(fontSize: 22, color: Colors.white)),
+                          title: Text(foods[index].description),
                           onTap: () {
                             Navigator.push(
                               context,
@@ -134,8 +133,7 @@ class FoodSearchDelegate extends SearchDelegate {
 
                     body: Container(
                         decoration: getGradientBackground(context),
-                        child:
-                            const Center(child: CircularProgressIndicator(color: Colors.white))));
+                        child: const Center(child: CircularProgressIndicator())));
               }
             }),
       ),
@@ -157,9 +155,7 @@ class FoodSearchDelegate extends SearchDelegate {
           itemBuilder: (context, index) {
             var suggestion = suggestions[index];
             return ListTile(
-              title: Text(suggestion,
-                  style: const TextStyle(fontSize: 22, color: Colors.white)),
-              textColor: Colors.white,
+              title: Text(suggestion),
               onTap: () {
                 query = suggestion;
                 showResults(context);

@@ -1,8 +1,8 @@
-import 'package:final_project/models/food_entry.dart';
 import 'package:final_project/views/components/macro_data.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../controller/meal_service.dart';
+import '../date_manager.dart';
 import 'components/food_search_delegate.dart';
 import 'components/gradient_background.dart';
 import 'package:final_project/models/meal.dart';
@@ -15,8 +15,10 @@ class LogPage extends StatefulWidget {
 }
 
 class _LogPageState extends State<LogPage> {
-  DateTime _selectedDate = DateTime.now();
+  DateTime _selectedDate = DateManager.instance.date;
 
+  //create a meal object using the food entries user has added
+  // Meal myMeal = Meal(breakfast: [], lunch: [], dinner: [], snack: [], date: _selectedDate);
 
 
   late Meal meal = Meal(
@@ -53,6 +55,7 @@ class _LogPageState extends State<LogPage> {
 
   Future<void> _initializeState() async {
     await _getMealObject();
+    print(meal.dinner);
   }
 
   @override
@@ -155,14 +158,11 @@ class _LogPageState extends State<LogPage> {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
               onPressed: () {
-                showSearch(
-                    context: context,
-                    delegate: FoodSearchDelegate(
-                        category: label, date: _selectedDate));
+                showSearch(context: context, delegate: FoodSearchDelegate(category: label, date: _selectedDate));
               },
-              child: const Text(
+              child: Text(
                 'Add food',
-                style: TextStyle(color: Color(0xffF4668F)),
+                style: TextStyle(color: const Color(0xffF4668F)),
               ),
             ),
           ),
@@ -177,7 +177,9 @@ class _LogPageState extends State<LogPage> {
         icon: const Icon(Icons.arrow_back_ios_rounded),
         onPressed: () {
           setState(() {
-            _selectedDate = _selectedDate.subtract(const Duration(days: 1));
+            DateManager.instance
+                .setDate(_selectedDate.subtract(const Duration(days: 1)));
+            _selectedDate = DateManager.instance.date;
           });
         },
       ),
@@ -189,7 +191,9 @@ class _LogPageState extends State<LogPage> {
         icon: const Icon(Icons.arrow_forward_ios_rounded),
         onPressed: () {
           setState(() {
-            _selectedDate = _selectedDate.add(const Duration(days: 1));
+            DateManager.instance
+                .setDate(_selectedDate.add(const Duration(days: 1)));
+            _selectedDate = DateManager.instance.date;
           });
         },
       ),
@@ -206,7 +210,8 @@ class _LogPageState extends State<LogPage> {
 
     if (picked != null && picked != _selectedDate) {
       setState(() {
-        _selectedDate = picked;
+        DateManager.instance.setDate(picked);
+        _selectedDate = DateManager.instance.date;
       });
     }
   }
