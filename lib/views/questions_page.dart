@@ -4,12 +4,10 @@ import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:final_project/models/profile_info.dart';
 import 'package:final_project/models/user_account.dart';
 import 'package:final_project/controller/user_account_service.dart';
 import '../controller/meal_service.dart';
-import '../models/meal.dart';
 import 'main_page.dart';
 
 class QuestionsPage extends StatefulWidget {
@@ -89,7 +87,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(height: 70,),
+              const SizedBox(height: 70,),
               Padding(
                 padding: const EdgeInsets.all(50.0),
                 child: Align(
@@ -154,8 +152,6 @@ class _QuestionsPageState extends State<QuestionsPage> {
 
                             profileInfo.calorieIntake = _userAccountService
                                 .calculateDailyCalorieIntake(profileInfo);
-                            print(_userAccountService
-                                .calculateDailyCalorieIntake(profileInfo));
                             _submitAnswers();
                           });
                         }
@@ -482,7 +478,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
       );
 
       try {
-        // Simulate a delay (replace this with your actual data loading or navigation logic)
+        // Simulate a delay
         await Future.delayed(const Duration(seconds: 5));
 
         // Save the user's inputs to the ProfileInfo model

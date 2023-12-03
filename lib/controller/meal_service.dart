@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:final_project/models/food_entry.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
-
 import '../models/meal.dart';
 import '../models/chart_data.dart';
 import '../models/macro_data.dart';
@@ -20,10 +18,9 @@ class MealService {
   /// Adds a meal to Firestore.
   Future<void> addMeal(Meal meal) async {
     try {
-      // Assuming you have a unique identifier for the meal (e.g., user ID)
       final existingMeal = await entryCollection
           .where('date',
-              isEqualTo: meal.date) // Replace 'date' with the actual field name
+              isEqualTo: meal.date)
           .limit(1)
           .get();
 
@@ -32,7 +29,6 @@ class MealService {
         await entryCollection.add(meal.toMap());
       } else {
         // Meal already exists for the given date, handle accordingly
-        // For example, you could display an error message to the user
         print('Meal already exists for the given date');
       }
     } catch (e) {

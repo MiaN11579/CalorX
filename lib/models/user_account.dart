@@ -5,7 +5,6 @@ class UserAccount {
   final String? id;
   String uid;
   String? email;
-  // Add other user-related fields here
 
   // Nested ProfileInfo
   ProfileInfo profileInfo;
@@ -15,7 +14,6 @@ class UserAccount {
     required this.uid,
     this.email,
     required this.profileInfo,
-    // Add other parameters here
   });
 
   Map<String, dynamic> toMap() {
@@ -23,7 +21,6 @@ class UserAccount {
       'uid': uid,
       'email': email,
       'profileInfo': profileInfo.toMap(),
-      // Add other fields as needed
     };
   }
 
@@ -34,7 +31,6 @@ class UserAccount {
       uid: map['uid'] ?? '',
       email: map['email'] ?? '',
       profileInfo: ProfileInfo.fromMap(map['profileInfo'] ?? {}),
-      // Add other fields as needed
     );
   }
 }

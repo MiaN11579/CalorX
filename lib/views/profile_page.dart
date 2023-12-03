@@ -6,11 +6,8 @@ import 'package:final_project/models/profile_info.dart';
 import 'package:final_project/models/user_account.dart';
 import 'package:final_project/theme.dart';
 import 'package:provider/provider.dart';
-import '../models/user_account.dart';
-import '../theme.dart';
 import 'components/gradient_background.dart';
 import 'package:final_project/controller/user_account_service.dart';
-import 'components/gradient_background.dart';
 import 'edit_profile_page.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -130,7 +127,6 @@ class _ProfilePageState extends State<ProfilePage> {
         } else if (label.toLowerCase() == 'name:') {
           widget.profileInfo.name = updatedValue;
         }
-        // Add similar handling for other fields
         _loadProfile(); // Fetch updated profile information
       });
     }

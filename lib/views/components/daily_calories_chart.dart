@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../models/chart_data.dart';
-import '../../models/macro_data.dart';
 
 /// Returns column chart for daily calorie.
 Card getDailyCaloriesChart(Color cardColor, double dailyCalorie, double goalCalorie) {

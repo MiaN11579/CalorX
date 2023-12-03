@@ -222,17 +222,16 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
                         hintText: '100.0',
                         labelText: 'Amount',
                         labelStyle: TextStyle(color: Colors.white),
-                        // Set label text color
                         hintStyle: TextStyle(color: Colors.white, fontSize: 18),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Colors
-                                  .white), // Set border color when focused
+                                  .white),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Colors
-                                  .white), // Set border color when not focused
+                                  .white),
                         ),
                       ),
                     ),
@@ -242,7 +241,6 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
                       style: TextStyle(color: Colors.white, fontSize: 18))
                 ],
               ),
-              //...foodDetails(widget.food),
               const Gap(40),
               const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -268,7 +266,7 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
                           'Calories: ${_calories}kcal',
                           style: const TextStyle(
                               color: Colors.white,
-                              fontSize: 18), // Adjust the font size
+                              fontSize: 18),
                         ),
                         const SizedBox(
                           height: 20,
@@ -281,13 +279,13 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
                                 'Carbs:',
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 16), // Adjust the font size
+                                    fontSize: 16),
                               ),
                               Text(
                                 '${_carbs}g',
                                 style: const TextStyle(
                                     color: Colors.white,
-                                    fontSize: 16), // Adjust the font size
+                                    fontSize: 16),
                               ),
                             ],),
                             const SizedBox(
@@ -298,13 +296,13 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
                                 'Fat:',
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 16), // Adjust the font size
+                                    fontSize: 16),
                               ),
                               Text(
                                 '${_fat}g',
                                 style: const TextStyle(
                                     color: Colors.white,
-                                    fontSize: 16), // Adjust the font size
+                                    fontSize: 16),
                               ),
                             ],),
                             const SizedBox(
@@ -315,13 +313,13 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
                                 'Protein:',
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 16), // Adjust the font size
+                                    fontSize: 16),
                               ),
                               Text(
                                 '${_protein}g',
                                 style: const TextStyle(
                                     color: Colors.white,
-                                    fontSize: 16), // Adjust the font size
+                                    fontSize: 16),
                               ),
                             ],),
                           ],

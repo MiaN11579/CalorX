@@ -17,8 +17,7 @@ class LogPage extends StatefulWidget {
 class _LogPageState extends State<LogPage> {
   DateTime _selectedDate = DateManager.instance.date;
 
-  //create a meal object using the food entries user has added
-  // Meal myMeal = Meal(breakfast: [], lunch: [], dinner: [], snack: [], date: _selectedDate);
+
 
   final MealService mealService = MealService();
   late List<FoodEntry> breakfastItems = [];
@@ -179,11 +178,11 @@ class _LogPageState extends State<LogPage> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  SizedBox(width: 10,),
+                                  const SizedBox(width: 10,),
                                   IconButton(
-                                    padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
-                                    icon: Icon(Icons.delete),
-                                    color: Color(0xffF4668F),
+                                    padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
+                                    icon: const Icon(Icons.delete),
+                                    color: const Color(0xffF4668F),
                                     onPressed: () async {
                                       final result = await showDialog<bool>(
                                         context: context,

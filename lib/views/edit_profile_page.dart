@@ -137,12 +137,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                                 color: Colors
-                                    .white), // Border color for focused state
+                                    .white),
                           ),
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                                 color: Colors
-                                    .white), // Border color for enabled/but not focused state
+                                    .white),
                           ),
                         ),
                       ),

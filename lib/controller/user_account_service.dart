@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_project/models/user_account.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -56,7 +55,6 @@ class UserAccountService {
           case 'height':
             userProfile.height = int.parse(updatedValue);
             break;
-        // Add more cases for other fields as needed
         }
 
         // Save the updated profile back to Firestore
