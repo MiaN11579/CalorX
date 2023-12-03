@@ -61,7 +61,11 @@ class FoodSearchDelegate extends SearchDelegate {
 
   @override
   ThemeData appBarTheme(BuildContext context) {
-    return Theme.of(context);
+    return Theme.of(context).copyWith(
+      appBarTheme: AppBarTheme(
+        color: const Color(0xffFDE882).withOpacity(0.7),
+      ),
+    );
   }
 
   @override
@@ -127,6 +131,7 @@ class FoodSearchDelegate extends SearchDelegate {
                 }
               } else {
                 return Scaffold(
+
                     body: Container(
                         decoration: getGradientBackground(context),
                         child:

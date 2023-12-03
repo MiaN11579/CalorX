@@ -17,8 +17,7 @@ class LogPage extends StatefulWidget {
 class _LogPageState extends State<LogPage> {
   DateTime _selectedDate = DateTime.now();
 
-  //create a meal object using the food entries user has added
-  // Meal myMeal = Meal(breakfast: [], lunch: [], dinner: [], snack: [], date: _selectedDate);
+
 
   late Meal meal = Meal(
       breakfast: [],
@@ -35,9 +34,9 @@ class _LogPageState extends State<LogPage> {
   late List<String> snackItems = [];
 
   Future<void> _getMealObject() async {
-    print(DateFormat('yyyy-MM-dd').format(_selectedDate.toLocal()));
-    meal = (await mealService
-        .getMeal(DateFormat('yyyy-MM-dd').format(_selectedDate.toLocal())))!;
+
+    meal = (await mealService.getMeal(DateFormat('yyyy-MM-dd').format(_selectedDate.toLocal())))!;
+
     setState(() {
       breakfastItems = meal.breakfast!.map((entry) => entry.name).toList();
       lunchItems = meal.lunch!.map((entry) => entry.name).toList();
@@ -54,7 +53,6 @@ class _LogPageState extends State<LogPage> {
 
   Future<void> _initializeState() async {
     await _getMealObject();
-    print(meal.dinner);
   }
 
   @override
@@ -162,9 +160,9 @@ class _LogPageState extends State<LogPage> {
                     delegate: FoodSearchDelegate(
                         category: label, date: _selectedDate));
               },
-              child: Text(
+              child: const Text(
                 'Add food',
-                style: TextStyle(color: const Color(0xffF4668F)),
+                style: TextStyle(color: Color(0xffF4668F)),
               ),
             ),
           ),
