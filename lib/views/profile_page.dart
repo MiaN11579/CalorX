@@ -29,7 +29,8 @@ class _ProfilePageState extends State<ProfilePage> {
   bool isEditing = false;
 
   Future<void> _loadProfile() async {
-    ProfileInfo profileInfoFetched = (await _userAccountService.getUserProfile())!;
+    ProfileInfo profileInfoFetched =
+        (await _userAccountService.getUserProfile())!;
     setState(() {
       widget.profileInfo.imageUrl = profileInfoFetched.imageUrl;
       widget.profileInfo.weight = profileInfoFetched.weight;
@@ -43,14 +44,18 @@ class _ProfilePageState extends State<ProfilePage> {
     _loadProfile();
   }
 
-  Widget _buildRichTextWithBox(String label, String value, String label2,  BuildContext context) {
+  Widget _buildRichTextWithBox(
+      String label, String value, String label2, BuildContext context) {
     if (label == 'Date of Birth:') {
       DateTime dob = DateTime.parse(value);
       String formattedDate = DateFormat('MMM d, y').format(dob);
       value = formattedDate;
     }
 
-    double boxHeight = (label == 'Activity Level:' || label == 'Recommended Daily Calorie Intake:') ? 90 : 65;
+    double boxHeight = (label == 'Activity Level:' ||
+            label == 'Recommended Daily Calorie Intake:')
+        ? 90
+        : 65;
 
     return GestureDetector(
       onDoubleTap: () {
@@ -70,11 +75,11 @@ class _ProfilePageState extends State<ProfilePage> {
         padding: const EdgeInsets.all(19),
         child: _buildRichText(label, value, label2, context),
       ),
-
     );
   }
 
-  Widget _buildRichText(String label, String value, String label2, BuildContext context) {
+  Widget _buildRichText(
+      String label, String value, String label2, BuildContext context) {
     return RichText(
       text: TextSpan(
         style: const TextStyle(
@@ -215,14 +220,14 @@ class _ProfilePageState extends State<ProfilePage> {
                           : null,
                       child: widget.profileInfo.imageUrl.isEmpty
                           ? Text(
-                        widget.profileInfo.name.isNotEmpty
-                            ? widget.profileInfo.name[0].toUpperCase()
-                            : '?',
-                        style: const TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )
+                              widget.profileInfo.name.isNotEmpty
+                                  ? widget.profileInfo.name[0].toUpperCase()
+                                  : '?',
+                              style: const TextStyle(
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
                           : null,
                     ),
                   ),
@@ -238,7 +243,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: IconButton(
                         onPressed: () async {
                           widget.profileInfo.imageUrl =
-                          await _userAccountService.getImageFromGallery();
+                              await _userAccountService.getImageFromGallery();
                           setState(() {
                             UserAccount user = UserAccount(
                                 uid: currentUser!.uid,
@@ -278,31 +283,31 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               const SizedBox(height: 14),
               _buildRichTextWithBox(
-                  'Name:', widget.profileInfo.name,'', context),
+                  'Name:', widget.profileInfo.name, '', context),
               const SizedBox(height: 8),
               _buildRichTextWithBox(
-                  'Date of Birth:', widget.profileInfo.dob,'', context),
+                  'Date of Birth:', widget.profileInfo.dob, '', context),
               const SizedBox(height: 8),
               _buildRichTextWithBox(
-                  'Height:', '${widget.profileInfo.height}' , ' cm', context),
+                  'Height:', '${widget.profileInfo.height}', ' cm', context),
               const SizedBox(height: 8),
               _buildRichTextWithBox(
                   'Weight:', '${widget.profileInfo.weight}', ' kg', context),
               const SizedBox(height: 8),
-              _buildRichTextWithBox('Gender:', widget.profileInfo.gender, '', context),
+              _buildRichTextWithBox(
+                  'Gender:', widget.profileInfo.gender, '', context),
+              const SizedBox(height: 8),
+              _buildRichTextWithBox('Activity Level:',
+                  widget.profileInfo.activityLevel, '', context),
               const SizedBox(height: 8),
               _buildRichTextWithBox(
-                  'Activity Level:', widget.profileInfo.activityLevel, '', context),
-              const SizedBox(height: 8),
-              _buildRichTextWithBox('Goal:', widget.profileInfo.goal, '', context),
+                  'Goal:', widget.profileInfo.goal, '', context),
               const SizedBox(height: 8),
               _buildRichTextWithBox(
                   'Duration:', widget.profileInfo.duration, '', context),
               const SizedBox(height: 8),
-              _buildRichTextWithBox(
-                  'Recommended Daily Calorie Intake:',
-                  '${widget.profileInfo.calorieIntake} Calories','',
-                  context),
+              _buildRichTextWithBox('Recommended Daily Calorie Intake:',
+                  '${widget.profileInfo.calorieIntake} Calories', '', context),
               const SizedBox(height: 8),
             ],
           ),

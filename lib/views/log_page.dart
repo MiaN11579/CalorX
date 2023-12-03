@@ -17,8 +17,6 @@ class LogPage extends StatefulWidget {
 class _LogPageState extends State<LogPage> {
   DateTime _selectedDate = DateManager.instance.date;
 
-
-
   final MealService mealService = MealService();
   late List<FoodEntry> breakfastItems = [];
   late List<FoodEntry> lunchItems = [];
@@ -178,9 +176,12 @@ class _LogPageState extends State<LogPage> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  const SizedBox(width: 10,),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
                                   IconButton(
-                                    padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
+                                    padding:
+                                        const EdgeInsets.fromLTRB(40, 0, 0, 0),
                                     icon: const Icon(Icons.delete),
                                     color: const Color(0xffF4668F),
                                     onPressed: () async {
@@ -192,8 +193,11 @@ class _LogPageState extends State<LogPage> {
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold,
                                           ),
-                                          backgroundColor: Theme.of(context).colorScheme.tertiary,
-                                          title: const Text('Remove this entry?'),
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .tertiary,
+                                          title:
+                                              const Text('Remove this entry?'),
                                           actions: [
                                             TextButton(
                                               onPressed: () =>
@@ -212,10 +216,11 @@ class _LogPageState extends State<LogPage> {
                                       if (result == null || !result) {
                                         return;
                                       }
-                                      await mealService.removeEntry(
-                                          mealDate, foodItems[index].id!, label);
+                                      await mealService.removeEntry(mealDate,
+                                          foodItems[index].id!, label);
                                       await _getMealObject();
-                                    },)
+                                    },
+                                  )
                                 ],
                               ),
                             ),

@@ -3,7 +3,8 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../models/chart_data.dart';
 
 /// Get column series with tracker
-Card getWeeklyCaloriesChart(Color cardColor, List<ChartData> chartData, [double userCalorie = 0]) {
+Card getWeeklyCaloriesChart(Color cardColor, List<ChartData> chartData,
+    [double userCalorie = 0]) {
   return Card(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(50),

@@ -71,7 +71,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('Edit ${widget.fieldLabel}',
-                        style: const TextStyle(color: Colors.white, fontSize: 18)),
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 18)),
                     if (widget.fieldLabel == 'Gender:') ...{
                       // Show radio buttons for gender selection
                       getRadioListTile('Male', selectedGender),
@@ -116,12 +117,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             children: <Widget>[
                               Text(
                                 dobController.text,
-                                  style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+                                style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.tertiary),
                               ),
-                              Icon(
-                                Icons.calendar_today,
-                                color: Theme.of(context).colorScheme.tertiary // Set icon color to white
-                              ),
+                              Icon(Icons.calendar_today,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .tertiary // Set icon color to white
+                                  ),
                             ],
                           ),
                         ),
@@ -132,17 +136,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         keyboardType: widget.fieldLabel == 'Name:'
                             ? TextInputType.text
                             : TextInputType.number,
-                        style: const TextStyle(color: Colors.white, fontSize: 18),
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 18),
                         decoration: const InputDecoration(
                           focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors
-                                    .white),
+                            borderSide: BorderSide(color: Colors.white),
                           ),
                           enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors
-                                    .white),
+                            borderSide: BorderSide(color: Colors.white),
                           ),
                         ),
                       ),
@@ -213,7 +214,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                       child: Text(
                         'Save Changes'.toUpperCase(),
-                        style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.tertiary),
                       ),
                     ),
                   ],
@@ -228,7 +230,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   RadioListTile getRadioListTile(String title, String groupValue) {
     return RadioListTile(
-      title: Text(title, style: const TextStyle(color: Colors.white, fontSize: 18)),
+      title: Text(title,
+          style: const TextStyle(color: Colors.white, fontSize: 18)),
       value: title,
       groupValue: groupValue,
       onChanged: (value) {

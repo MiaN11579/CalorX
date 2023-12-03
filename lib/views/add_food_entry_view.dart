@@ -224,14 +224,10 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
                         labelStyle: TextStyle(color: Colors.white),
                         hintStyle: TextStyle(color: Colors.white, fontSize: 18),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors
-                                  .white),
+                          borderSide: BorderSide(color: Colors.white),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors
-                                  .white),
+                          borderSide: BorderSide(color: Colors.white),
                         ),
                       ),
                     ),
@@ -265,8 +261,7 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
                         Text(
                           'Calories: ${_calories}kcal',
                           style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 18),
+                              color: Colors.white, fontSize: 18),
                         ),
                         const SizedBox(
                           height: 20,
@@ -274,54 +269,54 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Column(children: [
-                              const Text(
-                                'Carbs:',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16),
-                              ),
-                              Text(
-                                '${_carbs}g',
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16),
-                              ),
-                            ],),
+                            Column(
+                              children: [
+                                const Text(
+                                  'Carbs:',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 16),
+                                ),
+                                Text(
+                                  '${_carbs}g',
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 16),
+                                ),
+                              ],
+                            ),
                             const SizedBox(
                               width: 15,
                             ),
-                            Column(children: [
-                              const Text(
-                                'Fat:',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16),
-                              ),
-                              Text(
-                                '${_fat}g',
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16),
-                              ),
-                            ],),
+                            Column(
+                              children: [
+                                const Text(
+                                  'Fat:',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 16),
+                                ),
+                                Text(
+                                  '${_fat}g',
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 16),
+                                ),
+                              ],
+                            ),
                             const SizedBox(
                               width: 15,
                             ),
-                            Column(children: [
-                              const Text(
-                                'Protein:',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16),
-                              ),
-                              Text(
-                                '${_protein}g',
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16),
-                              ),
-                            ],),
+                            Column(
+                              children: [
+                                const Text(
+                                  'Protein:',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 16),
+                                ),
+                                Text(
+                                  '${_protein}g',
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 16),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ],

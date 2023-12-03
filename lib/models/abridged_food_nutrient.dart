@@ -6,16 +6,15 @@ class AbridgedFoodNutrient {
   final String? derivationCode;
   final String? derivationDescription;
 
-  AbridgedFoodNutrient({
-    this.number,
-    this.name,
-    this.amount,
-    this.unitName,
-    this.derivationCode,
-    this.derivationDescription
-  });
+  AbridgedFoodNutrient(
+      {this.number,
+      this.name,
+      this.amount,
+      this.unitName,
+      this.derivationCode,
+      this.derivationDescription});
 
-  factory AbridgedFoodNutrient.fromJson(Map<String, dynamic> data){
+  factory AbridgedFoodNutrient.fromJson(Map<String, dynamic> data) {
     final number = int.tryParse(data['nutrientNumber']);
     final name = data['nutrientName'];
     final amount = data['value']?.toDouble();

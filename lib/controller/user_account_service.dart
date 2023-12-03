@@ -11,7 +11,6 @@ class UserAccountService {
   final CollectionReference userCollection;
   final currentUser = FirebaseAuth.instance.currentUser;
 
-
   UserAccountService()
       : userCollection = FirebaseFirestore.instance
             .collection('users')
@@ -41,7 +40,9 @@ class UserAccountService {
       rethrow;
     }
   }
-  Future<void> updateUserProfileField(String fieldLabel, String updatedValue) async {
+
+  Future<void> updateUserProfileField(
+      String fieldLabel, String updatedValue) async {
     try {
       // Get the current user's profile
       var userProfile = await getUserProfile();
@@ -72,7 +73,8 @@ class UserAccountService {
     final snapshot = await userCollection.get();
     if (snapshot.docs.isNotEmpty) {
       // Retrieve profileInfo from the first entry
-      Map<String, dynamic> data = snapshot.docs.first.data() as Map<String, dynamic>;
+      Map<String, dynamic> data =
+          snapshot.docs.first.data() as Map<String, dynamic>;
       if (data.containsKey('profileInfo')) {
         final info = data['profileInfo'];
         return ProfileInfo(
@@ -100,7 +102,8 @@ class UserAccountService {
     final snapshot = await userCollection.get();
     if (snapshot.docs.isNotEmpty) {
       // Retrieve profileInfo from the first entry
-      Map<String, dynamic> data = snapshot.docs.first.data() as Map<String, dynamic>;
+      Map<String, dynamic> data =
+          snapshot.docs.first.data() as Map<String, dynamic>;
       if (data.containsKey('profileInfo')) {
         final info = data['profileInfo'];
         return info['calorieIntake'];
@@ -112,6 +115,7 @@ class UserAccountService {
       return null;
     }
   }
+
   //for the image in profile_page
   Future<String> uploadImageToStorage(File imageFile, String userId) async {
     try {
@@ -120,7 +124,10 @@ class UserAccountService {
       String imageName = '${currentUser!.uid}';
 
       // Check if the user already has an image
-      bool userHasImage = await storage.ref('$imagePath/$imageName').listAll().then((result) => result.items.isNotEmpty);
+      bool userHasImage = await storage
+          .ref('$imagePath/$imageName')
+          .listAll()
+          .then((result) => result.items.isNotEmpty);
 
       Reference storageReference = storage.ref().child('$imagePath/$imageName');
 
@@ -158,11 +165,11 @@ class UserAccountService {
     return imageUrl;
   }
 
-
   // Checks if a profile for this user already existed, if yes, returns its entry id
   Future<String?> profileExists() async {
     final snapshot = await userCollection.get();
-    if (snapshot.docs.isNotEmpty) { // check if collection is empty
+    if (snapshot.docs.isNotEmpty) {
+      // check if collection is empty
       return snapshot.docs.first.id;
     }
     return null;

@@ -10,7 +10,6 @@ import 'package:final_project/controller/user_account_service.dart';
 
 import 'main_page.dart';
 
-
 class AuthGate extends StatefulWidget {
   const AuthGate({super.key});
   @override
@@ -51,7 +50,7 @@ class _AuthGateState extends State<AuthGate> {
               EmailAuthProvider(),
             ],
             headerBuilder: (context, constraints, shrinkOffset) {
-              return  Padding(
+              return Padding(
                 padding: EdgeInsets.all(20),
                 child: AspectRatio(
                   aspectRatio: 1,
@@ -85,13 +84,11 @@ class _AuthGateState extends State<AuthGate> {
             },
           );
         }
-        if (_profileInfo != null)
-          {
-            return MainPage(profileInfo: _profileInfo!);
-          }
+        if (_profileInfo != null) {
+          return MainPage(profileInfo: _profileInfo!);
+        }
         return const QuestionsPage();
       },
     );
   }
 }
-

@@ -10,20 +10,19 @@ class FoodSearchCriteria {
   final String? startDate;
   final String? endDate;
 
-  FoodSearchCriteria({
-    this.query,
-    this.dataType,
-    this.pageSize,
-    this.pageNumber,
-    this.sortBy,
-    this.sortOrder,
-    this.brandOwner,
-    this.tradeChannel,
-    this.startDate,
-    this.endDate
-  });
+  FoodSearchCriteria(
+      {this.query,
+      this.dataType,
+      this.pageSize,
+      this.pageNumber,
+      this.sortBy,
+      this.sortOrder,
+      this.brandOwner,
+      this.tradeChannel,
+      this.startDate,
+      this.endDate});
 
-  factory FoodSearchCriteria.fromJson(Map<String, dynamic> data){
+  factory FoodSearchCriteria.fromJson(Map<String, dynamic> data) {
     final query = data['query'];
     final dataType = data['dateType'];
     final pageSize = data['pageSize'];

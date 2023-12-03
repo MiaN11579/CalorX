@@ -3,7 +3,8 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../models/chart_data.dart';
 
 /// Returns column chart for daily calorie.
-Card getDailyCaloriesChart(Color cardColor, double dailyCalorie, double goalCalorie) {
+Card getDailyCaloriesChart(
+    Color cardColor, double dailyCalorie, double goalCalorie) {
   List<ChartData> chartData = <ChartData>[
     ChartData('Today', dailyCalorie, const Color(0xffDD7292)),
   ];
@@ -38,7 +39,10 @@ Card getDailyCaloriesChart(Color cardColor, double dailyCalorie, double goalCalo
             widget: Text(
                 textAlign: TextAlign.center,
                 "${chartData[0].y.toInt()}/${goalCalorie.toInt()}\nCal",
-                style: const TextStyle(color: Colors.white, fontSize: 20, fontStyle: FontStyle.italic)))
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontStyle: FontStyle.italic)))
       ],
       series: <RadialBarSeries<ChartData, String>>[
         RadialBarSeries<ChartData, String>(

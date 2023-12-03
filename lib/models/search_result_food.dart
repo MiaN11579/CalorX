@@ -33,7 +33,7 @@ class SearchResultFood {
     this.score,
   });
 
-  factory SearchResultFood.fromJson(Map<String, dynamic> data){
+  factory SearchResultFood.fromJson(Map<String, dynamic> data) {
     final fdcId = data['fdcId'];
     final datatype = data['datatype'];
     final description = data['description'];
@@ -53,7 +53,10 @@ class SearchResultFood {
       datatype: datatype,
       description: description,
       foodCode: foodCode,
-      foodNutrient: foodNutrient?.map((nutrient)=> AbridgedFoodNutrient.fromJson(nutrient as Map<String, dynamic>)).toList(),
+      foodNutrient: foodNutrient
+          ?.map((nutrient) =>
+              AbridgedFoodNutrient.fromJson(nutrient as Map<String, dynamic>))
+          .toList(),
       publicationDate: publicationDate,
       scientificName: scientificName,
       brandOwner: brandOwner,

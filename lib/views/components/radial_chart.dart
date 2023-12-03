@@ -41,7 +41,8 @@ Card getRadialChart(Color cardColor, MacroData macroData) {
             fontStyle: FontStyle.italic),
       ),
       series: getRadialBar(chartData),
-      tooltipBehavior: TooltipBehavior(enable: true, format: 'point.x : point.y'),
+      tooltipBehavior:
+          TooltipBehavior(enable: true, format: 'point.x : point.y'),
     ),
   );
 }

@@ -26,7 +26,10 @@ class SearchResult {
       totalHits: totalHits,
       currentPage: currentPage,
       totalPages: totalPages,
-      foods: foods?.map((food) => SearchResultFood.fromJson(food as Map<String, dynamic>)).toList(),
+      foods: foods
+          ?.map(
+              (food) => SearchResultFood.fromJson(food as Map<String, dynamic>))
+          .toList(),
     );
   }
 }
