@@ -108,7 +108,7 @@ class _LogPageState extends State<LogPage> {
       children: [
         Container(
             width: 380,
-            height: 230,
+            height: foodItems!.length.toDouble() < 2 ? 240 : (240 + 70 * (foodItems!.length.toDouble() - 2)),
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
               borderRadius: const BorderRadius.all(
@@ -144,12 +144,13 @@ class _LogPageState extends State<LogPage> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 20),
                 SizedBox(
-                  height: 140,
+                  height: 70 * foodItems!.length.toDouble(),
                   child: ListView.builder(
                     padding: const EdgeInsets.all(0),
                     itemCount: foodItems!.length,
+                    physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       return SizedBox(
                         height: 70,

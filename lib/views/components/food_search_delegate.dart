@@ -37,29 +37,24 @@ class FoodSearchDelegate extends SearchDelegate {
       throw Exception(e.toString());
     }
   }
-  
-  //used for testing the response
-  List<Widget> foodDetails(SearchResultFood food) {
-    final nutrients = food.foodNutrient;
-    var details = <Widget>[];
-    if (nutrients != null) {
-      for (var nutrient in nutrients) {
-        final number = nutrient.number;
-        final name = nutrient.name;
-        final amount = nutrient.amount;
-        final unitName = nutrient.unitName;
-        final derivationCode = nutrient.derivationCode;
-        final derivationDescription = nutrient.derivationDescription;
-        final line = Text(
-            '$number, $name, $amount, $unitName, $derivationCode, $derivationDescription',
-            style: const TextStyle(fontSize: 22, color: Colors.white));
-        if (amount! > 0) {
-          details.add(line);
-        }
-      }
-    }
-    return details;
+
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    final ThemeData theme = Theme.of(context).copyWith(
+      appBarTheme: AppBarTheme(
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
+      ),
+      hintColor: Colors.white,
+      textTheme: const TextTheme(
+        titleLarge: TextStyle(
+          color: Colors.white,
+          fontSize: 20.0,
+        ),
+      ),
+    );
+    return theme;
   }
+
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
@@ -150,7 +145,7 @@ class FoodSearchDelegate extends SearchDelegate {
             var suggestion = suggestions[index];
             return ListTile(
               title: Text(suggestion,
-                  style: const TextStyle(fontSize: 22, color: Colors.white)),
+                  style: const TextStyle(fontSize: 20, color: Colors.white)),
               textColor: Colors.white,
               onTap: () {
                 query = suggestion;
