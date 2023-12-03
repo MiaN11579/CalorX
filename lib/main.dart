@@ -44,8 +44,7 @@ class MainApp extends StatelessWidget {
             } else if (settings.name == '/main') {
               final args = settings.arguments as MainPage;
               return MaterialPageRoute(
-                builder: (_) =>
-                    MainPage(profileInfo: args.profileInfo),
+                builder: (_) => MainPage(profileInfo: args.profileInfo),
               );
             }
             return null;

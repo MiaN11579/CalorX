@@ -13,19 +13,19 @@ class ProfileInfo {
   int calorieIntake;
   String imageUrl;
 
-      ProfileInfo({
-    this.id,
-    required this.name,
-    required this.dob,
-    required this.weight,
-    required this.height,
-    required this.gender,
-    required this.activityLevel,
-    required this.goal,
-    required this.duration,
-    required this.calorieIntake,
-    required this.imageUrl
-  });
+  ProfileInfo(
+      {this.id,
+      required this.name,
+      required this.dob,
+      required this.weight,
+      required this.height,
+      required this.gender,
+      required this.activityLevel,
+      required this.goal,
+      required this.duration,
+      required this.calorieIntake,
+      required this.imageUrl});
+
   /// Convert the `DiaryEntry` instance into a `Map<String, dynamic>`.
 
   Map<String, dynamic> toMap() {
@@ -34,7 +34,7 @@ class ProfileInfo {
       'dob': dob,
       'weight': weight,
       'height': height,
-      'gender' : gender,
+      'gender': gender,
       'activityLevel': activityLevel,
       'goal': goal,
       'duration': duration,

@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FoodEntry {
@@ -37,16 +36,16 @@ class FoodEntry {
       'id': id ?? DateTime.now().toString(),
       'date': date,
       'name': name,
-      'category' : category,
-      'amount' : amount,
-      'calories' : calories,
-      'carbs' : carbs,
-      'fat' : fat,
-      'protein' : protein,
-      'baseCalories' : baseCalories,
-      'baseCarbs' : baseCarbs,
-      'baseFat' : baseFat,
-      'baseProtein' : baseProtein,
+      'category': category,
+      'amount': amount,
+      'calories': calories,
+      'carbs': carbs,
+      'fat': fat,
+      'protein': protein,
+      'baseCalories': baseCalories,
+      'baseCarbs': baseCarbs,
+      'baseFat': baseFat,
+      'baseProtein': baseProtein,
     };
   }
 
@@ -69,7 +68,7 @@ class FoodEntry {
     );
   }
 
-  factory FoodEntry.fromJson(Map<String, dynamic> data){
+  factory FoodEntry.fromJson(Map<String, dynamic> data) {
     final id = data['id'];
     final date = data['date'];
     final category = data['category'];

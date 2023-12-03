@@ -2,11 +2,11 @@ import 'package:final_project/models/food_entry.dart';
 import 'macro_data.dart';
 
 class Meal {
-  late  List<FoodEntry>? breakfast;
-  late  List<FoodEntry>? lunch;
-  late  List<FoodEntry>? dinner;
-  late  List<FoodEntry>? snack;
-  late  String? date;
+  late List<FoodEntry>? breakfast;
+  late List<FoodEntry>? lunch;
+  late List<FoodEntry>? dinner;
+  late List<FoodEntry>? snack;
+  late String? date;
   double dailyCalorie = 0;
   MacroData macroData = MacroData();
 
@@ -33,17 +33,16 @@ class Meal {
   }
 
   factory Meal.fromJson(Map<String, dynamic> data) {
-
     return Meal(
-      breakfast:  (data['breakfast'] as List<dynamic>?)
+      breakfast: (data['breakfast'] as List<dynamic>?)
           ?.map((e) => FoodEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       lunch: (data['lunch'] as List<dynamic>?)
           ?.map((e) => FoodEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       dinner: (data['dinner'] as List<dynamic>?)
-        ?.map((e) => FoodEntry.fromJson(e as Map<String, dynamic>))
-        .toList(),
+          ?.map((e) => FoodEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
       snack: (data['snack'] as List<dynamic>?)
           ?.map((e) => FoodEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -52,5 +51,4 @@ class Meal {
       macroData: MacroData.fromMap(data['macroData']),
     );
   }
-
 }

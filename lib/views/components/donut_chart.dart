@@ -3,7 +3,6 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../models/chart_data.dart';
 import '../../models/macro_data.dart';
 
-
 /// Returns pie chart.
 Card getDonutChart(Color cardColor, MacroData macroData) {
   List<ChartData> chartData = [

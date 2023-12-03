@@ -38,8 +38,6 @@ class _QuestionsPageState extends State<QuestionsPage> {
 
   final MealService mealService = MealService();
 
-
-
   // Add the dateController
   TextEditingController dateController = TextEditingController();
 
@@ -48,130 +46,133 @@ class _QuestionsPageState extends State<QuestionsPage> {
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute<ProfileScreen>(
-                  builder: (context) => ProfileScreen(
-                    appBar: AppBar(
-                      title: const Text('User Profile'),
-                    ),
-                    actions: [
-                      SignedOutAction((context) {
-                        Navigator.of(context).pop();
-                      })
-                    ],
-                    children: const [
-                      Divider(),
-                      Padding(
-                        padding: EdgeInsets.all(2),
-                        child: AspectRatio(
-                          aspectRatio: 1,
-                        ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.person),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<ProfileScreen>(
+                    builder: (context) => ProfileScreen(
+                      appBar: AppBar(
+                        title: const Text('User Profile'),
                       ),
-                    ],
+                      actions: [
+                        SignedOutAction((context) {
+                          Navigator.of(context).pop();
+                        })
+                      ],
+                      children: const [
+                        Divider(),
+                        Padding(
+                          padding: EdgeInsets.all(2),
+                          child: AspectRatio(
+                            aspectRatio: 1,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
+                );
+              },
+            )
+          ],
+          automaticallyImplyLeading: false,
+        ),
+        body: Container(
+          color: const Color(0xffFFC5C0).withOpacity(0.6),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 70,
                 ),
-              );
-            },
-          )
-        ],
-        automaticallyImplyLeading: false,
-      ),
-      body: Container(
-        color: const Color(0xffFFC5C0).withOpacity(0.6),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SizedBox(height: 70,),
-              Padding(
-                padding: const EdgeInsets.all(50.0),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    color: const Color(0xffF4668F),
-                    onPressed: () {
-                      if (currentQuestionIndex > 0) {
-                        setState(() {
-                          currentQuestionIndex--;
-                        });
-                      }
-                    },
-                  ),
-                ),
-              ),
-              const SizedBox(height: 50,),
-              Text(
-                questions[currentQuestionIndex],
-                style: Theme.of(context).textTheme.titleLarge,
-                textAlign: TextAlign.center,
-
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                width: 300,
-                child: _buildInputField(),
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: const Color(0xffF4668F)),
-                    onPressed: () {
-                      FocusScope.of(context).unfocus(); // Dismiss the keyboard
-                      if (answers[currentQuestionIndex].isNotEmpty) {
-                        // controllers[currentQuestionIndex].clear();
-
-                        if (currentQuestionIndex < questions.length - 1) {
+                Padding(
+                  padding: const EdgeInsets.all(50.0),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_back),
+                      color: const Color(0xffF4668F),
+                      onPressed: () {
+                        if (currentQuestionIndex > 0) {
                           setState(() {
-                            currentQuestionIndex++;
-                          });
-                        } else {
-                          // If it's the last question, change the button text to "Submit"
-                          // and navigate to the success screen
-                          setState(() {
-                            ProfileInfo profileInfo = ProfileInfo(
-                              name: answers[0],
-                              dob: answers[1],
-                              weight: int.tryParse(answers[2]) ?? 0,
-                              height: int.tryParse(answers[3]) ?? 0,
-                              gender: answers[4],
-                              activityLevel: answers[5],
-                              goal: answers[6],
-                              duration: answers[7],
-                              calorieIntake: 0,
-                              imageUrl: "",
-                            );
-
-                            profileInfo.calorieIntake = _userAccountService
-                                .calculateDailyCalorieIntake(profileInfo);
-                            _submitAnswers();
+                            currentQuestionIndex--;
                           });
                         }
-                      } else {
-                        print('Please answer the question');
-                      }
-                    },
-                    child: Text(
-                      currentQuestionIndex < questions.length - 1
-                          ? 'Next'
-                          : 'Submit',
+                      },
                     ),
                   ),
-                ],
-              ),
-            ],
+                ),
+                const SizedBox(
+                  height: 50,
+                ),
+                Text(
+                  questions[currentQuestionIndex],
+                  style: Theme.of(context).textTheme.titleLarge,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: 300,
+                  child: _buildInputField(),
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xffF4668F)),
+                      onPressed: () {
+                        FocusScope.of(context)
+                            .unfocus(); // Dismiss the keyboard
+                        if (answers[currentQuestionIndex].isNotEmpty) {
+                          // controllers[currentQuestionIndex].clear();
+
+                          if (currentQuestionIndex < questions.length - 1) {
+                            setState(() {
+                              currentQuestionIndex++;
+                            });
+                          } else {
+                            // If it's the last question, change the button text to "Submit"
+                            // and navigate to the success screen
+                            setState(() {
+                              ProfileInfo profileInfo = ProfileInfo(
+                                name: answers[0],
+                                dob: answers[1],
+                                weight: int.tryParse(answers[2]) ?? 0,
+                                height: int.tryParse(answers[3]) ?? 0,
+                                gender: answers[4],
+                                activityLevel: answers[5],
+                                goal: answers[6],
+                                duration: answers[7],
+                                calorieIntake: 0,
+                                imageUrl: "",
+                              );
+
+                              profileInfo.calorieIntake = _userAccountService
+                                  .calculateDailyCalorieIntake(profileInfo);
+                              _submitAnswers();
+                            });
+                          }
+                        } else {
+                          print('Please answer the question');
+                        }
+                      },
+                      child: Text(
+                        currentQuestionIndex < questions.length - 1
+                            ? 'Next'
+                            : 'Submit',
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-      )
-    );
+        ));
   }
 
   Widget _buildInputField() {
@@ -427,8 +428,6 @@ class _QuestionsPageState extends State<QuestionsPage> {
   Future<void> _submitAnswers() async {
     // Check if all questions are answered
     if (answers.every((answer) => answer.isNotEmpty)) {
-
-
       // Show loading indicator with a message
       Navigator.of(context).push(
         PageRouteBuilder(
@@ -441,10 +440,12 @@ class _QuestionsPageState extends State<QuestionsPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>( Color(0xffF4668F)),
+                      valueColor:
+                          AlwaysStoppedAnimation<Color>(Color(0xffF4668F)),
                     ),
                     const SizedBox(height: 50),
-                    Container(alignment: Alignment.center,
+                    Container(
+                      alignment: Alignment.center,
                       child: AnimatedTextKit(
                         animatedTexts: [
                           TypewriterAnimatedText(
@@ -459,16 +460,14 @@ class _QuestionsPageState extends State<QuestionsPage> {
                                 decorationColor: Colors.white,
                               ),
                             ),
-
                             speed: const Duration(milliseconds: 80),
                           ),
-
                         ],
-
                         totalRepeatCount: 1,
                         displayFullTextOnTap: true,
                         stopPauseOnTap: false,
-                      ),),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -513,21 +512,20 @@ class _QuestionsPageState extends State<QuestionsPage> {
           }
         }
 
-
         // Close the loading indicator
         Navigator.pop(context);
 
         //Navigate to the success screen
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => MainPage(profileInfo: profileInfo)),
+          MaterialPageRoute(
+              builder: (context) => MainPage(profileInfo: profileInfo)),
         );
 
         setState(() {
           // Clear the content of the page
           answers = List.filled(questions.length, ''); // Reset answers
         });
-
       } catch (e) {
         print('Error during processing: $e');
         // Handle errors as needed
@@ -536,5 +534,4 @@ class _QuestionsPageState extends State<QuestionsPage> {
       print('Please answer all questions');
     }
   }
-
 }

@@ -19,8 +19,7 @@ class MealService {
   Future<void> addMeal(Meal meal) async {
     try {
       final existingMeal = await entryCollection
-          .where('date',
-              isEqualTo: meal.date)
+          .where('date', isEqualTo: meal.date)
           .limit(1)
           .get();
 
@@ -89,7 +88,8 @@ class MealService {
       meal.macroData.protein -= entryToRemove.protein;
 
       await mealDocument.reference.delete(); // delete the meal from Firestore
-      await entryCollection.add(meal.toMap()); // add the updated meal to Firestore
+      await entryCollection
+          .add(meal.toMap()); // add the updated meal to Firestore
     } catch (e) {
       debugPrint('Error removing entry: $e');
       rethrow;

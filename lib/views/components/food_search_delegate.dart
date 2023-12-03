@@ -12,7 +12,8 @@ class FoodSearchDelegate extends SearchDelegate {
   final DateTime date;
   final Function onEntryAdded;
 
-  FoodSearchDelegate({required this.onEntryAdded, required this.date, required this.category});
+  FoodSearchDelegate(
+      {required this.onEntryAdded, required this.date, required this.category});
 
   List<String> searchResults = [
     'Cheddar Cheese',
@@ -97,7 +98,8 @@ class FoodSearchDelegate extends SearchDelegate {
                       itemBuilder: (context, index) {
                         return ListTile(
                           title: Text(foods[index].description,
-                              style: const TextStyle(fontSize: 22, color: Colors.white)),
+                              style: const TextStyle(
+                                  fontSize: 22, color: Colors.white)),
                           onTap: () {
                             Navigator.push(
                               context,
@@ -105,7 +107,8 @@ class FoodSearchDelegate extends SearchDelegate {
                                 builder: (context) => AddFoodEntryPage(
                                   category: category,
                                   food: foods[index],
-                                  date: date, onEntryAdded: onEntryAdded,
+                                  date: date,
+                                  onEntryAdded: onEntryAdded,
                                 ),
                               ),
                             );
@@ -117,11 +120,11 @@ class FoodSearchDelegate extends SearchDelegate {
                 }
               } else {
                 return Scaffold(
-
                     body: Container(
                         decoration: getGradientBackground(context),
-                        child:
-                        const Center(child: CircularProgressIndicator(color: Colors.white))));
+                        child: const Center(
+                            child: CircularProgressIndicator(
+                                color: Colors.white))));
               }
             }),
       ),
