@@ -10,7 +10,6 @@ import 'package:intl/intl.dart';
 
 import '../models/meal.dart';
 import 'components/gradient_background.dart';
-import 'log_page.dart';
 
 final nutrientType = {
   'protein': 203,
@@ -23,12 +22,15 @@ class AddFoodEntryPage extends StatefulWidget {
   final String category;
   final DateTime date;
   final SearchResultFood food;
+  final Function onEntryAdded;
 
-  const AddFoodEntryPage(
-      {super.key,
-      required this.category,
-      required this.food,
-      required this.date});
+  const AddFoodEntryPage({
+    super.key,
+    required this.category,
+    required this.food,
+    required this.date,
+    required this.onEntryAdded,
+  });
 
   @override
   State<AddFoodEntryPage> createState() => _AddFoodEntryPageState();
@@ -160,6 +162,7 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
       await mealService.addEntry(meal);
     }
 
+    widget.onEntryAdded.call();
     Navigator.pop(context);
     Navigator.pop(context);
   }
@@ -235,7 +238,8 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
                     ),
                   ),
                   const Gap(10),
-                  const Text('grams', style: TextStyle(color: Colors.white, fontSize: 18))
+                  const Text('grams',
+                      style: TextStyle(color: Colors.white, fontSize: 18))
                 ],
               ),
               //...foodDetails(widget.food),
@@ -243,7 +247,8 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
               const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Per 100 grams:', style: TextStyle(color: Colors.white, fontSize: 18))
+                  Text('Per 100 grams:',
+                      style: TextStyle(color: Colors.white, fontSize: 18))
                 ],
               ),
               const Gap(10),
@@ -305,14 +310,17 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
               const Gap(40.0),
               TextButton(
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
                     padding: MaterialStateProperty.all<EdgeInsets>(
-                        const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10)),
+                        const EdgeInsets.only(
+                            left: 20, right: 20, top: 10, bottom: 10)),
                   ),
                   onPressed: _saveFoodItem,
                   child: Text(
                     'Submit Food Item'.toUpperCase(),
-                    style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.tertiary),
                   )),
             ],
           ),

@@ -1,4 +1,3 @@
-import 'package:final_project/models/macro_data.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../controller/meal_service.dart';
@@ -45,6 +44,17 @@ class _LogPageState extends State<LogPage> {
         lunchAmount = meal.lunch!.map((entry) => entry.calories).toList();
         dinnerAmount = meal.dinner!.map((entry) => entry.calories).toList();
         snackAmount = meal.snack!.map((entry) => entry.calories).toList();
+      });
+    } else {
+      setState(() {
+        breakfastItems = [];
+        lunchItems = [];
+        dinnerItems = [];
+        snackItems = [];
+        breakfastAmount = [];
+        lunchAmount = [];
+        dinnerAmount = [];
+        snackAmount = [];
       });
     }
   }
@@ -197,7 +207,11 @@ class _LogPageState extends State<LogPage> {
                 showSearch(
                     context: context,
                     delegate: FoodSearchDelegate(
-                        category: label, date: _selectedDate));
+                        category: label,
+                        date: _selectedDate,
+                        onEntryAdded: () async {
+                          _getMealObject();
+                        }));
               },
               child: Text(
                 'Add food',
@@ -219,6 +233,7 @@ class _LogPageState extends State<LogPage> {
             DateManager.instance
                 .setDate(_selectedDate.subtract(const Duration(days: 1)));
             _selectedDate = DateManager.instance.date;
+            _getMealObject();
           });
         },
       ),
@@ -233,6 +248,7 @@ class _LogPageState extends State<LogPage> {
             DateManager.instance
                 .setDate(_selectedDate.add(const Duration(days: 1)));
             _selectedDate = DateManager.instance.date;
+            _getMealObject();
           });
         },
       ),
@@ -251,6 +267,7 @@ class _LogPageState extends State<LogPage> {
       setState(() {
         DateManager.instance.setDate(picked);
         _selectedDate = DateManager.instance.date;
+        _getMealObject();
       });
     }
   }

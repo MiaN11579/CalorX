@@ -11,8 +11,9 @@ import 'gradient_background.dart';
 class FoodSearchDelegate extends SearchDelegate {
   final String category;
   final DateTime date;
+  final Function onEntryAdded;
 
-  FoodSearchDelegate({required this.date, required this.category});
+  FoodSearchDelegate({required this.onEntryAdded, required this.date, required this.category});
 
   List<String> searchResults = [
     'Cheddar Cheese',
@@ -36,7 +37,8 @@ class FoodSearchDelegate extends SearchDelegate {
       throw Exception(e.toString());
     }
   }
-
+  
+  //used for testing the response
   List<Widget> foodDetails(SearchResultFood food) {
     final nutrients = food.foodNutrient;
     var details = <Widget>[];
@@ -109,7 +111,7 @@ class FoodSearchDelegate extends SearchDelegate {
                                 builder: (context) => AddFoodEntryPage(
                                   category: category,
                                   food: foods[index],
-                                  date: date,
+                                  date: date, onEntryAdded: onEntryAdded,
                                 ),
                               ),
                             );
