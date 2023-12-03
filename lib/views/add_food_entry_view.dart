@@ -276,30 +276,54 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              'Carbs: ${_carbs}g',
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16), // Adjust the font size
-                            ),
+                            Column(children: [
+                              const Text(
+                                'Carbs:',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16), // Adjust the font size
+                              ),
+                              Text(
+                                '${_carbs}g',
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16), // Adjust the font size
+                              ),
+                            ],),
                             const SizedBox(
                               width: 15,
                             ),
-                            Text(
-                              'Fat: ${_fat}g ',
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16), // Adjust the font size
-                            ),
+                            Column(children: [
+                              const Text(
+                                'Fat:',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16), // Adjust the font size
+                              ),
+                              Text(
+                                '${_fat}g',
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16), // Adjust the font size
+                              ),
+                            ],),
                             const SizedBox(
                               width: 15,
                             ),
-                            Text(
-                              'Protein: ${_protein}g ',
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16), // Adjust the font size
-                            ),
+                            Column(children: [
+                              const Text(
+                                'Protein:',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16), // Adjust the font size
+                              ),
+                              Text(
+                                '${_protein}g',
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16), // Adjust the font size
+                              ),
+                            ],),
                           ],
                         ),
                       ],

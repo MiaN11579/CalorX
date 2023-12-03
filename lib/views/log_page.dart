@@ -154,39 +154,6 @@ class _LogPageState extends State<LogPage> {
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           child: InkWell(
-                            onTap: () async {
-                              final result = await showDialog<bool>(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  titleTextStyle: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  backgroundColor: Theme.of(context).colorScheme.tertiary,
-                                  title: const Text('Remove this entry?'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(context, false),
-                                      child: const Text('Cancel'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(context, true),
-                                      child: const Text('Delete'),
-                                    ),
-                                  ],
-                                ),
-                              );
-
-                              if (result == null || !result) {
-                                return;
-                              }
-                              await mealService.removeEntry(
-                                  mealDate, foodItems[index].id!, label);
-                              await _getMealObject();
-                            },
                             child: Container(
                               padding: const EdgeInsets.all(10),
                               child: Row(
@@ -194,12 +161,12 @@ class _LogPageState extends State<LogPage> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   SizedBox(
-                                    width: 235,
+                                    width: 150,
                                     child: Text(
                                       foodItems[index].name,
                                       style: const TextStyle(
                                         color: Colors.white,
-                                        fontSize: 16,
+                                        fontSize: 13,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -212,6 +179,44 @@ class _LogPageState extends State<LogPage> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
+                                  SizedBox(width: 10,),
+                                  IconButton(
+                                    padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
+                                    icon: Icon(Icons.delete),
+                                    color: Color(0xffF4668F),
+                                    onPressed: () async {
+                                      final result = await showDialog<bool>(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          titleTextStyle: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          backgroundColor: Theme.of(context).colorScheme.tertiary,
+                                          title: const Text('Remove this entry?'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context, false),
+                                              child: const Text('Cancel'),
+                                            ),
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context, true),
+                                              child: const Text('Delete'),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+
+                                      if (result == null || !result) {
+                                        return;
+                                      }
+                                      await mealService.removeEntry(
+                                          mealDate, foodItems[index].id!, label);
+                                      await _getMealObject();
+                                    },)
                                 ],
                               ),
                             ),
