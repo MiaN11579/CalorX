@@ -1,5 +1,5 @@
 import 'package:final_project/models/food_entry.dart';
-import '../views/components/macro_data.dart';
+import 'macro_data.dart';
 
 class Meal {
   final String? id;

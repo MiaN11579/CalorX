@@ -1,4 +1,4 @@
-import 'package:final_project/views/components/macro_data.dart';
+import 'package:final_project/models/macro_data.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../controller/meal_service.dart';

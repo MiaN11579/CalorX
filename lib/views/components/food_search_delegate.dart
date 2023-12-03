@@ -1,10 +1,10 @@
-import 'package:final_project/models/SearchResultFood.dart';
+import 'package:final_project/models/search_result_food.dart';
 import 'package:final_project/views/add_food_entry_view.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
-import 'package:final_project/models/SearchResult.dart';
+import 'package:final_project/models/search_result.dart';
 
 import 'gradient_background.dart';
 

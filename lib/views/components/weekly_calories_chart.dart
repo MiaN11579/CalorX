@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'chart_data.dart';
+import '../../models/chart_data.dart';
 
 /// Get column series with tracker
 Card getWeeklyCaloriesChart(Color cardColor, List<ChartData> chartData, [double userCalorie = 0]) {

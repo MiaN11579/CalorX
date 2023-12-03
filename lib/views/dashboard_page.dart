@@ -3,12 +3,12 @@ import 'package:final_project/views/components/radial_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'components/chart_data.dart';
+import '../models/chart_data.dart';
 import 'components/daily_calories_chart.dart';
 import 'components/gradient_background.dart';
 import 'components/donut_chart.dart';
 import 'package:final_project/controller/user_account_service.dart';
-import 'components/macro_data.dart';
+import '../models/macro_data.dart';
 import 'components/weekly_calories_chart.dart';
 
 import 'package:final_project/date_manager.dart';

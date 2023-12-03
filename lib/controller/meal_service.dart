@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
 import '../models/meal.dart';
-import '../views/components/chart_data.dart';
-import '../views/components/macro_data.dart';
+import '../models/chart_data.dart';
+import '../models/macro_data.dart';
 
 class MealService {
   final CollectionReference entryCollection;

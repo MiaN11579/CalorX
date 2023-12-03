@@ -1,9 +1,9 @@
 import 'package:final_project/controller/meal_service.dart';
-import 'package:final_project/models/AbridgedFoodNutrient.dart';
+import 'package:final_project/models/abridged_food_nutrient.dart';
 import 'package:final_project/models/food_entry.dart';
-import 'package:final_project/views/components/macro_data.dart';
+import 'package:final_project/models/macro_data.dart';
 import 'package:flutter/material.dart';
-import 'package:final_project/models/SearchResultFood.dart';
+import 'package:final_project/models/search_result_food.dart';
 import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';

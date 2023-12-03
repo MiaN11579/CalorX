@@ -1,4 +1,4 @@
-import 'AbridgedFoodNutrient.dart';
+import 'abridged_food_nutrient.dart';
 
 class SearchResultFood {
   final int fdcId;

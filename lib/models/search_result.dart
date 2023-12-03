@@ -1,5 +1,5 @@
-import 'FoodSearchCriteria.dart';
-import 'SearchResultFood.dart';
+import 'food_search_criteria.dart';
+import 'search_result_food.dart';
 
 class SearchResult {
   final FoodSearchCriteria? foodSearchCriteria;

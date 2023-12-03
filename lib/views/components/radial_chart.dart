@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'chart_data.dart';
-import 'macro_data.dart';
+import '../../models/chart_data.dart';
+import '../../models/macro_data.dart';
 
 /// Returns radial chart.
 Card getRadialChart(Color cardColor, MacroData macroData) {
