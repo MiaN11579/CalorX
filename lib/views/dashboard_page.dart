@@ -202,10 +202,12 @@ class _DashboardPageState extends State<DashboardPage> {
     _weeklyCharts.add(getWeeklyCaloriesChart(
         cardColor, _weeklyCalorieData, _goalCalorie!.toDouble()));
 
-    setState(() {
-      _dailyCharts;
-      _weeklyCharts;
-    });
+    if (mounted) {
+      setState(() {
+        _dailyCharts;
+        _weeklyCharts;
+      });
+    }
   }
 
   void initDashboard() async {

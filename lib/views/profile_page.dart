@@ -80,7 +80,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget _buildRichText(String label, String value, String label2, BuildContext context) {
     return RichText(
       text: TextSpan(
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 20,
           color: Colors.white,
         ),

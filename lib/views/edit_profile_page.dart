@@ -70,185 +70,38 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Edit ${widget.fieldLabel}', style: TextStyle(color: Colors.white,)),
+                    Text('Edit ${widget.fieldLabel}',
+                        style: const TextStyle(color: Colors.white, fontSize: 18)),
                     if (widget.fieldLabel == 'Gender:') ...{
                       // Show radio buttons for gender selection
-                      RadioListTile(
-                        title: const Text('Male', style: TextStyle(color: Colors.white)),
-                        value: 'Male',
-                        groupValue: selectedGender,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedGender = value.toString();
-                          });
-                        },
-                        activeColor: const Color(0xffF4668F),
-                        tileColor: Colors.transparent,
-                      ),
-                      RadioListTile(
-                        title: const Text('Female', style: TextStyle(color: Colors.white)),
-                        value: 'Female',
-                        groupValue: selectedGender,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedGender = value.toString();
-                          });
-                        },
-                        activeColor: const Color(0xffF4668F),
-                        tileColor: Colors.transparent,
-                      ),
+                      getRadioListTile('Male', selectedGender),
+                      getRadioListTile('Female', selectedGender),
                     } else if (widget.fieldLabel == 'Activity Level:') ...{
                       // Show radio buttons for activity level selection
-                      RadioListTile(
-                        title: const Text('Little or no exercise', style: TextStyle(color: Colors.white)),
-                        value: 'Little or no exercise',
-                        groupValue: selectedActivityLevel,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedActivityLevel = value.toString();
-                          });
-                        },
-                        activeColor: const Color(0xffF4668F),
-                        tileColor: Colors.transparent,
-                      ),
-                      RadioListTile(
-                        title: const Text('Light exercise or sports 1-3 days a week', style: TextStyle(color: Colors.white)),
-                        value: 'Light exercise or sports 1-3 days a week',
-                        groupValue: selectedActivityLevel,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedActivityLevel = value.toString();
-                          });
-                        },
-                        activeColor: const Color(0xffF4668F),
-                        tileColor: Colors.transparent,
-                      ),
-                      RadioListTile(
-                        title: const Text('Moderate exercise or sports 3-5 days a week', style: TextStyle(color: Colors.white)),
-                        value: 'Moderate exercise or sports 3-5 days a week',
-                        groupValue: selectedActivityLevel,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedActivityLevel = value.toString();
-                          });
-                        },
-                        activeColor: const Color(0xffF4668F),
-                        tileColor: Colors.transparent,
-                      ),
-                      RadioListTile(
-                        title: const Text('Hard exercise or sports 6-7 days a week', style: TextStyle(color: Colors.white)),
-                        value: 'Hard exercise or sports 6-7 days a week',
-                        groupValue: selectedActivityLevel,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedActivityLevel = value.toString();
-                          });
-                        },
-                        activeColor: const Color(0xffF4668F),
-                        tileColor: Colors.transparent,
-                      ),
+                      getRadioListTile(
+                          'Little or no exercise', selectedActivityLevel),
+                      getRadioListTile(
+                          'Light exercise or sports 1-3 days a week',
+                          selectedActivityLevel),
+                      getRadioListTile(
+                          'Moderate exercise or sports 3-5 days a week',
+                          selectedActivityLevel),
+                      getRadioListTile(
+                          'Hard exercise or sports 6-7 days a week',
+                          selectedActivityLevel),
                     } else if (widget.fieldLabel == 'Goal:') ...{
                       // Show radio buttons for goal selection
-                      RadioListTile(
-                        title: const Text('Weight Loss', style: TextStyle(color: Colors.white)),
-                        value: 'Weight Loss',
-                        groupValue: selectedGoal,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedGoal = value.toString();
-                          });
-                        },
-                        activeColor: const Color(0xffF4668F),
-                        tileColor: Colors.transparent,
-                      ),
-                      RadioListTile(
-                        title: const Text('Weight Maintenance', style: TextStyle(color: Colors.white)),
-                        value: 'Weight Maintenance',
-                        groupValue: selectedGoal,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedGoal = value.toString();
-                          });
-                        },
-                        activeColor: const Color(0xffF4668F),
-                        tileColor: Colors.transparent,
-                      ),
-                      RadioListTile(
-                        title: const Text('Muscle Gain', style: TextStyle(color: Colors.white)),
-                        value: 'Muscle Gain',
-                        groupValue: selectedGoal,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedGoal = value.toString();
-                          });
-                        },
-                        activeColor: const Color(0xffF4668F),
-                        tileColor: Colors.transparent,
-                      ),
-                      RadioListTile(
-                        title: const Text('General Health', style: TextStyle(color: Colors.white)),
-                        value: 'General Health',
-                        groupValue: selectedGoal,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedGoal = value.toString();
-                          });
-                        },
-                        activeColor: const Color(0xffF4668F),
-                        tileColor: Colors.transparent,
-                      ),
+                      getRadioListTile('Weight Loss', selectedGoal),
+                      getRadioListTile('Weight Maintenance', selectedGoal),
+                      getRadioListTile('Muscle Gain', selectedGoal),
+                      getRadioListTile('General Health', selectedGoal),
                     } else if (widget.fieldLabel == 'Duration:') ...{
                       // Show radio buttons for duration selection
-                      RadioListTile(
-                        title: const Text('Within 6 months', style: TextStyle(color: Colors.white)),
-                        value: 'Within 6 months',
-                        groupValue: selectedDuration,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedDuration = value.toString();
-                          });
-                        },
-                        activeColor: const Color(0xffF4668F),
-                        tileColor: Colors.transparent,
-                      ),
-                      RadioListTile(
-                        title: const Text('Within 1 year', style: TextStyle(color: Colors.white)),
-                        value: 'Within 1 year',
-                        groupValue: selectedDuration,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedDuration = value.toString();
-                          });
-                        },
-                        activeColor: const Color(0xffF4668F),
-                        tileColor: Colors.transparent,
-                      ),
-                      RadioListTile(
-                        title: const Text('Within 2 years', style: TextStyle(color: Colors.white)),
-                        value: 'Within 2 years',
-                        groupValue: selectedDuration,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedDuration = value.toString();
-                          });
-                        },
-                        activeColor: const Color(0xffF4668F),
-                        tileColor: Colors.transparent,
-                      ),
-                      RadioListTile(
-                        title: const Text('2 years or more', style: TextStyle(color: Colors.white)),
-                        value: '2 years or more',
-                        groupValue: selectedDuration,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedDuration = value.toString();
-                          });
-                        },
-                        activeColor: const Color(0xffF4668F),
-                        tileColor: Colors.transparent,
-                      ),
-                    }
-                    else if(widget.fieldLabel == 'Date of Birth:')...{
+                      getRadioListTile('Within 6 months', selectedDuration),
+                      getRadioListTile('Within 1 year', selectedDuration),
+                      getRadioListTile('Within 2 years', selectedDuration),
+                      getRadioListTile('2 years or more', selectedDuration),
+                    } else if (widget.fieldLabel == 'Date of Birth:') ...{
                       InkWell(
                         onTap: () => _selectDate(context),
                         child: InputDecorator(
@@ -263,95 +116,106 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             children: <Widget>[
                               Text(
                                 dobController.text,
-                                style: TextStyle(
-                                  color: Colors.pink, // Set text color to pink
-                                ),
+                                  style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
                               ),
                               Icon(
                                 Icons.calendar_today,
-                                color: const Color(0xffF4668F), // Set icon color to white
+                                color: Theme.of(context).colorScheme.tertiary // Set icon color to white
                               ),
                             ],
                           ),
                         ),
                       )
-                    }
-                    else ...{
-                        TextField(
-                          controller: valueController,
-                          keyboardType: widget.fieldLabel == 'Name:' ? TextInputType.text : TextInputType.number,
-                          style: TextStyle(color: Colors.white),
-                          decoration: InputDecoration(
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white), // Border color for focused state
-                            ),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white), // Border color for enabled/but not focused state
-                            ),
+                    } else ...{
+                      TextField(
+                        controller: valueController,
+                        keyboardType: widget.fieldLabel == 'Name:'
+                            ? TextInputType.text
+                            : TextInputType.number,
+                        style: const TextStyle(color: Colors.white, fontSize: 18),
+                        decoration: const InputDecoration(
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors
+                                    .white), // Border color for focused state
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors
+                                    .white), // Border color for enabled/but not focused state
                           ),
                         ),
+                      ),
                     },
                     const SizedBox(height: 20),
-    ElevatedButton(
-    onPressed: () async {
-    var profileInfoFetched = await _loadProfile();
-    if (widget.fieldLabel == 'Weight:') {
-    profileInfoFetched.weight = int.parse(valueController.text);
-    } else if (widget.fieldLabel == 'Height:') {
-    profileInfoFetched.height = int.parse(valueController.text);
-    } else if (widget.fieldLabel == 'Gender:') {
-    profileInfoFetched.gender = selectedGender;
-    } else if (widget.fieldLabel == 'Name:') {
-    profileInfoFetched.name = valueController.text;
-    } else if (widget.fieldLabel == 'Activity Level:') {
-    profileInfoFetched.activityLevel = selectedActivityLevel;
-    } else if (widget.fieldLabel == 'Goal:') {
-    profileInfoFetched.goal = selectedGoal;
-    } else if (widget.fieldLabel == 'Duration:') {
-    profileInfoFetched.duration = selectedDuration;
-    } else if (widget.fieldLabel == 'Date of Birth:') {
-    profileInfoFetched.dob = dobController.text;
-    } else if (widget.fieldLabel == 'Name:') {
-    profileInfoFetched.name = valueController.text;
-    }
+                    ElevatedButton(
+                      onPressed: () async {
+                        var profileInfoFetched = await _loadProfile();
+                        if (widget.fieldLabel == 'Weight:') {
+                          profileInfoFetched.weight =
+                              int.parse(valueController.text);
+                        } else if (widget.fieldLabel == 'Height:') {
+                          profileInfoFetched.height =
+                              int.parse(valueController.text);
+                        } else if (widget.fieldLabel == 'Gender:') {
+                          profileInfoFetched.gender = selectedGender;
+                        } else if (widget.fieldLabel == 'Name:') {
+                          profileInfoFetched.name = valueController.text;
+                        } else if (widget.fieldLabel == 'Activity Level:') {
+                          profileInfoFetched.activityLevel =
+                              selectedActivityLevel;
+                        } else if (widget.fieldLabel == 'Goal:') {
+                          profileInfoFetched.goal = selectedGoal;
+                        } else if (widget.fieldLabel == 'Duration:') {
+                          profileInfoFetched.duration = selectedDuration;
+                        } else if (widget.fieldLabel == 'Date of Birth:') {
+                          profileInfoFetched.dob = dobController.text;
+                        } else if (widget.fieldLabel == 'Name:') {
+                          profileInfoFetched.name = valueController.text;
+                        }
 
-    var calories = await _userAccountService.calculateDailyCalorieIntake(profileInfoFetched);
-    profileInfoFetched.calorieIntake = calories;
+                        var calories = await _userAccountService
+                            .calculateDailyCalorieIntake(profileInfoFetched);
+                        profileInfoFetched.calorieIntake = calories;
 
-    var id = await _userAccountService.profileExists();
-    UserAccount user = UserAccount(
-    id: id,
-    uid: currentUser!.uid,
-    profileInfo: profileInfoFetched,
-    email: currentUser!.email,
-    );
-    await _userAccountService.updateUserProfile(user);
+                        var id = await _userAccountService.profileExists();
+                        UserAccount user = UserAccount(
+                          id: id,
+                          uid: currentUser!.uid,
+                          profileInfo: profileInfoFetched,
+                          email: currentUser!.email,
+                        );
+                        await _userAccountService.updateUserProfile(user);
 
-    // Update the specific field using updateUserProfileField
-    if (widget.fieldLabel != 'Name:') {
-    await _userAccountService.updateUserProfileField(widget.fieldLabel, selectedGender);
-    }
+                        // Update the specific field using updateUserProfileField
+                        if (widget.fieldLabel != 'Name:') {
+                          await _userAccountService.updateUserProfileField(
+                              widget.fieldLabel, selectedGender);
+                        }
 
-    // Return the updated value to the calling widget
-    Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(
-    builder: (context) => ProfilePage(profileInfo: profileInfoFetched),
-    ),
-    );
-    },
-    style: ButtonStyle(
-    backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-    padding: MaterialStateProperty.all<EdgeInsets>(
-    const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
-    ),
-    ),
-    child: Text(
-    'Save Changes'.toUpperCase(),
-    style: TextStyle(color: const Color(0xffF4668F)),
-    ),
-    ),
-
+                        // Return the updated value to the calling widget
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ProfilePage(profileInfo: profileInfoFetched),
+                          ),
+                        );
+                      },
+                      style: ButtonStyle(
+                        elevation: MaterialStateProperty.all(0),
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.white),
+                        padding: MaterialStateProperty.all<EdgeInsets>(
+                          const EdgeInsets.only(
+                              left: 10, right: 10, top: 10, bottom: 10),
+                        ),
+                      ),
+                      child: Text(
+                        'Save Changes'.toUpperCase(),
+                        style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -361,6 +225,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ),
     );
   }
+
+  RadioListTile getRadioListTile(String title, String groupValue) {
+    return RadioListTile(
+      title: Text(title, style: const TextStyle(color: Colors.white, fontSize: 18)),
+      value: title,
+      groupValue: groupValue,
+      onChanged: (value) {
+        setState(() {
+          groupValue = value.toString();
+        });
+      },
+      activeColor: const Color(0xffF4668F),
+      tileColor: Colors.transparent,
+    );
+  }
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -373,7 +253,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         selectedDate = picked;
         dobController.text =
             DateFormat('yyyy-MM-dd', 'en_US').format(selectedDate);
-
       });
     }
   }

@@ -37,7 +37,8 @@ Card getDailyCaloriesChart(Color cardColor, double dailyCalorie, double goalCalo
         ),
         CircularChartAnnotation(
             widget: Text(
-                "${chartData[0].y.toInt()}/${goalCalorie.toInt()}\n      Cals",
+                textAlign: TextAlign.center,
+                "${chartData[0].y.toInt()}/${goalCalorie.toInt()}\nCal",
                 style: const TextStyle(color: Colors.white, fontSize: 20, fontStyle: FontStyle.italic)))
       ],
       series: <RadialBarSeries<ChartData, String>>[

@@ -312,7 +312,7 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
                   onPressed: _saveFoodItem,
                   child: Text(
                     'Submit Food Item'.toUpperCase(),
-                    style: const TextStyle(color: Color(0xffF4668F)),
+                    style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
                   )),
             ],
           ),

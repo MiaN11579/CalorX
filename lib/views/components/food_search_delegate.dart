@@ -58,16 +58,6 @@ class FoodSearchDelegate extends SearchDelegate {
     }
     return details;
   }
-
-  @override
-  ThemeData appBarTheme(BuildContext context) {
-    return Theme.of(context).copyWith(
-      appBarTheme: AppBarTheme(
-        color: const Color(0xffFDE882).withOpacity(0.7),
-      ),
-    );
-  }
-
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
