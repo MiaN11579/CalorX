@@ -27,7 +27,8 @@ class _LogPageState extends State<LogPage> {
   late List<String> snackItems = [];
 
   Future<void> _getMealObject() async {
-    Meal? meal = await mealService.getMeal(DateFormat('yyyy-MM-dd').format(_selectedDate.toLocal()));
+    Meal? meal = await mealService
+        .getMeal(DateFormat('yyyy-MM-dd').format(_selectedDate.toLocal()));
     if (meal != null) {
       setState(() {
         breakfastItems = meal.breakfast!.map((entry) => entry.name).toList();
@@ -86,9 +87,9 @@ class _LogPageState extends State<LogPage> {
       children: [
         Container(
             width: 380,
-            height: 200,
+            height: 220,
             decoration: BoxDecoration(
-              color: Theme.of(context).cardColor.withOpacity(0.5),
+              color: Theme.of(context).cardColor,
               borderRadius: const BorderRadius.all(
                 Radius.circular(12),
               ),
@@ -108,9 +109,7 @@ class _LogPageState extends State<LogPage> {
                                   : Icons.apple,
                       color: Colors.white,
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
+                    const SizedBox(width: 10),
                     Align(
                       alignment: Alignment.topLeft,
                       child: Text(
@@ -124,15 +123,33 @@ class _LogPageState extends State<LogPage> {
                     ),
                   ],
                 ),
-                Expanded(
+                const SizedBox(height: 15),
+                SizedBox(
+                  height: 120,
                   child: ListView.builder(
                     itemCount: foodItems!.length,
                     itemBuilder: (context, index) {
-                      return Text(
-                        foodItems[index],
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
+                      return SizedBox(
+                        height: 70,
+                        child: Card(
+                          color: Colors.transparent,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                              color: Colors.white,
+                            ),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Container(
+                            padding: const EdgeInsets.all(5),
+                            child: Text(
+                              foodItems[index],
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
                         ),
                       );
                     },
@@ -148,7 +165,10 @@ class _LogPageState extends State<LogPage> {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
               onPressed: () {
-                showSearch(context: context, delegate: FoodSearchDelegate(category: label, date: _selectedDate));
+                showSearch(
+                    context: context,
+                    delegate: FoodSearchDelegate(
+                        category: label, date: _selectedDate));
               },
               child: Text(
                 'Add food',
