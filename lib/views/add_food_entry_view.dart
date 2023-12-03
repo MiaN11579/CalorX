@@ -111,14 +111,12 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
         baseFat: _fat,
         baseProtein: _protein);
 
-
     // Update or add new entry based on the category
-
-
 
     // Check if a meal with the same date already exists in Firebase
 
-    final existingMeal = await mealService.getMeal(DateFormat('yyyy-MM-dd').format(widget.date.toLocal()));
+    final existingMeal = await mealService
+        .getMeal(DateFormat('yyyy-MM-dd').format(widget.date.toLocal()));
 
     if (existingMeal != null) {
       // If meal exists, update it
@@ -164,17 +162,7 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
 
     Navigator.pop(context);
     Navigator.pop(context);
-
-    //push replacement to dynamically update the log page
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => LogPage(),
-      ),
-    );
   }
-
-
 
   @override
   void initState() {
@@ -211,8 +199,8 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
             children: [
               Text(
                 widget.food.description,
-                textScaleFactor: 2.0,
-                style: const TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.white, fontSize: 28),
               ),
               Gap(20),
               Row(
@@ -221,7 +209,7 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
                   SizedBox(
                     width: 90,
                     child: TextFormField(
-                        style: const TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                       controller: _amountController,
                       keyboardType: TextInputType.number,
                       inputFormatters: <TextInputFormatter>[
@@ -230,68 +218,102 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
                       decoration: const InputDecoration(
                         hintText: '100.0',
                         labelText: 'Amount',
-                        labelStyle: TextStyle(color: Colors.white), // Set label text color
-                        hintStyle: TextStyle(color: Colors.white),
+                        labelStyle: TextStyle(color: Colors.white),
+                        // Set label text color
+                        hintStyle: TextStyle(color: Colors.white, fontSize: 18),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white), // Set border color when focused
+                          borderSide: BorderSide(
+                              color: Colors
+                                  .white), // Set border color when focused
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white), // Set border color when not focused
+                          borderSide: BorderSide(
+                              color: Colors
+                                  .white), // Set border color when not focused
                         ),
-
                       ),
                     ),
                   ),
                   const Gap(10),
-                  const Text('grams', style: TextStyle(color: Colors.white))
+                  const Text('grams', style: TextStyle(color: Colors.white, fontSize: 18))
                 ],
               ),
               //...foodDetails(widget.food),
               const Gap(40),
               const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [Text('Per 100 grams:', style: TextStyle(color: Colors.white))],
+                children: [
+                  Text('Per 100 grams:', style: TextStyle(color: Colors.white, fontSize: 18))
+                ],
               ),
               const Gap(10),
               Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  children: [
-                    Text(
-                      'Calories: $_calories\kcal',
-                      style: const TextStyle(color: Colors.white, fontSize: 18), // Adjust the font size
-                    ),
-                    const SizedBox(height: 20,),
-                    Row(
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  color: Theme.of(context).cardColor,
+                  elevation: 0,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
                       children: [
                         Text(
-                          'Carbs: $_carbs\g',
-                          style: const TextStyle(color: Colors.white, fontSize: 16), // Adjust the font size
+                          'Calories: $_calories\kcal',
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18), // Adjust the font size
                         ),
-                        const SizedBox(width: 15,),
-                        Text(
-                          'Fat: $_fat\g ',
-                          style: const TextStyle(color: Colors.white, fontSize: 16), // Adjust the font size
+                        const SizedBox(
+                          height: 20,
                         ),
-                        const SizedBox(width: 15,),
-                        Text(
-                          'Protein: $_protein\g ',
-                          style: const TextStyle(color: Colors.white, fontSize: 16), // Adjust the font size
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Carbs: ${_carbs}g',
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16), // Adjust the font size
+                            ),
+                            const SizedBox(
+                              width: 15,
+                            ),
+                            Text(
+                              'Fat: ${_fat}g ',
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16), // Adjust the font size
+                            ),
+                            const SizedBox(
+                              width: 15,
+                            ),
+                            Text(
+                              'Protein: ${_protein}g ',
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16), // Adjust the font size
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
               ),
               const Gap(40.0),
-              OutlinedButton(
-                  style:
-                      ElevatedButton.styleFrom(backgroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0), // Adjust the radius as needed
-                      ),),
+              TextButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                    padding: MaterialStateProperty.all<EdgeInsets>(
+                        const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10)),
+                  ),
                   onPressed: _saveFoodItem,
-                  child: Text('Submit Food Item'.toUpperCase(), style: const TextStyle(color: Color(0xffF4668F)),)),
+                  child: Text(
+                    'Submit Food Item'.toUpperCase(),
+                    style: const TextStyle(color: Color(0xffF4668F)),
+                  )),
             ],
           ),
         ),

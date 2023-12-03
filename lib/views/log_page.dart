@@ -20,15 +20,6 @@ class _LogPageState extends State<LogPage> {
   //create a meal object using the food entries user has added
   // Meal myMeal = Meal(breakfast: [], lunch: [], dinner: [], snack: [], date: _selectedDate);
 
-
-  late Meal meal = Meal(
-      breakfast: [],
-      lunch: [],
-      dinner: [],
-      snack: [],
-      date: DateFormat('yyyy-MM-dd').format(_selectedDate.toLocal()),
-      dailyCalorie: 0,
-      macroData: MacroData());
   final MealService mealService = MealService();
   late List<String> breakfastItems = [];
   late List<String> lunchItems = [];
@@ -36,15 +27,15 @@ class _LogPageState extends State<LogPage> {
   late List<String> snackItems = [];
 
   Future<void> _getMealObject() async {
-
-    meal = (await mealService.getMeal(DateFormat('yyyy-MM-dd').format(_selectedDate.toLocal())))!;
-
-    setState(() {
-      breakfastItems = meal.breakfast!.map((entry) => entry.name).toList();
-      lunchItems = meal.lunch!.map((entry) => entry.name).toList();
-      dinnerItems = meal.dinner!.map((entry) => entry.name).toList();
-      snackItems = meal.snack!.map((entry) => entry.name).toList();
-    });
+    Meal? meal = await mealService.getMeal(DateFormat('yyyy-MM-dd').format(_selectedDate.toLocal()));
+    if (meal != null) {
+      setState(() {
+        breakfastItems = meal.breakfast!.map((entry) => entry.name).toList();
+        lunchItems = meal.lunch!.map((entry) => entry.name).toList();
+        dinnerItems = meal.dinner!.map((entry) => entry.name).toList();
+        snackItems = meal.snack!.map((entry) => entry.name).toList();
+      });
+    }
   }
 
   @override
@@ -55,7 +46,6 @@ class _LogPageState extends State<LogPage> {
 
   Future<void> _initializeState() async {
     await _getMealObject();
-    print(meal.dinner);
   }
 
   @override

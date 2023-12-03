@@ -7,9 +7,12 @@ import 'macro_data.dart';
 /// Returns pie chart.
 Card getDonutChart(Color cardColor, MacroData macroData) {
   List<ChartData> chartData = [
-    ChartData('Carbs', macroData.carbs, const Color(0xffDD7292)),
-    ChartData('Fat', macroData.fat, const Color(0xff2FDAC6)),
-    ChartData('Protein', macroData.protein, const Color(0xffDB5461)),
+    ChartData('Carbs', double.parse((macroData.carbs).toStringAsFixed(1)),
+        const Color(0xffDD7292)),
+    ChartData('Fat', double.parse((macroData.fat).toStringAsFixed(1)),
+        const Color(0xff2FDAC6)),
+    ChartData('Protein', double.parse((macroData.protein).toStringAsFixed(1)),
+        const Color(0xffDB5461)),
   ];
   return Card(
     shape: RoundedRectangleBorder(
@@ -28,15 +31,15 @@ Card getDonutChart(Color cardColor, MacroData macroData) {
         ),
       ),
       legend: const Legend(
-        position: LegendPosition.bottom,
-        textStyle: TextStyle(
-            color: Colors.white,
-            fontFamily: 'Roboto',
-            fontSize: 16,
-            fontStyle: FontStyle.italic),
-        isVisible: true,
-        isResponsive:true,
-        overflowMode: LegendItemOverflowMode.wrap),
+          position: LegendPosition.bottom,
+          textStyle: TextStyle(
+              color: Colors.white,
+              fontFamily: 'Roboto',
+              fontSize: 16,
+              fontStyle: FontStyle.italic),
+          isVisible: true,
+          isResponsive: true,
+          overflowMode: LegendItemOverflowMode.wrap),
       series: getDoughnutChart(chartData),
     ),
   );
@@ -56,12 +59,11 @@ List<CircularSeries> getDoughnutChart(List<ChartData> chartData) {
   if (isChartEmpty(chartData)) {
     return <CircularSeries>[
       DoughnutSeries<ChartData, String>(
-      dataSource: chartData,
-      radius: '100%',
-      innerRadius: '50%',
-      xValueMapper: (ChartData data, _) => data.x,
-      yValueMapper: (ChartData data, _) => data.y,
-    ),
+          dataSource: chartData,
+          radius: '100%',
+          innerRadius: '50%',
+          xValueMapper: (ChartData data, _) => data.x,
+          yValueMapper: (ChartData data, _) => data.y),
     ];
   } else {
     return <CircularSeries>[

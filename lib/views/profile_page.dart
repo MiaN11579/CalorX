@@ -65,7 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
         width: 410,
         height: boxHeight,
         decoration: BoxDecoration(
-          color: Theme.of(context).cardColor.withOpacity(0.5),
+          color: Theme.of(context).cardColor,
           borderRadius: const BorderRadius.all(
             Radius.circular(12),
           ),
