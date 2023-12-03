@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final_project/models/food_entry.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
@@ -16,7 +17,8 @@ class MealService {
             .doc(FirebaseAuth.instance.currentUser?.uid)
             .collection('meals');
 
-  Future<void> addEntry(Meal meal) async {
+  /// Adds a meal to Firestore.
+  Future<void> addMeal(Meal meal) async {
     try {
       // Assuming you have a unique identifier for the meal (e.g., user ID)
       final existingMeal = await entryCollection
@@ -39,21 +41,59 @@ class MealService {
     }
   }
 
-  /// Deletes a car with the specified [id] from Firestore.
-  Future<void> removeEntry(String id) async {
+  /// Deletes an entry inside a given meal with the specified [id] from Firestore.
+  Future<void> removeEntry(
+      String mealDate, String entryId, String label) async {
     try {
-      // Remove entry from Firestore
-      await entryCollection.doc(id).delete();
-      debugPrint('Entry deleted with ID: $id');
+      final snapshot =
+          await entryCollection.where('date', isEqualTo: mealDate).get();
+      final mealDocument = snapshot.docs.first;
+      // Get the current meal
+      final meal = Meal.fromJson(mealDocument.data() as Map<String, dynamic>);
+      var toRemove = [];
+      switch (label) {
+        case 'Breakfast':
+          for (var entry in meal.breakfast!) {
+            if (entry.id == entryId) {
+              toRemove.add(entry);
+            }
+          }
+          meal.breakfast?.removeWhere((e) => toRemove.contains(e));
+          break; // The switch statement must be told to exit, or it will execute every case.
+        case 'Lunch':
+          for (var entry in meal.lunch!) {
+            if (entry.id == entryId) {
+              toRemove.add(entry);
+            }
+          }
+          meal.lunch?.removeWhere((e) => toRemove.contains(e));
+          break;
+        case 'Dinner':
+          for (var entry in meal.dinner!) {
+            if (entry.id == entryId) {
+              toRemove.add(entry);
+            }
+          }
+          meal.dinner?.removeWhere((e) => toRemove.contains(e));
+          break;
+        case 'Snack':
+          for (var entry in meal.snack!) {
+            if (entry.id == entryId) {
+              toRemove.add(entry);
+            }
+          }
+          meal.snack?.removeWhere((e) => toRemove.contains(e));
+          break;
+      }
+      await mealDocument.reference.delete(); // delete the meal from Firestore
+      await entryCollection.add(meal.toMap()); // add the updated meal to Firestore
     } catch (e) {
-      // Handle any errors that occur during the remove process
-      debugPrint('Error saving user profile: $e');
+      debugPrint('Error removing entry: $e');
       rethrow;
     }
   }
 
   Future<void> updateEntry(Meal meal) async {
-    debugPrint(FirebaseAuth.instance.currentUser!.uid);
     try {
       final snapshot =
           await entryCollection.where('date', isEqualTo: meal.date).get();

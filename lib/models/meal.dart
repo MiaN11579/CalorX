@@ -2,7 +2,6 @@ import 'package:final_project/models/food_entry.dart';
 import 'macro_data.dart';
 
 class Meal {
-  final String? id;
   late  List<FoodEntry>? breakfast;
   late  List<FoodEntry>? lunch;
   late  List<FoodEntry>? dinner;
@@ -12,7 +11,6 @@ class Meal {
   MacroData macroData = MacroData();
 
   Meal({
-    this.id,
     this.breakfast,
     this.lunch,
     this.dinner,

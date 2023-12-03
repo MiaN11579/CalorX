@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FoodEntry {
@@ -33,6 +35,7 @@ class FoodEntry {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id ?? DateTime.now().toString(),
       'date': date,
       'name': name,
       'category' : category,
