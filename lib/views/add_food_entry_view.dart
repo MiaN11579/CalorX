@@ -136,7 +136,7 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
       existingMeal.macroData.carbs += newEntry.carbs;
       existingMeal.macroData.fat += newEntry.fat;
       existingMeal.macroData.protein += newEntry.protein;
-      await mealService.updateEntry(existingMeal);
+      await mealService.updateMeal(existingMeal);
     } else {
       // If meal doesn't exist, add a new entry
       Meal meal = Meal(
@@ -159,7 +159,7 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
       } else if (newEntry.category == "Snack") {
         meal.snack!.add(newEntry);
       }
-      await mealService.addEntry(meal);
+      await mealService.addMeal(meal);
     }
 
     widget.onEntryAdded.call();

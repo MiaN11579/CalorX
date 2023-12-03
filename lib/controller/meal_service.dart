@@ -50,41 +50,48 @@ class MealService {
       final mealDocument = snapshot.docs.first;
       // Get the current meal
       final meal = Meal.fromJson(mealDocument.data() as Map<String, dynamic>);
-      var toRemove = [];
+      var entryToRemove;
       switch (label) {
         case 'Breakfast':
           for (var entry in meal.breakfast!) {
             if (entry.id == entryId) {
-              toRemove.add(entry);
+              entryToRemove = (entry);
             }
           }
-          meal.breakfast?.removeWhere((e) => toRemove.contains(e));
+          meal.breakfast?.remove(entryToRemove);
           break; // The switch statement must be told to exit, or it will execute every case.
         case 'Lunch':
           for (var entry in meal.lunch!) {
             if (entry.id == entryId) {
-              toRemove.add(entry);
+              entryToRemove = (entry);
             }
           }
-          meal.lunch?.removeWhere((e) => toRemove.contains(e));
+          meal.lunch?.remove(entryToRemove);
           break;
         case 'Dinner':
           for (var entry in meal.dinner!) {
             if (entry.id == entryId) {
-              toRemove.add(entry);
+              entryToRemove = (entry);
             }
           }
-          meal.dinner?.removeWhere((e) => toRemove.contains(e));
+          meal.dinner?.remove(entryToRemove);
           break;
         case 'Snack':
           for (var entry in meal.snack!) {
             if (entry.id == entryId) {
-              toRemove.add(entry);
+              entryToRemove = (entry);
             }
           }
-          meal.snack?.removeWhere((e) => toRemove.contains(e));
+          meal.snack?.remove(entryToRemove);
           break;
       }
+
+      // Update calorie and macros
+      meal.dailyCalorie -= entryToRemove.calories;
+      meal.macroData.carbs -= entryToRemove.carbs;
+      meal.macroData.fat -= entryToRemove.fat;
+      meal.macroData.protein -= entryToRemove.protein;
+
       await mealDocument.reference.delete(); // delete the meal from Firestore
       await entryCollection.add(meal.toMap()); // add the updated meal to Firestore
     } catch (e) {
@@ -93,7 +100,8 @@ class MealService {
     }
   }
 
-  Future<void> updateEntry(Meal meal) async {
+  /// Updates the given meal to Firestore.
+  Future<void> updateMeal(Meal meal) async {
     try {
       final snapshot =
           await entryCollection.where('date', isEqualTo: meal.date).get();

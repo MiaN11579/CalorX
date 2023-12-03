@@ -1,3 +1,4 @@
+import 'package:final_project/models/food_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../controller/meal_service.dart';
@@ -20,30 +21,22 @@ class _LogPageState extends State<LogPage> {
   // Meal myMeal = Meal(breakfast: [], lunch: [], dinner: [], snack: [], date: _selectedDate);
 
   final MealService mealService = MealService();
-  late List<String> breakfastItems = [];
-  late List<String> lunchItems = [];
-  late List<String> dinnerItems = [];
-  late List<String> snackItems = [];
-  late List<double> breakfastAmount = [];
-  late List<double> lunchAmount = [];
-  late List<double> dinnerAmount = [];
-  late List<double> snackAmount = [];
+  late List<FoodEntry> breakfastItems = [];
+  late List<FoodEntry> lunchItems = [];
+  late List<FoodEntry> dinnerItems = [];
+  late List<FoodEntry> snackItems = [];
+  late String mealDate = '';
 
   Future<void> _getMealObject() async {
     Meal? meal = await mealService
         .getMeal(DateFormat('yyyy-MM-dd').format(_selectedDate.toLocal()));
     if (meal != null) {
       setState(() {
-        breakfastItems = meal.breakfast!.map((entry) => entry.name).toList();
-        lunchItems = meal.lunch!.map((entry) => entry.name).toList();
-        dinnerItems = meal.dinner!.map((entry) => entry.name).toList();
-        snackItems = meal.snack!.map((entry) => entry.name).toList();
-
-        breakfastAmount =
-            meal.breakfast!.map((entry) => entry.calories).toList();
-        lunchAmount = meal.lunch!.map((entry) => entry.calories).toList();
-        dinnerAmount = meal.dinner!.map((entry) => entry.calories).toList();
-        snackAmount = meal.snack!.map((entry) => entry.calories).toList();
+        breakfastItems = meal.breakfast!.toList();
+        lunchItems = meal.lunch!.toList();
+        dinnerItems = meal.dinner!.toList();
+        snackItems = meal.snack!.toList();
+        mealDate = meal.date!;
       });
     } else {
       setState(() {
@@ -51,10 +44,6 @@ class _LogPageState extends State<LogPage> {
         lunchItems = [];
         dinnerItems = [];
         snackItems = [];
-        breakfastAmount = [];
-        lunchAmount = [];
-        dinnerAmount = [];
-        snackAmount = [];
       });
     }
   }
@@ -87,13 +76,13 @@ class _LogPageState extends State<LogPage> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              _buildBox("Breakfast", breakfastItems, breakfastAmount),
+              _buildBox("Breakfast", breakfastItems),
               const SizedBox(height: 20),
-              _buildBox("Lunch", lunchItems, lunchAmount),
+              _buildBox("Lunch", lunchItems),
               const SizedBox(height: 20),
-              _buildBox("Dinner", dinnerItems, dinnerAmount),
+              _buildBox("Dinner", dinnerItems),
               const SizedBox(height: 20),
-              _buildBox("Snack", snackItems, snackAmount),
+              _buildBox("Snack", snackItems),
               const SizedBox(height: 20),
             ],
           ),
@@ -102,13 +91,14 @@ class _LogPageState extends State<LogPage> {
     );
   }
 
-  Widget _buildBox(
-      String label, List<String>? foodItems, List<double>? foodAmount) {
+  Widget _buildBox(String label, List<FoodEntry>? foodItems) {
     return Stack(
       children: [
         Container(
             width: 380,
-            height: foodItems!.length.toDouble() < 2 ? 240 : (240 + 70 * (foodItems!.length.toDouble() - 2)),
+            height: foodItems!.length.toDouble() < 2
+                ? 240
+                : (240 + 70 * (foodItems!.length.toDouble() - 2)),
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
               borderRadius: const BorderRadius.all(
@@ -163,31 +153,67 @@ class _LogPageState extends State<LogPage> {
                             ),
                             borderRadius: BorderRadius.circular(10.0),
                           ),
-                          child: Container(
-                            padding: const EdgeInsets.all(10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SizedBox(
-                                  width: 235,
-                                  child: Text(
-                                    foodItems[index],
+                          child: InkWell(
+                            onTap: () async {
+                              final result = await showDialog<bool>(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  titleTextStyle: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  backgroundColor: Theme.of(context).colorScheme.tertiary,
+                                  title: const Text('Remove this entry?'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(context, false),
+                                      child: const Text('Cancel'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(context, true),
+                                      child: const Text('Delete'),
+                                    ),
+                                  ],
+                                ),
+                              );
+
+                              if (result == null || !result) {
+                                return;
+                              }
+                              await mealService.removeEntry(
+                                  mealDate, foodItems[index].id!, label);
+                              await _getMealObject();
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(10),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  SizedBox(
+                                    width: 235,
+                                    child: Text(
+                                      foodItems[index].name,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    "${foodItems[index].calories.toInt().toString()} Cal",
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                ),
-                                Text(
-                                  "${foodAmount![index].toInt().toString()} Cal",
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
