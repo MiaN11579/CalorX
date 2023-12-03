@@ -260,7 +260,7 @@ class _AddFoodEntryPageState extends State<AddFoodEntryPage> {
                     child: Column(
                       children: [
                         Text(
-                          'Calories: $_calories\kcal',
+                          'Calories: ${_calories}kcal',
                           style: const TextStyle(
                               color: Colors.white,
                               fontSize: 18), // Adjust the font size

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import '../dashboard_page.dart';
 import 'chart_data.dart';
 import 'macro_data.dart';
+
 
 /// Returns pie chart.
 Card getDonutChart(Color cardColor, MacroData macroData) {
@@ -74,7 +74,7 @@ List<CircularSeries> getDoughnutChart(List<ChartData> chartData) {
         radius: '100%',
         innerRadius: '50%',
         explodeAll: true,
-        explodeOffset: '2%',
+        explodeOffset: '5%',
         explode: true,
         pointColorMapper: (ChartData data, _) => data.color,
         xValueMapper: (ChartData data, _) => data.x,

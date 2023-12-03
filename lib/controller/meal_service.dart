@@ -122,14 +122,33 @@ class MealService {
   }
 
   Future<List<ChartData>> getWeeklyCalorie(DateTime selectedDate) async {
-    return <ChartData>[
-      ChartData('Mon', 1610),
-      ChartData('Tue', 1140),
-      ChartData('Wed', 1480),
-      ChartData('Thu', 2200),
-      ChartData('Fri', 1760),
-      ChartData('Sat', 1500),
-      ChartData('Sun', 1460),
+    List<ChartData> calorieList = <ChartData>[
+      ChartData('Mon', 0),
+      ChartData('Tue', 0),
+      ChartData('Wed', 0),
+      ChartData('Thu', 0),
+      ChartData('Fri', 0),
+      ChartData('Sat', 0),
+      ChartData('Sun', 0),
     ];
+
+    DateTime monday =
+        selectedDate.subtract(Duration(days: selectedDate.weekday - 1));
+    for (var i = 0; i < 7; i++) {
+      DateTime weekday = monday.add(Duration(days: i)).toLocal();
+      final snapshot = await entryCollection
+          .where('date', isEqualTo: DateFormat('yyyy-MM-dd').format(weekday))
+          .get();
+
+      if (snapshot.docs.isNotEmpty) {
+        Map<String, dynamic>? data =
+            snapshot.docs.first.data() as Map<String, dynamic>?;
+        if (data != null) {
+          calorieList[i] = ChartData(DateFormat('EE').format(weekday),
+              Meal.fromJson(data).dailyCalorie.toInt().toDouble());
+        }
+      }
+    }
+    return calorieList;
   }
 }

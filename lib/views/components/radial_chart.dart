@@ -6,9 +6,12 @@ import 'macro_data.dart';
 /// Returns radial chart.
 Card getRadialChart(Color cardColor, MacroData macroData) {
   List<ChartData> chartData = [
-    ChartData('Carbs', macroData.carbs, const Color(0xffDD7292)),
-    ChartData('Fat', macroData.fat, const Color(0xff2FDAC6)),
-    ChartData('Protein', macroData.protein, const Color(0xffDB5461)),
+    ChartData('Carbs', double.parse((macroData.carbs).toStringAsFixed(1)),
+        const Color(0xffDD7292)),
+    ChartData('Fat', double.parse((macroData.fat).toStringAsFixed(1)),
+        const Color(0xff2FDAC6)),
+    ChartData('Protein', double.parse((macroData.protein).toStringAsFixed(1)),
+        const Color(0xffDB5461)),
   ];
 
   return Card(
@@ -38,6 +41,7 @@ Card getRadialChart(Color cardColor, MacroData macroData) {
             fontStyle: FontStyle.italic),
       ),
       series: getRadialBar(chartData),
+      tooltipBehavior: TooltipBehavior(enable: true, format: 'point.x : point.y'),
     ),
   );
 }

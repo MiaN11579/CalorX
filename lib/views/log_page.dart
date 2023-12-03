@@ -25,6 +25,10 @@ class _LogPageState extends State<LogPage> {
   late List<String> lunchItems = [];
   late List<String> dinnerItems = [];
   late List<String> snackItems = [];
+  late List<double> breakfastAmount = [];
+  late List<double> lunchAmount = [];
+  late List<double> dinnerAmount = [];
+  late List<double> snackAmount = [];
 
   Future<void> _getMealObject() async {
     Meal? meal = await mealService
@@ -35,6 +39,11 @@ class _LogPageState extends State<LogPage> {
         lunchItems = meal.lunch!.map((entry) => entry.name).toList();
         dinnerItems = meal.dinner!.map((entry) => entry.name).toList();
         snackItems = meal.snack!.map((entry) => entry.name).toList();
+
+        breakfastAmount = meal.breakfast!.map((entry) => entry.calories).toList();
+        lunchAmount = meal.lunch!.map((entry) => entry.calories).toList();
+        dinnerAmount = meal.dinner!.map((entry) => entry.calories).toList();
+        snackAmount = meal.snack!.map((entry) => entry.calories).toList();
       });
     }
   }
@@ -67,13 +76,13 @@ class _LogPageState extends State<LogPage> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              _buildBox("Breakfast", breakfastItems),
+              _buildBox("Breakfast", breakfastItems, breakfastAmount),
               const SizedBox(height: 20),
-              _buildBox("Lunch", lunchItems),
+              _buildBox("Lunch", lunchItems, lunchAmount),
               const SizedBox(height: 20),
-              _buildBox("Dinner", dinnerItems),
+              _buildBox("Dinner", dinnerItems, dinnerAmount),
               const SizedBox(height: 20),
-              _buildBox("Snack", snackItems),
+              _buildBox("Snack", snackItems, snackAmount),
               const SizedBox(height: 20),
             ],
           ),
@@ -82,7 +91,7 @@ class _LogPageState extends State<LogPage> {
     );
   }
 
-  Widget _buildBox(String label, List<String>? foodItems) {
+  Widget _buildBox(String label, List<String>? foodItems, List<double>? foodAmount) {
     return Stack(
       children: [
         Container(
@@ -127,6 +136,7 @@ class _LogPageState extends State<LogPage> {
                 SizedBox(
                   height: 120,
                   child: ListView.builder(
+                    padding: const EdgeInsets.all(0),
                     itemCount: foodItems!.length,
                     itemBuilder: (context, index) {
                       return SizedBox(
@@ -142,12 +152,27 @@ class _LogPageState extends State<LogPage> {
                           ),
                           child: Container(
                             padding: const EdgeInsets.all(5),
-                            child: Text(
-                              foodItems[index],
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                              ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SizedBox(
+                                  width: 230,
+                                  child: Text(
+                                    foodItems[index],
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  "${foodAmount![index].toInt().toString()} Cal",
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -170,9 +195,9 @@ class _LogPageState extends State<LogPage> {
                     delegate: FoodSearchDelegate(
                         category: label, date: _selectedDate));
               },
-              child: Text(
+              child: const Text(
                 'Add food',
-                style: TextStyle(color: const Color(0xffF4668F)),
+                style: TextStyle(color: Color(0xffF4668F)),
               ),
             ),
           ),
