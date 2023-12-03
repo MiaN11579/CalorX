@@ -158,7 +158,7 @@ class _LogPageState extends State<LogPage> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   SizedBox(
-                                    width: 150,
+                                    width: 180,
                                     child: Text(
                                       foodItems[index].name,
                                       style: const TextStyle(
@@ -176,12 +176,9 @@ class _LogPageState extends State<LogPage> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
                                   IconButton(
                                     padding:
-                                        const EdgeInsets.fromLTRB(40, 0, 0, 0),
+                                        const EdgeInsets.fromLTRB(10, 0, 0, 0),
                                     icon: const Icon(Icons.delete),
                                     color: const Color(0xffF4668F),
                                     onPressed: () async {
