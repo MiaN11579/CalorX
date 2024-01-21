@@ -2,7 +2,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/MiaN11579/COMP4768-Final-Project">
+  <a href="https://github.com/MiaN11579/CalorX">
     <img src="assets/images/CalorX.png" alt="Logo" width="400" height="400">
   </a>
 
@@ -11,9 +11,9 @@
   <p align="center">
     A user-friendly calorie tracking app that efficiently and easily logs meals using the USDA food database. Tracks daily and weekly calorie intake, and visualizes your progress throughout each week.
     <br />
-    <a href="https://github.com/MiaN11579/COMP4768-Final-Project/issues">Report Bug</a>
+    <a href="https://github.com/MiaN11579/CalorX/issues">Report Bug</a>
     ·
-    <a href="https://github.com/MiaN11579/COMP4768-Final-Project/issues">Request Feature</a>
+    <a href="https://github.com/MiaN11579/CalorX/issues">Request Feature</a>
   </p>
 </div>
 
@@ -63,7 +63,7 @@
 Download or clone this repo by using the link below:
 
 ```
-https://github.com/MiaN11579/COMP4768-Final-Project.git
+https://github.com/MiaN11579/CalorX.git
 ```
 
 **Step 2:**
@@ -99,7 +99,7 @@ Don't forget to give the project a star! Thanks again!
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the MIT License. See `LICENSE` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -112,6 +112,6 @@ Feel free to reach out to me if you have any questions!
 
 Mia Nguyen - [@Mia](https://www.linkedin.com/in/mia-n-880538174/) - quynhnhu11579@gmail.com
 
-Project Link: [https://github.com/MiaN11579/COMP4768-Final-Project](https://github.com/MiaN11579/COMP4768-Final-Project)
+Project Link: [https://github.com/MiaN11579/CalorX](https://github.com/MiaN11579/CalorX)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
