@@ -27,6 +27,7 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
+        <li><a href="#screenshots">Built With</a></li>
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
@@ -40,9 +41,14 @@
 
 
 <!-- ABOUT THE PROJECT -->
-## About The Project
+# About The Project
 
 ### Have a look at the <a href="https://www.youtube.com/watch?v=549-b2WlWQA"> app showcase </a>!
+
+## 📸 Screenshots
+
+<img src="assets/images/calorx_light.png" alt="Logo" width="1000" height="788">
+<img src="assets/images/calorx_dark.png" alt="Logo" width="1000" height="788">
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -79,7 +85,7 @@ flutter pub get
 
 
 <!-- CONTRIBUTING -->
-## Contributing
+# Contributing
 
 Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
@@ -97,7 +103,7 @@ Don't forget to give the project a star! Thanks again!
 
 
 <!-- LICENSE -->
-## License
+# License
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
@@ -106,7 +112,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 
 <!-- CONTACT -->
-## Contact
+# Contact
 
 Feel free to reach out to me if you have any questions!
 
