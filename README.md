@@ -47,8 +47,8 @@
 
 ## 📸 Screenshots
 
-<img src="assets/images/calorx_light.png" alt="Logo" width="1000" height="788">
-<img src="assets/images/calorx_dark.png" alt="Logo" width="1000" height="788">
+<img src="assets/images/calorx_light.png">
+<img src="assets/images/calorx_dark.png">
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
