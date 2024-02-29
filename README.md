@@ -51,8 +51,6 @@
 <img src="assets/images/calorx_light.png">
 <img src="assets/images/calorx_dark.png">
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 ### Built With
@@ -61,8 +59,6 @@
 <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" />
 <img src="https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black"/>   
 <img src="https://img.shields.io/badge/Android_Studio-3DDC84?style=for-the-badge&logo=android-studio&logoColor=white"/> 
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 ## Features
@@ -76,8 +72,6 @@
  * Profile
    * Allow users to add and update avatar photo from their camera or gallery.
    * Display personal health data, such as weight, height, and fitness goals, and provide the ability to update this information as needed.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 ## Installation
@@ -147,8 +141,6 @@ Double check install instructions for both
    - Firestore Plugin
      -  https://pub.dartlang.org/packages/cloud_firestore
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 <!-- CONTRIBUTING -->
 # Contributing
@@ -164,16 +156,12 @@ Don't forget to give the project a star! Thanks again!
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- LICENSE -->
 # License
 
 Distributed under the MIT License. See `LICENSE` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
@@ -185,5 +173,3 @@ Feel free to reach out to me if you have any questions!
 Mia Nguyen - [LinkedIn](https://www.linkedin.com/in/mia-n-880538174/) - quynhnhu11579@gmail.com
 
 Project Link: [https://github.com/MiaN11579/CalorX](https://github.com/MiaN11579/CalorX)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
